@@ -11,4 +11,15 @@ const LoginForm: React.FC = () => {
     )
 }
 
+LoginForm.propTypes = {
+    LoginUser: PropTypes.func.isRequired
+}
+
+type State = {}
+
+// const mapStateToProps = (state: State) => {
+//     auth: state.auth.user
+// }
+
+// export default connect(mapStateToProps, {LoginUser})(LoginForm)
 export default LoginForm

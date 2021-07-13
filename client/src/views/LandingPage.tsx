@@ -3,7 +3,10 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import quizzoLogo from "../assets/logo.svg";
 import logoutIcon from "../assets/logout.svg";
+import PropTypes from "prop-types"
+import {connect} from 'react-redux'
 // import { Link } from "react-router-dom";
+import {test} from "../store/actions/authActions"
 import {users} from "../data/users"
 
 const LandingPage : React.FC = () => {
@@ -47,6 +50,7 @@ const LandingPage : React.FC = () => {
           <Button
             variant="secondary"
             className="font-weight-bolder text-white"
+            onClick={test}
           >
             <img
               src={logoutIcon}
@@ -63,4 +67,13 @@ const LandingPage : React.FC = () => {
   );
 };
 
-export default LandingPage
+LandingPage.propTypes = {
+  test: PropTypes.func.isRequired
+}
+
+const mapStatetoProps = (state: any) => ({
+  auth: state
+})
+
+
+export default connect(mapStatetoProps, {test})(LandingPage)

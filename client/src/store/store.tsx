@@ -13,6 +13,4 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(...middleware))
 )
 
-export type AppDispatch = typeof store.dispatch
-
 export default store

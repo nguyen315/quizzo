@@ -1,33 +1,35 @@
+import {LoginAction, TestAction} from "../actions/authActions"
+
 type State = {
 
 }
 
-type Action = {
-    type: string,
-    payload: {
-        isAuthenticated: boolean,
-        user: {
-            username: string,
-            password: string,
-            email: string
-        }
-    }
+const initialState: State = {
+    user: null,
+    isAuthenticated: false
 }
 
-export const authReducer = (state: State, action: Action) => {
-    const {
-        type, payload: {isAuthenticated, user}
-    } = action
-    switch(type) { 
+
+type Action = TestAction | LoginAction
+
+export const authReducer = (state = initialState, action: Action) => {
+    // const {
+    //     type, payload: {isAuthenticated, user}
+    // } = action
+    switch(action.type) { 
         case "SET_AUTH": { 
            //statements; 
             return {
                 ...state,
-                // authLoading: false,
-                isAuthenticated,
-                user,
+                user: action.payload.user,
+                isAuthenticated: action.payload.isAuthenticated
             };
         } 
+
+        case "TEST": {
+            console.log("I'm here")
+            return state
+        }
         
         default: { 
            //statements; 

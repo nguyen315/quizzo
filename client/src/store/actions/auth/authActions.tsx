@@ -27,13 +27,18 @@ export interface TestAction extends IAction {
 
 export const loginUser = async (loginForm: LoginForm) => {
   try {
-    const response = await axios.post("/api/users/login", loginForm);
+    const response = await axios.post(
+      "https://floating-castle-01348.herokuapp.com/api/users/login",
+      loginForm
+    );
     if (response.data.success) {
       localStorage.setItem("token", response.data.accessToken);
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const user = await axios.get("/api/users/login");
+      const user = await axios.get(
+        "https://floating-castle-01348.herokuapp.com/api/users/login"
+      );
       console.log(user);
     }
 
@@ -48,7 +53,9 @@ export const loadUser =
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const response = await axios.get("/api/users/login");
+      const response = await axios.get(
+        "https://floating-castle-01348.herokuapp.com/api/users/login"
+      );
       console.log(response.data);
       if (response.data.success) {
         dispatch({

@@ -17,6 +17,6 @@ export class AuthService {
       return user;
     }
 
-    return null;
+    return undefined;
   }
 }

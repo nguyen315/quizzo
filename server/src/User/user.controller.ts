@@ -48,4 +48,10 @@ export class UserController {
   addUser(@Body() user: User): Promise<User> {
     return this.userService.createUser(user);
   }
+
+  @Post(':id/update')
+  updateUser(@Param('id') id: number, @Body('email') email: string, @Body('username') username: string, @Body('password') password: string) {
+    return this.userService.reassign(id, email, username, password)
+  }
 }
+

@@ -8,61 +8,37 @@ import {connect} from 'react-redux'
 // import { Link } from "react-router-dom";
 import {test} from "../store/actions/authActions"
 import {users} from "../data/users"
+import { Container } from "react-bootstrap";
+import { BsFillPersonFill } from 'react-icons/bs';
 
 const LandingPage : React.FC = () => {
   return (
-    <Navbar expand="lg" bg="primary" variant="dark" className="shadow">
-      <Navbar.Brand className="font-weight-bolder text-white">
-        <img
-          src={quizzoLogo}
-          alt="quizzoLogo"
-          width="32"
-          height="32"
-          className="mr-2"
-        />
-        Quizzo
-      </Navbar.Brand>
-
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
+    <Navbar collapseOnSelect expand="md" id="header">
+      <Container>
+      <Navbar.Brand></Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav">
+        <BsFillPersonFill />
+      </Navbar.Toggle>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link
-            className="font-weight-bolder text-white"
-            // to="/dashboard"
-            // as={Link}
-          >
-            Dashboard
-          </Nav.Link>
-          <Nav.Link
-            className="font-weight-bolder text-white"
-            // to="/about"
-            // as={Link}
-          >
-            About
-          </Nav.Link>
-        </Nav>
-
-        <Nav>
-          <Nav.Link className="font-weight-bolder text-white" disabled>
-            Welcome {users[0].username}
-          </Nav.Link>
+        <Container></Container>
+        <Nav className="align-nav">
           <Button
-            variant="secondary"
-            className="font-weight-bolder text-white"
-            onClick={test}
+            id="sign-up"
+            className="custom-btn"
+            onClick={ test }
           >
-            <img
-              src={logoutIcon}
-              alt="logoutIcon"
-              width="32"
-              height="32"
-              className="mr-2"
-            />
-            Logout
+            Sign Up
+          </Button>
+          <Button
+            id="log-in"
+            className="custom-btn"
+            onClick={ test }
+          >
+            Log In
           </Button>
         </Nav>
       </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 };

@@ -51,7 +51,7 @@ const RegisterForm: React.FC = (props: any) => {
     <>
       <Modal show={props.auth.showRegisterModal} onHide={resetFormRegister}>
         <Modal.Header closeButton>
-          <Modal.Title>Login Form</Modal.Title>
+          <Modal.Title>Register Form</Modal.Title>
         </Modal.Header>
         <Form onSubmit={register}>
           <Modal.Body>
@@ -117,7 +117,7 @@ const RegisterForm: React.FC = (props: any) => {
               Cancel
             </Button>
             <Button variant="primary" type="submit">
-              Login
+              Register
             </Button>
           </Modal.Footer>
         </Form>

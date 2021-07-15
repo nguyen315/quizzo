@@ -107,7 +107,7 @@ export const showRegisterModal =
     dispatch({
       type: EAction.showRegisterModal,
       payload: {
-        showModal: !store.getState().auth.showRegisterModal,
+        showRegisterModal: !store.getState().auth.showRegisterModal,
       },
     });
   };

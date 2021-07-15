@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import quizzoLogo from "../assets/logo.svg";
-import logoutIcon from "../assets/logout.svg";
+import quizzoLogo from "../../assets/logo.svg";
+import logoutIcon from "../../assets/logout.svg";
 import { connect, useDispatch } from "react-redux";
 import {
   showModal,
@@ -11,7 +11,8 @@ import {
 } from "../../store/actions/auth/authActions";
 import { Link } from "react-router-dom";
 import store from "../../store/store";
-import LoginForm from "../../components/auth/LoginForm";
+import LoginForm from "../auth/LoginForm";
+import RegisterForm from "../auth/RegisterForm";
 
 const NavbarMenu: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const NavbarMenu: React.FC = () => {
   return (
     <>
       <LoginForm />
+      <RegisterForm />
       <Navbar expand="lg" bg="primary" variant="dark" className="shadow">
         <Navbar.Brand className="font-weight-bolder text-white">
           <img

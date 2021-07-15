@@ -4,9 +4,9 @@ import Spinner from "react-bootstrap/Spinner";
 import { connect } from "react-redux";
 // import NavbarMenu from "../layouts/NavbarMenu";
 
-const ProtectedRoute = (prop: any, { component: Component, ...rest }: any) => {
-  console.log(prop.auth);
-  if (prop.auth.authLoading) {
+const ProtectedRoute = (props: any, { component: Component, ...rest }: any) => {
+  console.log(props.auth);
+  if (props.auth.authLoading) {
     return (
       <div className="spinner-container">
         <Spinner animation="border" variant="info" />
@@ -16,11 +16,11 @@ const ProtectedRoute = (prop: any, { component: Component, ...rest }: any) => {
     return (
       <Route
         {...rest}
-        render={(props) =>
-          prop.auth.isAuthenticated === true ? (
+        render={(prop) =>
+          props.auth.isAuthenticated === true ? (
             <>
               {/* <NavbarMenu /> */}
-              <Component {...rest} {...props} />
+              <Component {...rest} {...prop} />
             </>
           ) : (
             <Redirect to="/landingPage" />

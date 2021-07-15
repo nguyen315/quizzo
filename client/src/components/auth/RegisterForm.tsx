@@ -3,7 +3,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
-import { showModal, registerUser } from "../../store/actions/auth/authActions";
+import {
+  showRegisterModal,
+  registerUser,
+} from "../../store/actions/auth/authActions";
 import { connect } from "react-redux";
 
 const RegisterForm: React.FC = (props: any) => {
@@ -16,7 +19,7 @@ const RegisterForm: React.FC = (props: any) => {
 
   const dispatch = useDispatch();
   const setShowModal = () => {
-    dispatch(showModal());
+    dispatch(showRegisterModal());
   };
 
   const { username, password, email, confirmPassword } = registerForm;
@@ -46,7 +49,7 @@ const RegisterForm: React.FC = (props: any) => {
 
   return (
     <>
-      <Modal show={props.auth.showModal} onHide={resetFormRegister}>
+      <Modal show={props.auth.showRegisterModal} onHide={resetFormRegister}>
         <Modal.Header closeButton>
           <Modal.Title>Login Form</Modal.Title>
         </Modal.Header>

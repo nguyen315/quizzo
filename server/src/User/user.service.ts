@@ -2,12 +2,14 @@
 https://docs.nestjs.com/providers#services
 */
 
-import { Body, Injectable } from '@nestjs/common';
+import { BadRequestException, Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
 import { isEmail } from 'class-validator';
+
+import { SignUpDto } from 'src/Dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -39,11 +41,10 @@ export class UserService {
   reassign(id: number, email: string, username: string, password: string) {
     if (this.checkUsernameLength(username) &&
         this.checkPasswordLength(password) &&
-        this.checkIfEmail(email)) {
-      this.userRepository.update( {id:id}, {email: email, username: username, password: password})
-      return true
+        this.checkIfEmailValid(email)) {
+      return this.userRepository.update( {id:id}, {email: email, username: username, password: password})
     }
-    return false
+    throw new BadRequestException("Failed to update")
   }
 
   checkUsernameLength(username: string) {
@@ -60,7 +61,7 @@ export class UserService {
     return true
   }
 
-  checkIfEmail(email: string) {
+  checkIfEmailValid(email: string) {
     if (isEmail(email)) {
       return true
     }

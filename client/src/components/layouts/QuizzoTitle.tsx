@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, Row } from 'react-bootstrap'
+import '../../css/quizzo-title.css'
 
 const QuizzoTitle: React.FC = () => {
 	return (

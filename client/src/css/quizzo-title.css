@@ -1,0 +1,55 @@
+#quizzo-title {
+  font-size: 6.25em;
+  font-weight: 600;
+  transition: 0.125s ease-out;
+  padding-top: 8.25vh;
+}
+
+.title {
+  background: -webkit-linear-gradient(80deg,#fd8927f0, #f06051);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.intro {
+  text-align: center;
+  font-size: 1.45em;
+  margin-top: -0.5em;
+}
+
+@media screen and (max-width: 768px) {
+  #quizzo-title {
+    font-size: 4.25em;
+  }
+  .intro {
+    font-size: 1em;
+    padding: 0 2em;
+  }
+}
+
+#scratch-position {
+  position: absolute;
+  left: 25%;
+  z-index: -1;
+  transition: 0.25s ease;
+}
+
+@media screen and (max-width: 992px) {
+  #scratch-position {
+    left: 10%;
+  }
+}
+
+#intro-scratch {
+  z-index: -10;
+  stroke-dasharray: 336;
+  stroke-dashoffset: 336;
+  animation: sign 1.125s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes sign {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

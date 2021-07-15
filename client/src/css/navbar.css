@@ -1,0 +1,47 @@
+#header {
+  padding: 2em;
+}
+
+.align-nav {
+  float: right;
+}
+
+.navbar-toggler {
+  color: rgb(0, 0, 0, 0.55) !important;
+  border-radius: 20px;
+  font-size: 24px;
+}
+
+.custom-btn {
+  background-color: transparent;
+  border: transparent;
+  color: #262626;
+  width: 6.15em;
+  font-size: 1.125em;
+  padding: 0.625em;
+  margin-left: 1.75em;
+}
+
+.custom-btn:hover {
+  background-color: transparent;
+  color: #262626;
+  opacity: 75%;
+}
+
+.custom-btn:focus {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  outline: 0 !important;
+  color: #262626 !important;
+  box-shadow: none !important;
+}
+
+#log-in {
+  border-radius: 50px;
+  border: #262626 solid 1px;
+}
+
+#log-in:hover,
+#log-in:focus {
+  border: #262626 solid 1px !important;
+}

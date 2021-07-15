@@ -37,7 +37,10 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (registerForm: registerForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post("/users/register", registerForm);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/register",
+        registerForm
+      );
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         if (localStorage["token"]) {
@@ -57,7 +60,10 @@ export const loginUser = createAsyncThunk(
   async (loginForm: LoginForm, { dispatch, getState }) => {
     console.log("hahaah");
     try {
-      const response = await axios.post("/users/login", loginForm);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/login",
+        loginForm
+      );
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         if (localStorage["token"]) {
@@ -79,7 +85,7 @@ export const loadUser =
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const response = await axios.get("/users/login");
+      const response = await axios.get("http://localhost:8080/api/users/login");
       console.log(response);
       if (response.data !== undefined) {
         dispatch({

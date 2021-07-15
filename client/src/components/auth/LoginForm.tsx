@@ -4,15 +4,15 @@ import {connect} from 'react-redux'
 import {authReducer} from '../../store/reducers/authReducer'
 
 const LoginForm: React.FC = () => {
-    return (
-        <div>
-            
-        </div>
-    )
+	return (
+		<div>
+				
+		</div>
+	)
 }
 
 LoginForm.propTypes = {
-    LoginUser: PropTypes.func.isRequired
+  LoginUser: PropTypes.func.isRequired
 }
 
 type State = {}

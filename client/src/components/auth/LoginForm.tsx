@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import store from "../../store/store";
 import { useDispatch } from "react-redux";
 import { showModal, loginUser } from "../../store/actions/auth/authActions";
+import { connect } from "react-redux";
 
-const LoginForm = () => {
+const LoginForm = (props: any) => {
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -25,15 +25,13 @@ const LoginForm = () => {
 
   const resetFormLogin = () => {
     setLoginForm({ username: "", password: "" });
-    // setShowLoginForm(false);
     setShowModal();
   };
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      const response = await loginUser(loginForm);
-      resetFormLogin();
+      dispatch(loginUser(loginForm));
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +39,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Modal show={store.getState().auth.showModal} onHide={resetFormLogin}>
+      <Modal show={props.auth.showModal} onHide={resetFormLogin}>
         <Modal.Header closeButton>
           <Modal.Title>Login Form</Modal.Title>
         </Modal.Header>
@@ -90,4 +88,8 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+const mapStateToProps = (state: any) => {
+  return { auth: state.auth };
+};
+
+export default connect(mapStateToProps)(LoginForm);

@@ -5,15 +5,22 @@ import Button from "react-bootstrap/Button";
 import quizzoLogo from "../assets/logo.svg";
 import logoutIcon from "../assets/logout.svg";
 import { connect, useDispatch } from "react-redux";
-import { showModal } from "../store/actions/auth/authActions";
+import {
+  showModal,
+  showRegisterModal,
+} from "../../store/actions/auth/authActions";
 import { Link } from "react-router-dom";
-import store from "../store/store";
-import LoginForm from "../components/auth/LoginForm";
+import store from "../../store/store";
+import LoginForm from "../../components/auth/LoginForm";
 
-const LandingPage: React.FC = () => {
+const NavbarMenu: React.FC = () => {
   const dispatch = useDispatch();
-  const showLoginModal = () => {
+
+  const showLoginForm = () => {
     dispatch(showModal());
+  };
+  const showRegisterForm = () => {
+    dispatch(showRegisterModal());
   };
 
   return (
@@ -53,12 +60,12 @@ const LandingPage: React.FC = () => {
 
           <Nav>
             <Nav.Link className="font-weight-bolder text-white" disabled>
-              Welcome
+              Welcome to Quizzo
             </Nav.Link>
             <Button
               variant="secondary"
               className="font-weight-bolder text-white"
-              onClick={showLoginModal}
+              onClick={showLoginForm}
             >
               <img
                 src={logoutIcon}
@@ -69,6 +76,20 @@ const LandingPage: React.FC = () => {
               />
               LogIn
             </Button>
+            <Button
+              variant="secondary"
+              className="font-weight-bolder text-white"
+              onClick={showRegisterForm}
+            >
+              <img
+                src={logoutIcon}
+                alt="logoutIcon"
+                width="32"
+                height="32"
+                className="mr-2"
+              />
+              Register
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -76,4 +97,4 @@ const LandingPage: React.FC = () => {
   );
 };
 
-export default connect()(LandingPage);
+export default connect()(NavbarMenu);

@@ -1,11 +1,16 @@
-import { LoginAction, TestAction } from "./auth/authActions";
+import {
+  LoginAction,
+  ShowModalAction,
+  ShowRegisterModalAction,
+} from "./auth/authActions";
 
 export enum EAction {
-  test = "TEST",
+  showModal = "SHOW_MODAL",
   login = "SET_AUTH",
+  showRegisterModal = "SHOW_REGISTER_MODAL",
 }
 
-export type Action = LoginAction | TestAction;
+export type Action = LoginAction | ShowModalAction | ShowRegisterModalAction;
 
 export type User = {
   username: string;
@@ -16,4 +21,11 @@ export type User = {
 export type LoginForm = {
   username: string;
   password: string;
+};
+
+export type registerForm = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };

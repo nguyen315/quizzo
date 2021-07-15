@@ -10,23 +10,28 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
-  Response
+  Response,
 } from '@nestjs/common';
 import { Controller, Get, Param } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/Auth/local.auth.guard';
+import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { UserLoginDto } from 'src/Dto/user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { AuthService } from '../Auth/auth.service';
 
 @Controller('api/users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private authService: AuthService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @UsePipes(new ValidationPipe())
-  login(@Body() loginDto: UserLoginDto, @Request() req, @Response() res): Promise<User|undefined> {
-    return res.json(req.user);
+  async login(@Body() loginDto: UserLoginDto, @Request() req) {
+    return this.authService.login(req.user);
   }
 
   @Get()
@@ -34,8 +39,10 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async getOne(@Param('id') id: number): Promise<User> {
+  async getOne(@Request() req, @Param('id') id: number): Promise<User> {
+    console.log(req.user);
     return this.userService.findOne(id);
   }
 

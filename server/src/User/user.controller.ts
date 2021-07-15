@@ -15,7 +15,8 @@ import {
 import { Controller, Get, Param } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/Auth/local.auth.guard';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
-import { UserLoginDto } from 'src/Dto/user.dto';
+import { HttpException, BadRequestException } from '@nestjs/common';
+import { SignUpDto, UserLoginDto } from 'src/Dto/user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { AuthService } from '../Auth/auth.service';
@@ -54,5 +55,11 @@ export class UserController {
   @Post()
   addUser(@Body() user: User): Promise<User> {
     return this.userService.createUser(user);
+  }
+
+  @Post('sign-up')
+  @UsePipes(new ValidationPipe())
+  async signUp(@Body() signUpDto: SignUpDto): Promise<User> {
+    return this.userService.signUp(signUpDto);
   }
 }

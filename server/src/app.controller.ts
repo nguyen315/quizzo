@@ -5,6 +5,7 @@ import {
   Body,
   Request,
   UseGuards,
+  Response,
 } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/Auth/local.auth.guard';
 import { AppService } from './app.service';
@@ -26,8 +27,12 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('api/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Request() req, @Response() res) {
+    const token = await this.authService.login(req.user);
+    res.status(200).json({
+      success: true,
+      token: token.access_token,
+    });
   }
 
   @Post('api/sign-up')

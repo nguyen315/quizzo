@@ -58,7 +58,6 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "api/users/login",
   async (loginForm: LoginForm, { dispatch, getState }) => {
-    console.log("hahaah");
     try {
       const response = await axios.post(
         "http://localhost:8080/api/users/login",

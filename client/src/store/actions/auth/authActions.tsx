@@ -1,9 +1,9 @@
-import React from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { EAction, User, LoginForm } from "../types";
+import { EAction, User, LoginForm, registerForm } from "../types";
 import store from "../../store";
 import { setAuthToken } from "../../../utils/setAuthToken";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export interface IAction {
   type: EAction;
@@ -15,36 +15,62 @@ export interface LoginAction extends IAction {
   payload: {
     user: User;
     isAuthenticated: boolean;
+    authLoading: boolean;
   };
 }
 
-export interface TestAction extends IAction {
-  type: EAction.test;
+export interface ShowModalAction extends IAction {
+  type: EAction.showModal;
   payload: {
     showModal: boolean;
   };
 }
 
-export const loginUser = async (loginForm: LoginForm) => {
-  try {
-    const response = await axios.post(
-      "https://floating-castle-01348.herokuapp.com/api/users/login",
-      loginForm
-    );
-    if (response.data.success) {
-      localStorage.setItem("token", response.data.accessToken);
-      if (localStorage["token"]) {
-        setAuthToken(localStorage["token"]);
-      }
-      const user = await axios.get(
-        "https://floating-castle-01348.herokuapp.com/api/users/login"
-      );
-      console.log(user);
-    }
+export interface ShowRegisterModalAction extends IAction {
+  type: EAction.showRegisterModal;
+  payload: {
+    showRegisterModal: boolean;
+  };
+}
 
-    return response.data;
-  } catch (error) {}
-};
+export const registerUser = createAsyncThunk(
+  "api/users/register",
+  async (registerForm: registerForm, { dispatch, getState }) => {
+    try {
+      const response = await axios.post("/users/register", registerForm);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.accessToken);
+        if (localStorage["token"]) {
+          setAuthToken(localStorage["token"]);
+        }
+        dispatch(loadUser());
+        dispatch(showModal());
+      }
+
+      return response.data;
+    } catch (error) {}
+  }
+);
+
+export const loginUser = createAsyncThunk(
+  "api/users/login",
+  async (loginForm: LoginForm, { dispatch, getState }) => {
+    console.log("hahaah");
+    try {
+      const response = await axios.post("/users/login", loginForm);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.accessToken);
+        if (localStorage["token"]) {
+          setAuthToken(localStorage["token"]);
+        }
+        dispatch(loadUser());
+        dispatch(showModal());
+      }
+
+      return response.data;
+    } catch (error) {}
+  }
+);
 
 export const loadUser =
   () =>
@@ -53,11 +79,9 @@ export const loadUser =
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const response = await axios.get(
-        "https://floating-castle-01348.herokuapp.com/api/users/login"
-      );
-      console.log(response.data);
-      if (response.data.success) {
+      const response = await axios.get("/users/login");
+      console.log(response);
+      if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
           payload: { isAuthenticated: true, user: response.data.user },
@@ -70,9 +94,20 @@ export const showModal =
   () =>
   (dispatch = useDispatch()) => {
     dispatch({
-      type: EAction.test,
+      type: EAction.showModal,
       payload: {
         showModal: !store.getState().auth.showModal,
+      },
+    });
+  };
+
+export const showRegisterModal =
+  () =>
+  (dispatch = useDispatch()) => {
+    dispatch({
+      type: EAction.showRegisterModal,
+      payload: {
+        showModal: !store.getState().auth.showRegisterModal,
       },
     });
   };

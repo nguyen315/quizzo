@@ -1,23 +1,27 @@
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 // import { test } from "../store/actions/authActions"
-import { Container } from "react-bootstrap";
-// import { BsFillPersonFill } from "react-icons/bs";
 import QuizzoTitle from "../components/layouts/QuizzoTitle";
 import MyNavbar from "../components/layouts/MyNavbar";
 import PINField from "../components/layouts/PINField";
+import Footer from "../components/layouts/Footer";
 
-const LandingPage: React.FC = () => {
+const LandingPage : React.FC = () => {
   return (
     <>
-      <MyNavbar />
-      <QuizzoTitle />
-      <PINField />
+    <MyNavbar />
+    <QuizzoTitle />
+    <PINField />
+    <Footer />
     </>
   );
 };
 
-export default LandingPage;
+// LandingPage.propTypes = {
+//   test: PropTypes.func.isRequired
+// }
+
+// const mapStatetoProps = (state: any) => ({
+//   auth: state
+// })
+
+// export default connect(mapStatetoProps, {test})(LandingPage)
+export default LandingPage

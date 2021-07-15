@@ -11,6 +11,7 @@ import {
 } from "../../store/actions/auth/authActions";
 import LoginForm from "../auth/LoginForm";
 import RegisterForm from "../auth/RegisterForm";
+import "../../css/landing/navbar.css";
 
 const MyNavbar: React.FC = () => {
   const dispatch = useDispatch();

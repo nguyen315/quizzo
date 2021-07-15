@@ -1,5 +1,6 @@
 import React from 'react'
 import rightArrow from '../../assets/right-arrow.svg'
+import '../../css/pin-field.css'
 
 const PINField: React.FC = () => {
 	return (

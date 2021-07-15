@@ -11,6 +11,7 @@ import {
 } from "../../store/actions/auth/authActions";
 import LoginForm from "../auth/LoginForm";
 import RegisterForm from "../auth/RegisterForm";
+import '../../css/navbar.css'
 
 const MyNavbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,14 +38,14 @@ const MyNavbar: React.FC = () => {
               <Button
                 id="sign-up"
                 className="custom-btn"
-                onClick={showRegisterForm}
+                onClick={ showRegisterForm }
               >
                 Sign Up
               </Button>
               <Button
                 id="log-in"
                 className="custom-btn"
-                onClick={showLoginForm}
+                onClick={ showLoginForm }
               >
                 Log In
               </Button>

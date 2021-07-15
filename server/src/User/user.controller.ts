@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import { Request, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { Controller, Get, Param } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
@@ -17,7 +13,6 @@ export class UserController {
   // getAll(): Promise<User[]> {
   //   return this.userService.findAll();
   // }
-
   @Get(':id')
   async getOne(
     @Request() req,

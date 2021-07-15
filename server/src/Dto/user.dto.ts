@@ -8,11 +8,9 @@ export class UserLoginDto {
   @IsString()
   @IsDefined()
   password: string;
-
 }
 
-export class SignUpDto{
-
+export class SignUpDto {
   @IsString()
   @IsDefined()
   @IsEmail()
@@ -25,7 +23,7 @@ export class SignUpDto{
   @IsString()
   @IsDefined()
   password: string;
-  
+
   @IsString()
   @IsDefined()
   confirmPassword: string;

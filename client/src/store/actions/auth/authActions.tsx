@@ -4,6 +4,7 @@ import { EAction, User, LoginForm, registerForm } from "../types";
 import store from "../../store";
 import { setAuthToken } from "../../../utils/setAuthToken";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { apiUrl } from "../types";
 
 export interface IAction {
   type: EAction;
@@ -37,10 +38,7 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (registerForm: registerForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/sign-up",
-        registerForm
-      );
+      const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         if (localStorage["token"]) {
@@ -59,16 +57,10 @@ export const loginUser = createAsyncThunk(
   "api/users/login",
   async (loginForm: LoginForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/login",
-        loginForm
-      );
+      const response = await axios.post(`${apiUrl}/users/login`, loginForm);
       console.log(response.data);
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
-        if (localStorage["token"]) {
-          setAuthToken(localStorage["token"]);
-        }
         dispatch(loadUser());
         dispatch(showModal());
       }
@@ -85,12 +77,12 @@ export const loadUser =
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const response = await axios.get("http://localhost:8080/api/login");
+      const response = await axios.get(`${apiUrl}/users/login`);
       console.log(response);
       if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
-          payload: { isAuthenticated: true, user: response.data.user },
+          payload: { isAuthenticated: true, user: response.data },
         });
       }
     } catch (error) {}

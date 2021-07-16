@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -22,6 +22,12 @@ export class UserController {
   addUser(@Body() user: User): Promise<User> {
     return this.userService.createUser(user);
   }
+
+  @Post(':id/change-password')
+  changePassword(@Param('id') id: number, @Body('password') password: string) {
+    return this.userService.changePassword(id, password)
+  }
+ 
 
   @Post(':id/update-user')
   async updateUser(@Param('id') id: number, 

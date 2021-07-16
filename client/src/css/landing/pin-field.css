@@ -1,0 +1,91 @@
+#pin-field {
+  margin: 6em auto;
+  width: 40vw;
+  padding: 18px 18px 18px 35px;
+  border: 1px solid #262626;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.enter-pin-field {
+  align-items: center;
+  position: relative;
+  display: flex;
+  width: 90%;
+}
+
+input#pin, 
+input:focus#pin, 
+textarea:focus#pin, 
+select:focus#pin {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 2em;
+  font-weight: 200;
+  width: 100%;
+  padding-right: 1em;
+  text-align: center;
+}
+
+input[type="text"]#pin {
+  text-align: center;
+}
+
+::placeholder {
+  opacity: 30%;
+}
+
+.enter-arrow-btn {
+  outline: none;
+  border: 1px solid #262626;
+  background-color: transparent;
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 50%;
+  transition: 0.15s ease;
+}
+
+.enter-arrow-btn:hover {
+  opacity: 50%;
+}
+
+.right-arrow {
+  width: 65%;
+}
+
+@media screen and (max-width: 992px) {
+  #pin-field {
+    padding: 10px 15px 10px 20px;
+  }
+
+  input#pin, 
+  input:focus#pin, 
+  textarea:focus#pin, 
+  select:focus#pin {
+    font-size: 1.35em;
+  }
+
+  .enter-arrow-btn {
+    width: 2.5em;
+    height: 2.5em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #pin-field {
+    width: 50vw;
+  }
+
+  .enter-arrow-btn {
+    width: 2.25em;
+    height: 2.25em;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #pin-field {
+    width: 70vw;
+  }
+}

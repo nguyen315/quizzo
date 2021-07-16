@@ -8,6 +8,14 @@ import {
   registerUser,
 } from "../../store/actions/auth/authActions";
 import { connect } from "react-redux";
+import "../../css/auth.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faUnlockAlt,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const RegisterForm: React.FC = (props: any) => {
   const [registerForm, setRegisterForm] = useState({
@@ -49,15 +57,22 @@ const RegisterForm: React.FC = (props: any) => {
 
   return (
     <>
-      <Modal show={props.auth.showRegisterModal} onHide={resetFormRegister}>
-        <Modal.Header closeButton>
-          <Modal.Title>Register Form</Modal.Title>
+      <Modal
+        className="Auth-Modal"
+        show={props.auth.showRegisterModal}
+        onHide={resetFormRegister}
+      >
+        <Modal.Header className="Auth-Modal_header" closeButton>
+          <Modal.Title className="Auth-Modal_title">Sign Up</Modal.Title>
         </Modal.Header>
         <Form onSubmit={register}>
           <Modal.Body>
-            <Form.Group>
-              <Form.Label>Username</Form.Label>
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faUser} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="text"
                 placeholder="Username"
                 name="username"
@@ -66,13 +81,13 @@ const RegisterForm: React.FC = (props: any) => {
                 value={username}
                 onChange={onChangeRegisterForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Email</Form.Label>
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faEnvelope} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -81,44 +96,47 @@ const RegisterForm: React.FC = (props: any) => {
                 value={email}
                 onChange={onChangeRegisterForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Password</Form.Label>
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faUnlockAlt} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="password"
-                placeholder="********"
+                placeholder="Password"
                 name="password"
                 value={password}
                 onChange={onChangeRegisterForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Confirm Password</Form.Label>
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faUnlockAlt} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="password"
-                placeholder="********"
+                placeholder="Confirm Password"
                 name="confirmPassword"
                 value={confirmPassword}
                 onChange={onChangeRegisterForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
+            <div className="Auth-Modal_button">
+              <Button className="" variant="primary" type="submit">
+                Sign Up
+              </Button>
+            </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={resetFormRegister}>
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit">
-              Register
-            </Button>
+            <Form.Text
+              to="/"
+              as={Link}
+              className="Auth-Modal_footer forgot-pass"
+            >
+              Login <span className="hightLightText">Here</span>
+            </Form.Text>
           </Modal.Footer>
         </Form>
       </Modal>

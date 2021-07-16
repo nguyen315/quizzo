@@ -1,0 +1,67 @@
+.Auth-Modal {
+    /* padding: 30px; */
+}
+
+.Auth-Modal_title{
+    background: -webkit-linear-gradient(80deg,#fd8927f0, #f06051)red;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 600;
+    font-weight: 800;
+    margin-left: 43%;
+}
+
+
+.Auth-Modal_input{
+    border-radius: 30px;
+    width: 85%;
+    margin: 0 auto;
+    padding-left: 32px;
+}
+
+.groupInput{
+    position: relative;
+}
+
+.iconInput{
+    position: absolute;
+    top: 20%;
+    left: 10%;
+}
+
+.forgot-pass{
+    margin-left: 50px;
+    margin-top: -10px;
+    color: black;
+    font-size: 12px;
+}
+
+.forgot-pass:hover{
+    color: black;
+}
+
+.hightLightText{
+    background: -webkit-linear-gradient(80deg,#fd8927f0, #f06051)red;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.Auth-Modal_footer{
+    margin-left: 40px;
+}
+
+.modal-footer{
+    justify-content: flex-start;
+}
+
+.Auth-Modal_button .btn {
+    padding: 5px 35px;
+    border-radius: 20px;
+    background-color: #262626;
+}
+
+.Auth-Modal_button{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 37%;
+}

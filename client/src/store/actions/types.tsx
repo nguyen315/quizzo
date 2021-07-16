@@ -14,7 +14,6 @@ export type Action = LoginAction | ShowModalAction | ShowRegisterModalAction;
 
 export type User = {
   username: string;
-  fullname: string;
   email: string;
 };
 
@@ -29,3 +28,8 @@ export type registerForm = {
   password: string;
   confirmPassword: string;
 };
+
+export const apiUrl =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:8080/api"
+    : "https://...";

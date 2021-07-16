@@ -4,6 +4,7 @@ import { EAction, User, LoginForm, registerForm } from "../types";
 import store from "../../store";
 import { setAuthToken } from "../../../utils/setAuthToken";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { apiUrl } from "../types";
 
 export interface IAction {
   type: EAction;
@@ -37,45 +38,38 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (registerForm: registerForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/sign-up",
-        registerForm
-      );
+      const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         if (localStorage["token"]) {
           setAuthToken(localStorage["token"]);
         }
         dispatch(loadUser());
-        dispatch(showModal());
+        dispatch(showRegisterModal());
       }
-
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      dispatch(showRegisterModal());
+    }
   }
 );
 
 export const loginUser = createAsyncThunk(
   "api/users/login",
   async (loginForm: LoginForm, { dispatch, getState }) => {
-    console.log("hahaah");
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/login",
-        loginForm
-      );
-      console.log(response.data);
+      const response = await axios.post(`${apiUrl}/login`, loginForm);
+      console.log("response.data");
       if (response.data.success) {
-        localStorage.setItem("token", response.data.accessToken);
-        if (localStorage["token"]) {
-          setAuthToken(localStorage["token"]);
-        }
+        localStorage.setItem("Authorization", response.data.accessToken);
         dispatch(loadUser());
-        dispatch(showModal());
+      } else {
       }
-
+      dispatch(showModal());
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      dispatch(showModal());
+    }
   }
 );
 
@@ -83,18 +77,29 @@ export const loadUser =
   () =>
   async (dispatch = useDispatch()) => {
     try {
-      if (localStorage["token"]) {
-        setAuthToken(localStorage["token"]);
+      if (localStorage["Authorization"]) {
+        setAuthToken(localStorage["Authorization"]);
       }
-      const response = await axios.get("http://localhost:8080/api/login");
+      const response = await axios.get(`${apiUrl}/login`);
       console.log(response);
       if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
-          payload: { isAuthenticated: true, user: response.data.user },
+          payload: { isAuthenticated: true, user: response.data },
         });
       }
     } catch (error) {}
+  };
+
+export const logout =
+  () =>
+  async (dispatch = useDispatch()) => {
+    localStorage.removeItem("Authorization");
+    await setAuthToken(null);
+    dispatch({
+      type: EAction.login,
+      payload: { isAuthenticated: false, user: null },
+    });
   };
 
 export const showModal =

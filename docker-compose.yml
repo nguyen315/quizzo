@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+  server:
+    build:
+      context: server
+      target: dev
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    ports:
+      - 8080:8080
+    environment:
+      MYSQL_HOST: mysql_container
+      MYSQL_USER: root
+      MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DB: app
+    depends_on:
+      - mysql_container
+
+  client:
+    build:
+      context: client
+      target: dev
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    depends_on:
+      - server
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports:
+      - 3000:3000
+
+  mysql_container:
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: app
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

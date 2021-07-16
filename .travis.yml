@@ -1,0 +1,38 @@
+language: node_js
+node_js:
+  - 12
+jobs:
+  include:
+    - name: server
+      before_script:
+        - cd $TRAVIS_BUILD_DIR/server
+        - npm install
+      script:
+        - echo "Start Server" # will replace with test
+      brefore_deploy:
+        - cd $TRAVIS_BUILD_DIR/server
+      deploy:
+        - provider: heroku
+          api_key: $HEROKU_API_KEY
+          app: quizzo-service
+          on:
+            branch: master
+          skip_cleanup: true
+    - name: client
+      before_script:
+        - cd $TRAVIS_BUILD_DIR/client
+        - npm install
+      script:
+        - echo "Start Client" # will replace with test
+        - CI=false npm run build # if CI=true, then when building project will treat warning as error
+      deploy:
+        provider: surge
+        project: ./client/build
+        domain: quizzo.surge.sh
+        on:
+          branch: master
+        skip_cleanup: true
+# safelist
+branches:
+  only:
+    - master

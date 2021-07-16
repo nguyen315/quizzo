@@ -1,7 +1,6 @@
 language: node_js
 node_js:
   - 12
-
 jobs:
   include:
     - name: server
@@ -9,7 +8,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/server
         - npm install
       script:
-        - echo "Hello Server" # will replace with test
+        - echo "Start Server" # will replace with test
       brefore_deploy:
         - cd $TRAVIS_BUILD_DIR/server
       deploy:
@@ -19,13 +18,12 @@ jobs:
           on:
             branch: master
           skip_cleanup: true
-
     - name: client
       before_script:
         - cd $TRAVIS_BUILD_DIR/client
         - npm install
       script:
-        - echo "Hello Client" # will replace with test
+        - echo "Start Client" # will replace with test
         - CI=false npm run build # if CI=true, then when building project will treat warning as error
       deploy:
         provider: surge

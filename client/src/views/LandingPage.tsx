@@ -1,21 +1,27 @@
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-// import { test } from "../store/actions/authActions"
-import { Container } from "react-bootstrap";
-// import { BsFillPersonFill } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { loadUser } from "../store/actions/auth/authActions";
 import QuizzoTitle from "../components/layouts/QuizzoTitle";
 import MyNavbar from "../components/layouts/MyNavbar";
 import PINField from "../components/layouts/PINField";
+import Footer from "../components/layouts/Footer";
+import store from "../store/store";
 
 const LandingPage: React.FC = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(loadUser());
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <MyNavbar />
       <QuizzoTitle />
       <PINField />
+      <Footer />
     </>
   );
 };

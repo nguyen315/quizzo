@@ -6,6 +6,7 @@ import LandingPage from "./views/LandingPage";
 import store from "./store/store";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import Landing from "./views/Landing";
+import About from "./views/About";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/landingPage" component={LandingPage} />
+          <ProtectedRoute exact path="/about" component={About} />
         </Switch>
       </Router>
     </Provider>

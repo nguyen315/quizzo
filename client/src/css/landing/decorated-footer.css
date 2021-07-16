@@ -1,0 +1,136 @@
+#decorator-container {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  height: 25vh;
+  width: 100%;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.card {
+  width: 17em;
+  height: 17em;
+  border-radius: 15px;
+  box-shadow: 8px 6px 0px 0px #2626261a;
+  padding: 2em;
+  transition: 0.2s ease;
+}
+
+@media screen and (max-width: 992px) {
+  .card {
+    width: 50em;
+    height: 12.3333em;
+    border-radius: 15px;
+  }
+}
+
+#green-card {
+  background-color: #99BE29;
+  border: #809B2C 5px solid;
+  transform: rotate(354deg);
+  margin-top: 70px;
+  z-index: 1;
+}
+
+#red-card {
+  background-color: #EF6253;
+  border: #9C382E 5px solid;
+  transform: rotate(5deg);
+  margin-top: 30px;
+  margin-left: -70px;
+  z-index: 2;
+}
+
+#orange-card {
+  background-color: #FC8E31;
+  border: #B35404 5px solid;
+  transform: rotate(357deg);
+  margin-top: 50px;
+  margin-left: -20px;
+  z-index: 1;
+}
+
+#orange-card:hover {
+  margin-top: 7px;
+}
+
+#blue-card {
+  background-color: #46ADFB;
+  border: #1E6397 5px solid;
+  transform: rotate(5deg);
+  margin-top: 65px;
+  margin-left: -20px;
+  z-index: 0;
+}
+
+#blue-card:hover {
+  margin-top: 13.3333px;
+}
+
+.hurray-info-card {
+  font-size: 2.45em;
+  color: #9C382E;
+}
+
+.orange-info-card {
+  font-size: 1.725em;
+  color: #FC8E31;
+  transition: 0.15s ease;
+}
+
+#orange-card:hover .orange-info-card  {
+  color: #FBF8F8;
+}
+
+.blue-info-card {
+  font-size: 1.725em;
+  color: #46ADFB;
+  transition: 0.15s ease;
+}
+
+#blue-card:hover .blue-info-card  {
+  color: #FBF8F8;
+}
+
+@media screen and (max-width: 992px) {
+  .hurray-info-card {
+    font-size: 1.5em;
+  }
+
+  .orange-info-card,
+  .blue-info-card {
+    font-size: 1.25em;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .card {
+    padding: 1em;
+  }
+
+  .hurray-info-card {
+    font-size: 0.75em;
+  }
+
+  .orange-info-card,
+  .blue-info-card {
+    font-size: 1.25em;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #green-card, 
+  #red-card {
+    display: none;
+  }
+}
+
+@media screen and (min-height: 1024px) {
+  #red-card,
+  #green-card,
+  #blue-card,
+  #orange-card {
+    margin-top: 150px;
+  }
+}

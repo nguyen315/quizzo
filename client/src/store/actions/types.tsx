@@ -29,6 +29,12 @@ export type registerForm = {
   confirmPassword: string;
 };
 
+export type changePasswordForm = {
+  _id: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export const apiUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:8080/api"

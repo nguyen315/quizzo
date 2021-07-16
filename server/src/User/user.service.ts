@@ -4,10 +4,9 @@ https://docs.nestjs.com/providers#services
 
 import { BadRequestException, Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SignUpDto } from 'src/Dto/user.dto';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-
-import { isEmail } from 'class-validator';
 
 
 @Injectable()
@@ -28,9 +27,10 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-  createUser(@Body() user: User): Promise<User> {
+  async createUser(user: Omit<SignUpDto, 'confirmPassword'>): Promise<User> {
     const newUser = this.userRepository.create(user);
-    return this.userRepository.save(newUser);
+    await this.userRepository.save(newUser);
+    return newUser;
   }
 
   findByUsername(userName: string): Promise<User | undefined> {
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   async updateUsername(id: number, username: string) {
-    if (!this.checkUsernameLength) {
+    if (this.checkUsernameLength(username)) {
       throw new BadRequestException("Username length must be between 6 characters and 20 characters")
     }
 
@@ -49,61 +49,52 @@ export class UserService {
     return this.userRepository.update({id: id}, {username:username})
   }
 
-  updatePassword(id: number, password: string) {
-    if (!this.checkPasswordLength) {
-      throw new BadRequestException("Password length must be between 6 characters and 20 characters")
-    }
-
-    return this.userRepository.update({id: id}, {password: password})
-  }
-
-  async updateEmail(id: number, email: string) {
-    if (!this.checkIfEmailValid) {
-      throw new BadRequestException("Email is invalid")
-    }
-
-    if (await this.isEmailRegistered(email)) {
-      throw new BadRequestException("Email already existed")
-    }
-
-    return this.userRepository.update({id: id}, {email: email})
-  }
-
   async isUsernameTaken(username: string) {
-    const isUsernameTaken= await this.findByUsername(username)
-    if (typeof isUsernameTaken !== 'undefined') {
+    const getUserInfo = await this.findByUsername(username)
+    if (typeof getUserInfo !== 'undefined') {
       return true
     }
     return false
   }
 
-  async isEmailRegistered(email: string) {
-    const isEmailRegistered = await this.userRepository.findOne({ email: email })
-    if (typeof isEmailRegistered !== 'undefined') {
-      return true
-    }
-    return false
-  }
 
   checkUsernameLength(username: string) {
     if (username.length > 20 || username.length < 6) {
-      return false
+      return true
     } 
-    return true
+    return false
   }
 
-  checkPasswordLength(password: string) {
-    if (password.length > 20 || password.length < 6) {
-      return false
+  updateLastName(id: number, lastname: string) {
+    if (this.checkFirstNameLength(lastname)) {
+      throw new BadRequestException("last name length must be between 1 character and 20 characters")
     }
-    return true
+    return this.userRepository.update({id: id}, {lastname: lastname})
   }
 
-  checkIfEmailValid(email: string) {
-    if (isEmail(email)) {
+  checkLastNameLength(lastName: string) {
+    if (lastName.length > 20 || lastName.length < 1) {
       return true
     }
     return false
+  }
+
+  updateFirstName(id: number, firstname: string) {
+    if (this.checkFirstNameLength(firstname)) {
+      throw new BadRequestException("first name length must be between 1 character and 20 characters")
+    }
+    return this.userRepository.update({id: id}, {firstname: firstname})
+  }
+
+  checkFirstNameLength(firstname: string) {
+    if (firstname.length > 20 || firstname.length < 1) {
+      return true
+    }
+    return false
+  }
+
+  findByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ email: email });
   }
 }
 

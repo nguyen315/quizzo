@@ -23,12 +23,6 @@ export class UserController {
     return this.userService.createUser(user);
   }
 
-  @Post(':id/change-password')
-  changePassword(@Param('id') id: number, @Body('password') password: string) {
-    return this.userService.changePassword(id, password)
-  }
- 
-
   @Post(':id/update-user')
   updateUser(@Param('id') id: number, 
              @Body('firstname') firstname: string,

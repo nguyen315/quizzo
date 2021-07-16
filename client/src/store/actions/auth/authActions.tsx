@@ -1,6 +1,12 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { EAction, User, LoginForm, registerForm } from "../types";
+import {
+  EAction,
+  User,
+  LoginForm,
+  registerForm,
+  changePasswordForm,
+} from "../types";
 import store from "../../store";
 import { setAuthToken } from "../../../utils/setAuthToken";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -63,10 +69,12 @@ export const loginUser = createAsyncThunk(
         dispatch(loadUser());
       } else {
       }
+      dispatch(showModal());
 
       return response.data;
-    } catch (error) {}
-    dispatch(showModal());
+    } catch (error) {
+      dispatch(showModal());
+    }
   }
 );
 
@@ -98,6 +106,24 @@ export const logout =
       payload: { isAuthenticated: false, user: null },
     });
   };
+
+export const changePasswordUser = createAsyncThunk(
+  "api/users/changePassword",
+  async (changePasswordForm: changePasswordForm, { dispatch, getState }) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/users/changePassword`,
+        changePasswordForm
+      );
+      if (response.data.success) {
+      } else {
+      }
+
+      return response.data;
+    } catch (error) {}
+    dispatch(showModal());
+  }
+);
 
 export const showModal =
   () =>

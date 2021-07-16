@@ -9,7 +9,7 @@ jobs:
         - npm install
       script:
         - echo "Start Server" # will replace with test
-      brefore_deploy:
+      before_deploy:
         - cd $TRAVIS_BUILD_DIR/server
       deploy:
         - provider: heroku
@@ -17,7 +17,7 @@ jobs:
           app: quizzo-service
           on:
             branch: master
-          skip_cleanup: true
+          cleanup: false
     - name: client
       before_script:
         - cd $TRAVIS_BUILD_DIR/client
@@ -31,7 +31,7 @@ jobs:
         domain: quizzo.surge.sh
         on:
           branch: master
-        skip_cleanup: true
+        cleanup: false
 # safelist
 branches:
   only:

@@ -11,16 +11,22 @@ export class UserController {
 
   @Get(':id')
   async getOne(
-    @Param('id') id: number,): Promise<Omit<User, 'password'>> {
+    @Param('id') id: number,): Promise<Omit<User,'salt' | 'password'>> {
     const user = await this.userService.findOne(id);
-    // extract password before return
-    const { password, ...result } = user;
-    return result;
+    // extract password and salt before returning
+    const { password, salt, ...result } = user;
+    return user;
   }
 
   @Post()
   addUser(@Body() user: User): Promise<User> {
     return this.userService.createUser(user);
+  }
+
+  @Post(':id/change-password')
+  async changePassword(@Param('id') id: number, @Body('password') password: string) {
+    this.userService.changePassword(id, password)
+    return "changed password successfully"
   }
 
   @Post(':id/update-user')

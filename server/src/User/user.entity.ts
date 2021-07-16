@@ -23,6 +23,9 @@ export class User {
   password: string;
 
   @Column()
+  salt: string;
+
+  @Column()
   firstname: string;
 
   @Column()

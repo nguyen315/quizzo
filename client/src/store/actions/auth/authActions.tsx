@@ -45,11 +45,10 @@ export const registerUser = createAsyncThunk(
           setAuthToken(localStorage["token"]);
         }
         dispatch(loadUser());
-        dispatch(showModal());
       }
-
       return response.data;
     } catch (error) {}
+    dispatch(showModal());
   }
 );
 
@@ -57,16 +56,17 @@ export const loginUser = createAsyncThunk(
   "api/users/login",
   async (loginForm: LoginForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post(`${apiUrl}/users/login`, loginForm);
-      console.log(response.data);
+      const response = await axios.post(`${apiUrl}/login`, loginForm);
+      console.log("response.data");
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         dispatch(loadUser());
-        dispatch(showModal());
+      } else {
       }
 
       return response.data;
     } catch (error) {}
+    dispatch(showModal());
   }
 );
 
@@ -77,7 +77,7 @@ export const loadUser =
       if (localStorage["token"]) {
         setAuthToken(localStorage["token"]);
       }
-      const response = await axios.get(`${apiUrl}/users/login`);
+      const response = await axios.get(`${apiUrl}/login`);
       console.log(response);
       if (response.data !== undefined) {
         dispatch({
@@ -86,6 +86,17 @@ export const loadUser =
         });
       }
     } catch (error) {}
+  };
+
+export const logout =
+  () =>
+  async (dispatch = useDispatch()) => {
+    localStorage.removeItem("token");
+    await setAuthToken(null);
+    dispatch({
+      type: EAction.login,
+      payload: { isAuthenticated: false, user: null },
+    });
   };
 
 export const showModal =

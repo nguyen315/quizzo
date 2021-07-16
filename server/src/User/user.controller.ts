@@ -49,9 +49,20 @@ export class UserController {
     return this.userService.createUser(user);
   }
 
-  @Post(':id/update')
-  updateUser(@Param('id') id: number, @Body('email') email: string, @Body('username') username: string, @Body('password') password: string) {
-    return this.userService.reassign(id, email, username, password)
+  @Post(':id/update-password')
+  updatePassword(@Param('id') id: number, @Body('password') password: string) {
+    return this.userService.updatePassword(id, password)
   }
+
+  @Post(':id/update-username')
+  updateUsername(@Param('id') id: number, @Body('username') username: string) {
+    return this.userService.updateUsername(id, username)
+  }
+
+  @Post(':id/update-email')
+  updateEmail(@Param('id') id: number, @Body('email') email: string) {
+    return this.userService.updateEmail(id, email)
+  }
+  
 }
 

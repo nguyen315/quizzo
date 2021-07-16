@@ -32,4 +32,4 @@ export type registerForm = {
 export const apiUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:8080/api"
-    : "https://quizzo-service.herokuapp.com";
+    : "https://quizzo-service.herokuapp.com/api";

@@ -30,11 +30,9 @@ export class UserController {
  
 
   @Post(':id/update-user')
-  async updateUser(@Param('id') id: number, 
-             @Body('username') username: string,
+  updateUser(@Param('id') id: number, 
              @Body('firstname') firstname: string,
              @Body('lastname') lastname: string) {
-    await this.userService.updateUsername(id, username)
     this.userService.updateFirstName(id, firstname)
     this.userService.updateLastName(id, lastname)
     return "updated successfully"

@@ -37,34 +37,6 @@ export class UserService {
     return this.userRepository.findOne({ username: userName });
   }
 
-  async updateUsername(id: number, username: string) {
-    if (this.checkUsernameLength(username)) {
-      throw new BadRequestException("Username length must be between 6 characters and 20 characters")
-    }
-
-    if (await this.isUsernameTaken(username)) {
-      throw new BadRequestException("Username already existed")
-    }
-
-    return this.userRepository.update({id: id}, {username:username})
-  }
-
-  async isUsernameTaken(username: string) {
-    const getUserInfo = await this.findByUsername(username)
-    if (typeof getUserInfo !== 'undefined') {
-      return true
-    }
-    return false
-  }
-
-
-  checkUsernameLength(username: string) {
-    if (username.length > 20 || username.length < 6) {
-      return true
-    } 
-    return false
-  }
-
   updateLastName(id: number, lastname: string) {
     if (this.checkFirstNameLength(lastname)) {
       throw new BadRequestException("last name length must be between 1 character and 20 characters")

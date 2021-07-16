@@ -96,5 +96,20 @@ export class UserService {
   findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ email: email });
   }
+
+  changePassword(id: number, password: string) {
+    if (!this.checkPasswordLength) {
+      throw new BadRequestException("Password length must be between 1 character and 20 characters")
+    }
+    return this.userRepository.update({id: id}, {password: password})
+  }
+  
+  checkPasswordLength(password: string) {
+    if (password.length > 20 || password.length < 6) {
+      return true
+    }
+    return false
+  }
+ 
 }
 

@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SignUpDto } from 'src/Dto/user.dto';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
@@ -67,6 +68,44 @@ export class UserService {
 
   findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ email: email });
+  }
+
+  async changePassword(id: number, password: string) {
+    if (!this.checkPasswordLength) {
+      await this.generateHash(password)
+      throw new BadRequestException("Password length must be between 1 character and 20 characters")
+    }
+    const salt = await this.generateSalt()
+    await this.updateSalt(id, salt)
+    const hash = await this.generateHash(password)
+    await this.updateHash(id, hash)
+    return true
+  }
+
+  updateHash(id: number, hash: string) {
+    return this.userRepository.update({id: id}, {password: hash})
+  }
+
+  async generateHash(password: string) {
+    const salt = await this.generateSalt()
+    const hash = await bcrypt.hash(password, salt);
+    return hash
+  }
+
+  async updateSalt(id: number, salt: string) {
+    return await this.userRepository.update({id: id}, {salt: salt})
+  }
+
+  async generateSalt() {
+    const salt = await bcrypt.genSalt();
+    return salt
+  }
+  
+  checkPasswordLength(password: string) {
+    if (password.length > 20 || password.length < 6) {
+      return true
+    }
+    return false
   }
  
 }

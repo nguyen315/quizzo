@@ -45,10 +45,12 @@ export const registerUser = createAsyncThunk(
           setAuthToken(localStorage["token"]);
         }
         dispatch(loadUser());
+        dispatch(showRegisterModal());
       }
       return response.data;
-    } catch (error) {}
-    dispatch(showModal());
+    } catch (error) {
+      dispatch(showRegisterModal());
+    }
   }
 );
 
@@ -59,14 +61,15 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post(`${apiUrl}/login`, loginForm);
       console.log("response.data");
       if (response.data.success) {
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("Authorization", response.data.accessToken);
         dispatch(loadUser());
       } else {
       }
-
+      dispatch(showModal());
       return response.data;
-    } catch (error) {}
-    dispatch(showModal());
+    } catch (error) {
+      dispatch(showModal());
+    }
   }
 );
 
@@ -74,8 +77,8 @@ export const loadUser =
   () =>
   async (dispatch = useDispatch()) => {
     try {
-      if (localStorage["token"]) {
-        setAuthToken(localStorage["token"]);
+      if (localStorage["Authorization"]) {
+        setAuthToken(localStorage["Authorization"]);
       }
       const response = await axios.get(`${apiUrl}/login`);
       console.log(response);
@@ -91,7 +94,7 @@ export const loadUser =
 export const logout =
   () =>
   async (dispatch = useDispatch()) => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("Authorization");
     await setAuthToken(null);
     dispatch({
       type: EAction.login,

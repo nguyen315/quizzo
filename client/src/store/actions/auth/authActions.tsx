@@ -54,14 +54,8 @@ export const registerUser = createAsyncThunk(
         dispatch(showRegisterModal());
       }
       return response.data;
-<<<<<<< HEAD
     } catch (error) {}
     dispatch(showRegisterModal());
-=======
-    } catch (error) {
-      dispatch(showRegisterModal());
-    }
->>>>>>> e3b35043b30b148259d468cc67e6ce6f860ee7bc
   }
 );
 
@@ -74,16 +68,14 @@ export const loginUser = createAsyncThunk(
       if (response.data.success) {
         localStorage.setItem("Authorization", response.data.accessToken);
         dispatch(loadUser());
+        return {};
       } else {
       }
       dispatch(showModal());
-<<<<<<< HEAD
-
-=======
->>>>>>> e3b35043b30b148259d468cc67e6ce6f860ee7bc
       return response.data;
     } catch (error) {
       dispatch(showModal());
+      return {};
     }
   }
 );

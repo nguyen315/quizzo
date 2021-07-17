@@ -8,7 +8,6 @@ import config from './ormconfig';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
-import { DatabaseConfig } from './config/database.config';
 
 @Module({
   imports: [

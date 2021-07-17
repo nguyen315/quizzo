@@ -39,28 +39,21 @@ export class UserService {
   }
 
   updateLastName(id: number, lastname: string) {
-    if (this.checkFirstNameLength(lastname)) {
+    if (this.checkLength(lastname, 1, 20)) {
       throw new BadRequestException("last name length must be between 1 character and 20 characters")
     }
     return this.userRepository.update({id: id}, {lastname: lastname})
   }
 
-  checkLastNameLength(lastName: string) {
-    if (lastName.length > 20 || lastName.length < 1) {
-      return true
-    }
-    return false
-  }
-
   updateFirstName(id: number, firstname: string) {
-    if (this.checkFirstNameLength(firstname)) {
+    if (this.checkLength(firstname, 1, 20)) {
       throw new BadRequestException("first name length must be between 1 character and 20 characters")
     }
     return this.userRepository.update({id: id}, {firstname: firstname})
   }
 
-  checkFirstNameLength(firstname: string) {
-    if (firstname.length > 20 || firstname.length < 1) {
+  checkLength(text: string, minLength: number, maxLength: number) {
+    if (text.length < minLength || text.length > maxLength) {
       return true
     }
     return false

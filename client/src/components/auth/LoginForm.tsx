@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import "../../css/auth.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
+import { AppDispatch } from "../../store/store";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 
@@ -21,14 +22,14 @@ const LoginForm = (props: any) => {
     password: "",
   });
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const setShowModal = () => {
-    dispatch(showModal());
+    // dispatch(showModal());
   };
 
   const goToSignUp = () => {
-    dispatch(showModal());
-    dispatch(showRegisterModal());
+    // dispatch(showModal());
+    // dispatch(showRegisterModal());
   };
 
   const { username, password } = loginForm;
@@ -41,13 +42,13 @@ const LoginForm = (props: any) => {
     setLoginForm({ username: "", password: "" });
     setShowModal();
   };
+  const appDispatch: AppDispatch = useDispatch();
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      const responseData = await dispatch(loginUser(loginForm));
-      // const originalPromiseResult = unwrapResult(responseData);
-      console.log(responseData);
+      const responseData = await appDispatch(loginUser(loginForm));
+      const originalPromiseResult = unwrapResult(responseData);
     } catch (error) {
       console.log(error);
     }

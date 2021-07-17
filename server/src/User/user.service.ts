@@ -72,12 +72,11 @@ export class UserService {
 
   async changePassword(id: number, password: string) {
     if (!this.checkPasswordLength) {
-      await this.generateHash(password)
       throw new BadRequestException("Password length must be between 1 character and 20 characters")
     }
     const salt = await this.generateSalt()
     await this.updateSalt(id, salt)
-    const hash = await this.generateHash(password)
+    const hash = await this.generateHash(password, salt)
     await this.updateHash(id, hash)
     return true
   }
@@ -86,8 +85,7 @@ export class UserService {
     return this.userRepository.update({id: id}, {password: hash})
   }
 
-  async generateHash(password: string) {
-    const salt = await this.generateSalt()
+  async generateHash(password: string, salt: string) {
     const hash = await bcrypt.hash(password, salt);
     return hash
   }

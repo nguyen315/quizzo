@@ -12,18 +12,22 @@ import ormConfigProd from './config/orm.config.prod';
   imports: [
     AuthModule,
     UserModule,
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory:
-        process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd,
-    }),
+    
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
       load: [ormConfig, ormConfigProd],
+      expandVariables: true
+
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory:
+        (process.env.NODE_ENV !== 'production') ? ormConfig : ormConfigProd,
     }),
   ],
   controllers: [AppController],
   providers: [AppService],
+  
 })
 export class AppModule {}

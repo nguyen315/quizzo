@@ -1,13 +1,25 @@
 import { AuthModule } from './Auth/auth.module';
 import { UserModule } from './User/user.module';
-import { Module } from '@nestjs/common';
+import { Inject, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import config from './ormconfig';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import ormConfig from './config/orm.config';
+import ormConfigProd from './config/orm.config.prod';
+import { DatabaseConfig } from './config/database.config';
 
 @Module({
-  imports: [AuthModule, UserModule, TypeOrmModule.forRoot(config)],
+  imports: [
+    AuthModule,
+    UserModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (process.env.NODE_ENV!=='production'? ormConfig:ormConfigProd)
+    }),
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true, load: [ormConfig, ormConfigProd],}),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

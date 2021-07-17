@@ -15,7 +15,7 @@ export class UserController {
     const user = await this.userService.findOne(id);
     // extract password and salt before returning
     const { password, salt, ...result } = user;
-    return user;
+    return result;
   }
 
   @Post()
@@ -31,8 +31,8 @@ export class UserController {
 
   @Post(':id/update-user')
   updateUser(@Param('id') id: number, 
-             @Body('firstname') firstname: string,
-             @Body('lastname') lastname: string) {
+             @Body('firstName') firstname: string,
+             @Body('lastName') lastname: string) {
     this.userService.updateFirstName(id, firstname)
     this.userService.updateLastName(id, lastname)
     return "updated successfully"

@@ -26,10 +26,10 @@ export class User {
   salt: string;
 
   @Column()
-  firstname: string;
+  firstName: string;
 
   @Column()
-  lastname: string;
+  lastName: string;
 
   //@Column()
   //avartar: string;

@@ -137,7 +137,7 @@ const RegisterForm: React.FC = (props: any) => {
           </Modal.Body>
           <Modal.Footer>
             <Form.Text
-              to="/landingPage"
+              to="/"
               as={Link}
               className="Auth-Modal_footer forgot-pass"
               onClick={goToLogin}

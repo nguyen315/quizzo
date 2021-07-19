@@ -107,7 +107,7 @@ const LoginForm = (props: any) => {
           <Modal.Footer>
             <Form.Text
               className="Auth-Modal_footer forgot-pass"
-              to="/landingPage"
+              to="/"
               as={Link}
               onClick={goToSignUp}
             >

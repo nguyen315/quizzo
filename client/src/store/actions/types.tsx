@@ -1,13 +1,13 @@
 import {
   LoginAction,
   ShowModalAction,
-  ShowRegisterModalAction,
+  ShowRegisterModalAction
 } from "./auth/authActions";
 
 export enum EAction {
   showModal = "SHOW_MODAL",
   login = "SET_AUTH",
-  showRegisterModal = "SHOW_REGISTER_MODAL",
+  showRegisterModal = "SHOW_REGISTER_MODAL"
 }
 
 export type Action = LoginAction | ShowModalAction | ShowRegisterModalAction;

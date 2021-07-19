@@ -1,12 +1,12 @@
-import { AnonymousUser } from 'src/AnonymousUsers/anonumousUser.entity';
+import { AnonymousUser } from "src/AnonymousUsers/anonumousUser.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from "typeorm";
 
 @Entity()
 export class User {

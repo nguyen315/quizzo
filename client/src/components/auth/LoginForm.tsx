@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const LoginForm = (props: any) => {
   const [loginForm, setLoginForm] = useState({
     username: "",
-    password: "",
+    password: ""
   });
 
   const dispatch = useDispatch();

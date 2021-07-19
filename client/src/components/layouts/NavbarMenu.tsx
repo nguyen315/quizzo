@@ -7,7 +7,7 @@ import logoutIcon from "../../assets/logout.svg";
 import { connect, useDispatch } from "react-redux";
 import {
   showModal,
-  showRegisterModal,
+  showRegisterModal
 } from "../../store/actions/auth/authActions";
 import { Link } from "react-router-dom";
 import store from "../../store/store";

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ServerError: React.FC = () => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  return <div></div>;
+};
 
-export default ServerError
+export default ServerError;

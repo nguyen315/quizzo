@@ -1,4 +1,4 @@
-import { User } from 'src/User/user.entity';
+import { User } from "src/User/user.entity";
 import {
   Column,
   CreateDateColumn,
@@ -7,8 +7,8 @@ import {
   ManyToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from "typeorm";
 
 @Entity()
 export class AnonymousUser {
@@ -22,7 +22,7 @@ export class AnonymousUser {
   // name: User;
 
   @ManyToOne((type) => User, (user) => user.users)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: "user_id", referencedColumnName: "id" })
   user: User;
 
   @Column()

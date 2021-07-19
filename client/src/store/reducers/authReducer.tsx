@@ -13,7 +13,7 @@ const initialState: State = {
   isAuthenticated: false,
   authLoading: true,
   showModal: false,
-  showRegisterModal: false,
+  showRegisterModal: false
 };
 
 export const authReducer = (state = initialState, action: Action) => {
@@ -23,21 +23,21 @@ export const authReducer = (state = initialState, action: Action) => {
         ...state,
         user: action.payload.user,
         isAuthenticated: action.payload.isAuthenticated,
-        authLoading: false,
+        authLoading: false
       };
     }
 
     case "SHOW_MODAL": {
       return {
         ...state,
-        showModal: action.payload.showModal,
+        showModal: action.payload.showModal
       };
     }
 
     case "SHOW_REGISTER_MODAL": {
       return {
         ...state,
-        showRegisterModal: action.payload.showRegisterModal,
+        showRegisterModal: action.payload.showRegisterModal
       };
     }
 

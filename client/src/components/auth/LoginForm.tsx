@@ -22,14 +22,14 @@ const LoginForm = (props: any) => {
     password: "",
   });
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const setShowModal = () => {
-    // dispatch(showModal());
+    dispatch(showModal());
   };
 
   const goToSignUp = () => {
-    // dispatch(showModal());
-    // dispatch(showRegisterModal());
+    dispatch(showModal());
+    dispatch(showRegisterModal());
   };
 
   const { username, password } = loginForm;
@@ -42,13 +42,13 @@ const LoginForm = (props: any) => {
     setLoginForm({ username: "", password: "" });
     setShowModal();
   };
-  const appDispatch: AppDispatch = useDispatch();
+  // const appDispatch: AppDispatch = useDispatch();
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      const responseData = await appDispatch(loginUser(loginForm));
-      const originalPromiseResult = unwrapResult(responseData);
+      const responseData = await dispatch(loginUser(loginForm));
+      // const originalPromiseResult = unwrapResult(responseData);
     } catch (error) {
       console.log(error);
     }

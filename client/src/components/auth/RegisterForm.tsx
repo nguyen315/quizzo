@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import {
   showRegisterModal,
-  registerUser,
+  registerUser
 } from "../../store/actions/auth/authActions";
 import { connect } from "react-redux";
 import "../../css/auth.css";
@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faUnlockAlt,
-  faEnvelope,
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const RegisterForm: React.FC = (props: any) => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
 
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const RegisterForm: React.FC = (props: any) => {
       username: "",
       password: "",
       email: "",
-      confirmPassword: "",
+      confirmPassword: ""
     });
     setShowModal();
   };

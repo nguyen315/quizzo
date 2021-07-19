@@ -9,7 +9,7 @@ import { connect, useDispatch } from "react-redux";
 import {
   showModal,
   showRegisterModal,
-  logout,
+  logout
 } from "../../store/actions/auth/authActions";
 import LoginForm from "../auth/LoginForm";
 import RegisterForm from "../auth/RegisterForm";

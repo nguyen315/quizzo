@@ -85,7 +85,7 @@ export const loadUser =
       if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
-          payload: { isAuthenticated: true, user: response.data },
+          payload: { isAuthenticated: true, user: response.data }
         });
       }
     } catch (error) {}
@@ -98,7 +98,7 @@ export const logout =
     await setAuthToken(null);
     dispatch({
       type: EAction.login,
-      payload: { isAuthenticated: false, user: null },
+      payload: { isAuthenticated: false, user: null }
     });
   };
 
@@ -108,8 +108,8 @@ export const showModal =
     dispatch({
       type: EAction.showModal,
       payload: {
-        showModal: !store.getState().auth.showModal,
-      },
+        showModal: !store.getState().auth.showModal
+      }
     });
   };
 
@@ -119,7 +119,7 @@ export const showRegisterModal =
     dispatch({
       type: EAction.showRegisterModal,
       payload: {
-        showRegisterModal: !store.getState().auth.showRegisterModal,
-      },
+        showRegisterModal: !store.getState().auth.showRegisterModal
+      }
     });
   };

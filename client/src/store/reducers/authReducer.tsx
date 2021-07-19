@@ -1,4 +1,4 @@
-import { Action, User } from "../actions/actions";
+import { Action, User } from '../actions/actions';
 
 interface State {
   user?: User | null;
@@ -18,7 +18,7 @@ const initialState: State = {
 
 export const authReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case "SET_AUTH": {
+    case 'SET_AUTH': {
       return {
         ...state,
         user: action.payload.user,
@@ -27,14 +27,14 @@ export const authReducer = (state = initialState, action: Action) => {
       };
     }
 
-    case "SHOW_MODAL": {
+    case 'SHOW_MODAL': {
       return {
         ...state,
         showModal: action.payload.showModal
       };
     }
 
-    case "SHOW_REGISTER_MODAL": {
+    case 'SHOW_REGISTER_MODAL': {
       return {
         ...state,
         showRegisterModal: action.payload.showRegisterModal

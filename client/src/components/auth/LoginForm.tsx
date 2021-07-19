@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
-import { showModal, loginUser } from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
-import "../../css/auth.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import { showModal, loginUser } from '../../store/actions/auth/authActions';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const LoginForm = (props: any) => {
   const [loginForm, setLoginForm] = useState({
-    username: "",
-    password: ""
+    username: '',
+    password: ''
   });
 
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const LoginForm = (props: any) => {
   };
 
   const resetFormLogin = () => {
-    setLoginForm({ username: "", password: "" });
+    setLoginForm({ username: '', password: '' });
     setShowModal();
   };
 

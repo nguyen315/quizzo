@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
 import {
   showRegisterModal,
   registerUser
-} from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
-import "../../css/auth.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '../../store/actions/auth/authActions';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
   faUnlockAlt,
   faEnvelope
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const RegisterForm: React.FC = (props: any) => {
   const [registerForm, setRegisterForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
 
   const dispatch = useDispatch();
@@ -38,10 +38,10 @@ const RegisterForm: React.FC = (props: any) => {
 
   const resetFormRegister = () => {
     setRegisterForm({
-      username: "",
-      password: "",
-      email: "",
-      confirmPassword: ""
+      username: '',
+      password: '',
+      email: '',
+      confirmPassword: ''
     });
     setShowModal();
   };

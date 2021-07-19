@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { loadUser } from "../store/actions/auth/authActions";
-import QuizzoTitle from "../components/layouts/QuizzoTitle";
-import MyNavbar from "../components/layouts/MyNavbar";
-import PINField from "../components/layouts/PINField";
-import Footer from "../components/layouts/Footer";
-import store from "../store/store";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadUser } from '../store/actions/auth/authActions';
+import QuizzoTitle from '../components/layouts/QuizzoTitle';
+import MyNavbar from '../components/layouts/MyNavbar';
+import PINField from '../components/layouts/PINField';
+import Footer from '../components/layouts/Footer';
+import store from '../store/store';
 
 const LandingPage: React.FC = () => {
   const dispatch = useDispatch();

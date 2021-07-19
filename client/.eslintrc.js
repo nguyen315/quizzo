@@ -1,8 +1,9 @@
 module.exports = {
+  
   plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   extends: [
-    'react-app',
-    'prettier'
+    'prettier',
+    'react-app'
   ],
   rules: {
     'prettier/prettier': 2

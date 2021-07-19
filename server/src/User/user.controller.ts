@@ -1,11 +1,11 @@
-import { Request, UseGuards, HttpException, HttpStatus } from "@nestjs/common";
-import { Controller, Get, Param } from "@nestjs/common";
-import { JwtAuthGuard } from "../Auth/jwt-auth.guard";
-import { User } from "./user.entity";
-import { UserService } from "./user.service";
+import { Request, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
+import { User } from './user.entity';
+import { UserService } from './user.service';
 
 @UseGuards(JwtAuthGuard)
-@Controller("api/users")
+@Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -13,15 +13,15 @@ export class UserController {
   // getAll(): Promise<User[]> {
   //   return this.userService.findAll();
   // }
-  @Get(":id")
+  @Get(':id')
   async getOne(
     @Request() req,
-    @Param("id") id: number
-  ): Promise<Omit<User, "password">> {
+    @Param('id') id: number
+  ): Promise<Omit<User, 'password'>> {
     // Check userId from request token match with userId you want to get info
     if (req.user.id != id) {
       throw new HttpException(
-        "FORBIDDEN You do not have right to access this resource",
+        'FORBIDDEN You do not have right to access this resource',
         HttpStatus.FORBIDDEN
       );
     }

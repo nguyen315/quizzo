@@ -2,11 +2,11 @@
 https://docs.nestjs.com/providers#services
 */
 
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { SignUpDto } from "src/Dto/user.dto";
-import { Repository } from "typeorm";
-import { User } from "./user.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SignUpDto } from 'src/Dto/user.dto';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -26,7 +26,7 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-  async createUser(user: Omit<SignUpDto, "confirmPassword">): Promise<User> {
+  async createUser(user: Omit<SignUpDto, 'confirmPassword'>): Promise<User> {
     const newUser = this.userRepository.create(user);
     await this.userRepository.save(newUser);
     return newUser;

@@ -2,12 +2,12 @@ import {
   LoginAction,
   ShowModalAction,
   ShowRegisterModalAction
-} from "./auth/authActions";
+} from './auth/authActions';
 
 export enum EAction {
-  showModal = "SHOW_MODAL",
-  login = "SET_AUTH",
-  showRegisterModal = "SHOW_REGISTER_MODAL"
+  showModal = 'SHOW_MODAL',
+  login = 'SET_AUTH',
+  showRegisterModal = 'SHOW_REGISTER_MODAL'
 }
 
 export type Action = LoginAction | ShowModalAction | ShowRegisterModalAction;
@@ -30,6 +30,6 @@ export type registerForm = {
 };
 
 export const apiUrl =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:8080/api"
-    : "https://...";
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:8080/api'
+    : 'https://...';

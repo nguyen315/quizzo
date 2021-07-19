@@ -1,10 +1,10 @@
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { EAction, User, LoginForm, registerForm } from "../types";
-import store from "../../store";
-import { setAuthToken } from "../../../utils/setAuthToken";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiUrl } from "../types";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { EAction, User, LoginForm, registerForm } from '../types';
+import store from '../../store';
+import { setAuthToken } from '../../../utils/setAuthToken';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { apiUrl } from '../types';
 
 export interface IAction {
   type: EAction;
@@ -35,14 +35,14 @@ export interface ShowRegisterModalAction extends IAction {
 }
 
 export const registerUser = createAsyncThunk(
-  "api/users/register",
+  'api/users/register',
   async (registerForm: registerForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data.success) {
-        localStorage.setItem("token", response.data.accessToken);
-        if (localStorage["token"]) {
-          setAuthToken(localStorage["token"]);
+        localStorage.setItem('token', response.data.accessToken);
+        if (localStorage['token']) {
+          setAuthToken(localStorage['token']);
         }
         dispatch(loadUser());
         dispatch(showRegisterModal());
@@ -55,13 +55,13 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  "api/users/login",
+  'api/users/login',
   async (loginForm: LoginForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
-      console.log("response.data");
+      console.log('response.data');
       if (response.data.success) {
-        localStorage.setItem("Authorization", response.data.accessToken);
+        localStorage.setItem('Authorization', response.data.accessToken);
         dispatch(loadUser());
       } else {
       }
@@ -77,8 +77,8 @@ export const loadUser =
   () =>
   async (dispatch = useDispatch()) => {
     try {
-      if (localStorage["Authorization"]) {
-        setAuthToken(localStorage["Authorization"]);
+      if (localStorage['Authorization']) {
+        setAuthToken(localStorage['Authorization']);
       }
       const response = await axios.get(`${apiUrl}/login`);
       console.log(response);
@@ -94,7 +94,7 @@ export const loadUser =
 export const logout =
   () =>
   async (dispatch = useDispatch()) => {
-    localStorage.removeItem("Authorization");
+    localStorage.removeItem('Authorization');
     await setAuthToken(null);
     dispatch({
       type: EAction.login,

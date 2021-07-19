@@ -19,8 +19,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint \"client/src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\" --fix",
-    "format": "prettier \"client/src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\" --write",
-    "prepare": "husky install"
+    "format": "prettier \"client/src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\" --write"
   },
   "repository": {
     "type": "git",

@@ -7,12 +7,12 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus
-} from "@nestjs/common";
-import { User } from "src/User/user.entity";
-import { UserService } from "src/User/user.service";
-import { JwtService } from "@nestjs/jwt";
-import * as bcrypt from "bcrypt";
-import { SignUpDto } from "src/Dto/user.dto";
+} from '@nestjs/common';
+import { User } from 'src/User/user.entity';
+import { UserService } from 'src/User/user.service';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { SignUpDto } from 'src/Dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,23 +21,23 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<Omit<User, "password">> {
+  async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
     if (signUpDto.password !== signUpDto.confirmPassword) {
       throw new BadRequestException(
-        "Password and Confirmation are not identical."
+        'Password and Confirmation are not identical.'
       );
     }
 
     const isEmailTaken = await this.userService.findByEmail(signUpDto.email);
-    if (typeof isEmailTaken !== "undefined") {
-      throw new BadRequestException("your Email has been taken!");
+    if (typeof isEmailTaken !== 'undefined') {
+      throw new BadRequestException('your Email has been taken!');
     }
 
     const isUsernameTaken = await this.userService.findByUsername(
       signUpDto.username
     );
-    if (typeof isUsernameTaken !== "undefined") {
-      throw new BadRequestException("your Username has been taken!");
+    if (typeof isUsernameTaken !== 'undefined') {
+      throw new BadRequestException('your Username has been taken!');
     }
 
     const hashRound = process.env.SALTROUND || 10;
@@ -56,7 +56,7 @@ export class AuthService {
     } catch (err) {
       // throw what error
       throw new HttpException(
-        "Internal server error",
+        'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
@@ -65,13 +65,13 @@ export class AuthService {
   async validateUser(
     username: string,
     pass: string
-  ): Promise<Omit<User, "password"> | undefined> {
+  ): Promise<Omit<User, 'password'> | undefined> {
     try {
       const user = await this.userService.findByUsername(username);
       const isPasswordMatch = await bcrypt.compare(pass, user.password);
       if (!isPasswordMatch) {
         throw new HttpException(
-          "Wrong credentials provided",
+          'Wrong credentials provided',
           HttpStatus.BAD_REQUEST
         );
       }
@@ -80,13 +80,13 @@ export class AuthService {
       return result;
     } catch (error) {
       throw new HttpException(
-        "Wrong credentials provided",
+        'Wrong credentials provided',
         HttpStatus.BAD_REQUEST
       );
     }
   }
 
-  async login(user: Omit<User, "password">) {
+  async login(user: Omit<User, 'password'>) {
     const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload)

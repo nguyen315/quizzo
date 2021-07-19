@@ -1,6 +1,6 @@
-import React from "react";
-import { Container, Row } from "react-bootstrap";
-import "../../css/landing/quizzo-title.css";
+import React from 'react';
+import { Container, Row } from 'react-bootstrap';
+import '../../css/landing/quizzo-title.css';
 
 const QuizzoTitle: React.FC = () => {
   return (

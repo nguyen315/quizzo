@@ -6,11 +6,11 @@ import { useDispatch } from 'react-redux';
 import {
   showRegisterModal,
   registerUser,
-  showModal,
-} from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
-import "../../css/auth.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  showModal
+} from '../../store/actions/auth/authActions';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
   faUnlockAlt,

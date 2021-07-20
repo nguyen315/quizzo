@@ -11,6 +11,6 @@ export default registerAs(
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DB,
     entities: ['dist/**/*.entity{.ts,.js}'],
-    synchronize: true,
-  }),
+    synchronize: true
+  })
 );

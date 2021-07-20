@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import {
   showRegisterModal,
   registerUser,
+  showModal,
 } from "../../store/actions/auth/authActions";
 import { connect } from "react-redux";
 import "../../css/auth.css";
@@ -28,6 +29,11 @@ const RegisterForm: React.FC = (props: any) => {
   const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showRegisterModal());
+  };
+
+  const goToLogin = () => {
+    dispatch(showRegisterModal());
+    dispatch(showModal());
   };
 
   const { username, password, email, confirmPassword } = registerForm;
@@ -134,6 +140,7 @@ const RegisterForm: React.FC = (props: any) => {
               to="/"
               as={Link}
               className="Auth-Modal_footer forgot-pass"
+              onClick={goToLogin}
             >
               Login <span className="hightLightText">Here</span>
             </Form.Text>

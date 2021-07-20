@@ -1,16 +1,16 @@
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import {
   EAction,
   User,
   LoginForm,
   registerForm,
-  changePasswordForm,
-} from "../types";
-import store from "../../store";
-import { setAuthToken } from "../../../utils/setAuthToken";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiUrl } from "../types";
+  changePasswordForm
+} from '../types';
+import store from '../../store';
+import { setAuthToken } from '../../../utils/setAuthToken';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { apiUrl } from '../types';
 
 export interface IAction {
   type: EAction;
@@ -46,9 +46,9 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data.success) {
-        localStorage.setItem("Authorization", response.data.accessToken);
-        if (localStorage["Authorization"]) {
-          setAuthToken(localStorage["Authorization"]);
+        localStorage.setItem('Authorization', response.data.accessToken);
+        if (localStorage['Authorization']) {
+          setAuthToken(localStorage['Authorization']);
         }
         dispatch(loadUser());
         dispatch(showRegisterModal());
@@ -105,7 +105,7 @@ export const logout =
   };
 
 export const changePasswordUser = createAsyncThunk(
-  "api/users/changePassword",
+  'api/users/changePassword',
   async (changePasswordForm: changePasswordForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(

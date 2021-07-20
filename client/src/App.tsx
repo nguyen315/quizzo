@@ -13,8 +13,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/landingPage" component={LandingPage} />
+          <Route exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/about" component={About} />
         </Switch>
       </Router>

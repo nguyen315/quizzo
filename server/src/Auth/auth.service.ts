@@ -40,7 +40,7 @@ export class AuthService {
       throw new BadRequestException('your Username has been taken!');
     }
 
-    const hashRound = process.env.SALTROUND || 10;
+    const hashRound = parseInt(process.env.SALTROUNDS) || 10;
     let newUser: User;
     try {
       const hash = await bcrypt.hash(signUpDto.password, hashRound);

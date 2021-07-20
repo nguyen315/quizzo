@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
-import { showModal, loginUser } from "../../store/actions/auth/authActions";
+import {
+  showModal,
+  showRegisterModal,
+  loginUser,
+} from "../../store/actions/auth/authActions";
 import { connect } from "react-redux";
 import "../../css/auth.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
+import { AppDispatch } from "../../store/store";
 import { Link } from "react-router-dom";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const LoginForm = (props: any) => {
   const [loginForm, setLoginForm] = useState({
@@ -19,6 +25,11 @@ const LoginForm = (props: any) => {
   const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showModal());
+  };
+
+  const goToSignUp = () => {
+    dispatch(showModal());
+    dispatch(showRegisterModal());
   };
 
   const { username, password } = loginForm;
@@ -35,7 +46,7 @@ const LoginForm = (props: any) => {
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      dispatch(loginUser(loginForm));
+      const responseData = await dispatch(loginUser(loginForm));
     } catch (error) {
       console.log(error);
     }
@@ -93,9 +104,10 @@ const LoginForm = (props: any) => {
           </Modal.Body>
           <Modal.Footer>
             <Form.Text
+              className="Auth-Modal_footer forgot-pass"
               to="/"
               as={Link}
-              className="Auth-Modal_footer forgot-pass"
+              onClick={goToSignUp}
             >
               New here? <span className="hightLightText">Sign Up</span>
             </Form.Text>

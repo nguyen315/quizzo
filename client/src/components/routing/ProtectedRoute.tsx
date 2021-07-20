@@ -38,7 +38,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
               <Component {...rest} {...prop} />
             </>
           ) : (
-            <Redirect to="/landingPage" />
+            <Redirect to="/" />
           )
         }
       />

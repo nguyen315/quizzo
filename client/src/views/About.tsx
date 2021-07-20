@@ -3,7 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <div>
-      <h1>Sirô đá bào</h1>
+      <h1>Dashboard Quizzo</h1>
     </div>
   );
 };

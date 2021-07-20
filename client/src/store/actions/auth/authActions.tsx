@@ -64,18 +64,14 @@ export const loginUser = createAsyncThunk(
   async (loginForm: LoginForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
-      console.log("response.data");
       if (response.data.success) {
         localStorage.setItem("Authorization", response.data.accessToken);
         dispatch(loadUser());
-        return {};
-      } else {
       }
       dispatch(showModal());
       return response.data;
     } catch (error) {
       dispatch(showModal());
-      return {};
     }
   }
 );
@@ -88,7 +84,6 @@ export const loadUser =
         setAuthToken(localStorage["Authorization"]);
       }
       const response = await axios.get(`${apiUrl}/login`);
-      console.log(response);
       if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
@@ -118,7 +113,6 @@ export const changePasswordUser = createAsyncThunk(
         changePasswordForm
       );
       if (response.data.success) {
-      } else {
       }
 
       return response.data;

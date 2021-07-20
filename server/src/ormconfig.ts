@@ -4,7 +4,7 @@ const {
   MYSQL_HOST: HOST,
   MYSQL_USER: USER,
   MYSQL_PASSWORD: PASSWORD,
-  MYSQL_DB: DB,
+  MYSQL_DB: DB
 } = process.env;
 
 // console.log(HOST, USER, PASSWORD);
@@ -17,7 +17,7 @@ const config: MysqlConnectionOptions = {
   password: PASSWORD,
   database: DB,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: true,
+  synchronize: true
 };
 
 export default config;

@@ -1,10 +1,16 @@
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { EAction, User, LoginForm, registerForm } from '../types';
-import store from '../../store';
-import { setAuthToken } from '../../../utils/setAuthToken';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiUrl } from '../types';
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  EAction,
+  User,
+  LoginForm,
+  registerForm,
+  changePasswordForm,
+} from "../types";
+import store from "../../store";
+import { setAuthToken } from "../../../utils/setAuthToken";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { apiUrl } from "../types";
 
 export interface IAction {
   type: EAction;
@@ -40,17 +46,16 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data.success) {
-        localStorage.setItem('token', response.data.accessToken);
-        if (localStorage['token']) {
-          setAuthToken(localStorage['token']);
+        localStorage.setItem("Authorization", response.data.accessToken);
+        if (localStorage["Authorization"]) {
+          setAuthToken(localStorage["Authorization"]);
         }
         dispatch(loadUser());
         dispatch(showRegisterModal());
       }
       return response.data;
-    } catch (error) {
-      dispatch(showRegisterModal());
-    }
+    } catch (error) {}
+    dispatch(showRegisterModal());
   }
 );
 
@@ -59,11 +64,9 @@ export const loginUser = createAsyncThunk(
   async (loginForm: LoginForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
-      console.log('response.data');
       if (response.data.success) {
         localStorage.setItem('Authorization', response.data.accessToken);
         dispatch(loadUser());
-      } else {
       }
       dispatch(showModal());
       return response.data;
@@ -81,7 +84,6 @@ export const loadUser =
         setAuthToken(localStorage['Authorization']);
       }
       const response = await axios.get(`${apiUrl}/login`);
-      console.log(response);
       if (response.data !== undefined) {
         dispatch({
           type: EAction.login,
@@ -101,6 +103,23 @@ export const logout =
       payload: { isAuthenticated: false, user: null }
     });
   };
+
+export const changePasswordUser = createAsyncThunk(
+  "api/users/changePassword",
+  async (changePasswordForm: changePasswordForm, { dispatch, getState }) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/users/changePassword`,
+        changePasswordForm
+      );
+      if (response.data.success) {
+      }
+
+      return response.data;
+    } catch (error) {}
+    dispatch(showModal());
+  }
+);
 
 export const showModal =
   () =>

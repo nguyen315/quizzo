@@ -1,12 +1,27 @@
-import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
-import Spinner from "react-bootstrap/Spinner";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
+import { useDispatch, connect } from 'react-redux';
+import { loadUser } from '../../store/actions/auth/authActions';
+import store from '../../store/store';
 // import NavbarMenu from "../layouts/NavbarMenu";
 
-const ProtectedRoute = (props: any, { component: Component, ...rest }: any) => {
-  console.log(props.auth);
-  if (props.auth.authLoading) {
+interface IProps {
+  exact?: boolean;
+  path: string;
+  component: React.ComponentType<any>;
+}
+
+const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(loadUser());
+    };
+    fetchData();
+  }, []);
+
+  if (store.getState().auth.authLoading) {
     return (
       <div className="spinner-container">
         <Spinner animation="border" variant="info" />
@@ -17,7 +32,7 @@ const ProtectedRoute = (props: any, { component: Component, ...rest }: any) => {
       <Route
         {...rest}
         render={(prop) =>
-          props.auth.isAuthenticated === true ? (
+          store.getState().auth.isAuthenticated === true ? (
             <>
               {/* <NavbarMenu /> */}
               <Component {...rest} {...prop} />
@@ -31,8 +46,8 @@ const ProtectedRoute = (props: any, { component: Component, ...rest }: any) => {
   }
 };
 
-const mapStateToProps = (state: any) => {
+const mapStatetoProps = (state: any) => {
   return { auth: state.auth };
 };
 
-export default connect(mapStateToProps)(ProtectedRoute);
+export default connect(mapStatetoProps)(ProtectedRoute);

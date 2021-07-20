@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import rootReducer from "./reducers/index";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers/index';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {};
 
@@ -12,5 +12,7 @@ const store = createStore(
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

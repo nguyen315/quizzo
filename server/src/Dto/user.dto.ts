@@ -28,4 +28,3 @@ export class SignUpDto {
   @IsDefined()
   confirmPassword: string;
 }
-

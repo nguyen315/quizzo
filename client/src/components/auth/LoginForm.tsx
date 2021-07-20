@@ -1,20 +1,35 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
-import { showModal, loginUser } from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
+import React, { useState, useCallback } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import {
+  showModal,
+  showRegisterModal,
+  loginUser
+} from '../../store/actions/auth/authActions';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
+import { AppDispatch } from '../../store/store';
+import { Link } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const LoginForm = (props: any) => {
   const [loginForm, setLoginForm] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: ''
   });
 
   const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showModal());
+  };
+
+  const goToSignUp = () => {
+    dispatch(showModal());
+    dispatch(showRegisterModal());
   };
 
   const { username, password } = loginForm;
@@ -24,14 +39,14 @@ const LoginForm = (props: any) => {
   };
 
   const resetFormLogin = () => {
-    setLoginForm({ username: "", password: "" });
+    setLoginForm({ username: '', password: '' });
     setShowModal();
   };
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      dispatch(loginUser(loginForm));
+      const responseData = await dispatch(loginUser(loginForm));
     } catch (error) {
       console.log(error);
     }
@@ -39,15 +54,22 @@ const LoginForm = (props: any) => {
 
   return (
     <>
-      <Modal show={props.auth.showModal} onHide={resetFormLogin}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login Form</Modal.Title>
+      <Modal
+        className="Auth-Modal"
+        show={props.auth.showModal}
+        onHide={resetFormLogin}
+      >
+        <Modal.Header className="Auth-Modal_header" closeButton>
+          <Modal.Title className="Auth-Modal_title">Log In</Modal.Title>
         </Modal.Header>
         <Form onSubmit={login}>
           <Modal.Body>
-            <Form.Group>
-              <Form.Label>Username</Form.Label>
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faUser} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="text"
                 placeholder="Username"
                 name="username"
@@ -56,31 +78,39 @@ const LoginForm = (props: any) => {
                 value={username}
                 onChange={onChangeLoginForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Group>
+
+            <Form.Group className="groupInput">
+              <Form.Label className="iconInput">
+                <FontAwesomeIcon icon={faUnlockAlt} />
+              </Form.Label>
               <Form.Control
+                className="Auth-Modal_input"
                 type="password"
                 placeholder="********"
                 name="password"
                 value={password}
                 onChange={onChangeLoginForm}
               />
-              <Form.Text id="title-help" muted>
-                Required
-              </Form.Text>
             </Form.Group>
+            <Form.Text to="/forgotPassword" as={Link} className="forgot-pass">
+              Forgot <span className="hightLightText">password</span>
+            </Form.Text>
+            <div className="Auth-Modal_button">
+              <Button className="" variant="primary" type="submit">
+                Login
+              </Button>
+            </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={resetFormLogin}>
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
+            <Form.Text
+              className="Auth-Modal_footer forgot-pass"
+              to="/"
+              as={Link}
+              onClick={goToSignUp}
+            >
+              New here? <span className="hightLightText">Sign Up</span>
+            </Form.Text>
           </Modal.Footer>
         </Form>
       </Modal>

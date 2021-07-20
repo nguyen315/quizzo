@@ -85,7 +85,7 @@ export const loadUser =
       }
       const response = await axios.get(`${apiUrl}/login`);
       if (response.data !== undefined) {
-        dispatch({
+        await dispatch({
           type: EAction.login,
           payload: { isAuthenticated: true, user: response.data }
         });

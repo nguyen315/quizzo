@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import PropTypes from "prop-types";
-import { Container } from "react-bootstrap";
-import { BsFillPersonFill } from "react-icons/bs";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
+import { Container } from 'react-bootstrap';
+import { BsFillPersonFill } from 'react-icons/bs';
+import { connect, useDispatch } from 'react-redux';
 import {
   showModal,
   showRegisterModal,
-  logout,
-} from "../../store/actions/auth/authActions";
-import LoginForm from "../auth/LoginForm";
-import RegisterForm from "../auth/RegisterForm";
-import "../../css/landing/navbar.css";
-import store from "../../store/store";
-import { loadUser } from "../../store/actions/auth/authActions";
-import logoutIcon from "../../assets/logout.svg";
+  logout
+} from '../../store/actions/auth/authActions';
+import LoginForm from '../auth/LoginForm';
+import RegisterForm from '../auth/RegisterForm';
+import '../../css/landing/navbar.css';
+import store from '../../store/store';
+import { loadUser } from '../../store/actions/auth/authActions';
+import logoutIcon from '../../assets/logout.svg';
 
 // import { User } from "../../store/actions/types";
 

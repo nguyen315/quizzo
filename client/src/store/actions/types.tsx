@@ -1,13 +1,13 @@
 import {
   LoginAction,
   ShowModalAction,
-  ShowRegisterModalAction,
-} from "./auth/authActions";
+  ShowRegisterModalAction
+} from './auth/authActions';
 
 export enum EAction {
-  showModal = "SHOW_MODAL",
-  login = "SET_AUTH",
-  showRegisterModal = "SHOW_REGISTER_MODAL",
+  showModal = 'SHOW_MODAL',
+  login = 'SET_AUTH',
+  showRegisterModal = 'SHOW_REGISTER_MODAL'
 }
 
 export type Action = LoginAction | ShowModalAction | ShowRegisterModalAction;
@@ -36,6 +36,6 @@ export type changePasswordForm = {
 };
 
 export const apiUrl =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:5000/api"
-    : "https://quizzo-service.herokuapp.com/api";
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:5000/api'
+    : 'https://quizzo-service.herokuapp.com/api';

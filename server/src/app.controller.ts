@@ -5,7 +5,7 @@ import {
   Body,
   Request,
   UseGuards,
-  Response,
+  Response
 } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/Auth/local.auth.guard';
 import { JwtAuthGuard } from './Auth/jwt-auth.guard';
@@ -20,7 +20,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   @Get()
@@ -34,7 +34,7 @@ export class AppController {
     const token = await this.authService.login(req.user);
     res.status(200).json({
       success: true,
-      accessToken: token.access_token,
+      accessToken: token.access_token
     });
   }
 

@@ -16,13 +16,13 @@ export class UserController {
   @Get(':id')
   async getOne(
     @Request() req,
-    @Param('id') id: number,
+    @Param('id') id: number
   ): Promise<Omit<User, 'password'>> {
     // Check userId from request token match with userId you want to get info
     if (req.user.id != id) {
       throw new HttpException(
         'FORBIDDEN You do not have right to access this resource',
-        HttpStatus.FORBIDDEN,
+        HttpStatus.FORBIDDEN
       );
     }
     const user = await this.userService.findOne(id);

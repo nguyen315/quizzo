@@ -16,12 +16,12 @@ import { JwtStrategy } from './jwt.strategy';
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: jwtConstants.secret
       // signOptions: { expiresIn: '90s' },
-    }),
+    })
   ],
   controllers: [],
   providers: [AuthService, LocalStrategy, JwtStrategy],
-  exports: [AuthService, JwtModule],
+  exports: [AuthService, JwtModule]
 })
 export class AuthModule {}

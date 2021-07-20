@@ -99,7 +99,8 @@ export class UserService {
   }
 
   async generateSalt() {
-    const salt = await bcrypt.genSalt();
+    const SALTROUNDS = parseInt(process.env.SALTROUNDS) || 10
+    const salt = await bcrypt.genSalt(SALTROUNDS)
     return salt
   }
  

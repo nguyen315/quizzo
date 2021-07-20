@@ -42,13 +42,11 @@ const LoginForm = (props: any) => {
     setLoginForm({ username: "", password: "" });
     setShowModal();
   };
-  // const appDispatch: AppDispatch = useDispatch();
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
       const responseData = await dispatch(loginUser(loginForm));
-      // const originalPromiseResult = unwrapResult(responseData);
     } catch (error) {
       console.log(error);
     }

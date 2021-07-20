@@ -1,5 +1,5 @@
-import React from "react";
-import "../../css/landing/decorated-footer.css";
+import React from 'react';
+import '../../css/landing/decorated-footer.css';
 
 const Footer: React.FC = () => {
   return (

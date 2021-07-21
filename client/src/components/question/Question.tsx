@@ -15,7 +15,7 @@ const Question = (props: { question: any }) => {
   return (
     <Card className="question" onClick={toggleAnswers}>
       <div className="img" style={{ backgroundColor: '#AAA' }}>
-        <img src="#" />
+        <img src={props.question.image || ''} />
       </div>
       <div className="content">
         <Card.Header>

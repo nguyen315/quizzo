@@ -6,11 +6,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { connect, useDispatch } from 'react-redux';
-import {
-  showModal,
-  showRegisterModal,
-  logout
-} from '../../store/actions/auth/authActions';
+import { showModal, showRegisterModal } from '../../store/slices/auth.slice';
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
 import '../../css/landing/navbar.css';
@@ -31,7 +27,7 @@ const MyNavbar: React.FC = (props: any) => {
   };
 
   const logoutUser = () => {
-    dispatch(logout());
+    //dispatch(logout());
   };
 
   useEffect(() => {

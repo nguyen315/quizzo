@@ -7,7 +7,7 @@ import {
   showModal,
   showRegisterModal,
   loginUser
-} from '../../store/actions/auth/authActions';
+} from '../../store/slices/auth.slice';
 import { connect } from 'react-redux';
 import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,16 +15,17 @@ import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 import { AppDispatch } from '../../store/store';
 import { Link, useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const LoginForm = (props: any) => {
+  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     username: '',
     password: ''
   });
 
-  const history = useHistory();
-
-  const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showModal());
   };
@@ -59,7 +60,7 @@ const LoginForm = (props: any) => {
     <>
       <Modal
         className="Auth-Modal"
-        show={props.auth.showModal}
+        show={auth.showModal}
         onHide={resetFormLogin}
       >
         <Modal.Header className="Auth-Modal_header" closeButton>
@@ -121,8 +122,4 @@ const LoginForm = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { auth: state.auth };
-};
-
-export default connect(mapStateToProps)(LoginForm);
+export default LoginForm;

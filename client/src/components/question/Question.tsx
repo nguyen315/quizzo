@@ -14,17 +14,25 @@ const Question = (props: { question: any }) => {
 
   return (
     <Card className="question" onClick={toggleAnswers}>
-      <Card.Header>Question ID: {props.question.id} </Card.Header>
-      <Card.Body>
-        <blockquote className="blockquote mb-0">
-          <p>{props.question.title}</p>
-        </blockquote>
+      <div className="img" style={{ backgroundColor: '#AAA' }}>
+        <img src="#" />
+      </div>
+      <div className="content">
+        <Card.Header>
+          <div>Question ID: {props.question.id}</div>
+          <div>Tags: {props.question.tagId}</div>
+        </Card.Header>
+        <Card.Body>
+          <blockquote className="blockquote mb-0">
+            <p>{props.question.title}</p>
+          </blockquote>
 
-        {isShowAnswers &&
-          props.question.answers.map((answer: any) => (
-            <Answer answer={answer} />
-          ))}
-      </Card.Body>
+          {isShowAnswers &&
+            props.question.answers.map((answer: any) => (
+              <Answer answer={answer} />
+            ))}
+        </Card.Body>
+      </div>
     </Card>
   );
 };

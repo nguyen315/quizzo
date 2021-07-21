@@ -22,6 +22,8 @@ const data = [
     id: 1,
     user_id: 1,
     title: 'Question title #1',
+    image: '',
+    tagId: '1',
     answers: [
       {
         id: 1,
@@ -51,13 +53,14 @@ const data = [
         createdAt: 123,
         updatedAt: 456
       }
-    ],
-    image: ''
+    ]
   },
   {
     id: 2,
     user_id: 1,
     title: 'Question title #2',
+    image: '',
+    tagId: '1',
     answers: [
       {
         id: 1,
@@ -87,20 +90,19 @@ const data = [
         createdAt: 123,
         updatedAt: 456
       }
-    ],
-    image: ''
+    ]
   }
 ];
 
 const ListQuestions: React.FC = (props: any) => {
   return (
-    <>
+    <Container fluid>
       <MyNavbar />
       <SearchBar />
       {data.map((question) => (
         <Question question={question} />
       ))}
-    </>
+    </Container>
   );
 };
 

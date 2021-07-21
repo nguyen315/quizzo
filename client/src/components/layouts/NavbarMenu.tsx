@@ -8,7 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 import {
   showModal,
   showRegisterModal
-} from '../../store/actions/auth/authActions';
+} from '../../store/slices/auth.slice';
 import { Link } from 'react-router-dom';
 import store from '../../store/store';
 import LoginForm from '../auth/LoginForm';

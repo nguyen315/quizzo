@@ -3,7 +3,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import { showRegisterModal, showModal } from '../../store/slices/auth.slice';
+import {
+  showRegisterModal,
+  showModal,
+  registerUser
+} from '../../store/slices/auth.slice';
 import { connect } from 'react-redux';
 import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -54,7 +58,7 @@ const RegisterForm: React.FC = (props: any) => {
   const register = async (event: any) => {
     event.preventDefault();
     try {
-      //dispatch(registerUser(registerForm));
+      dispatch(registerUser(registerForm));
     } catch (error) {
       console.log(error);
     }

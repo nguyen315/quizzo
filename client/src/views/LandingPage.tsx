@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loadUser } from '../store/actions/auth/authActions';
+import { loadUser } from '../store/slices/auth.slice';
 import QuizzoTitle from '../components/layouts/QuizzoTitle';
 import MyNavbar from '../components/layouts/MyNavbar';
 import PINField from '../components/layouts/PINField';

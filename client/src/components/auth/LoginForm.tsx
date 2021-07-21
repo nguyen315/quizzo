@@ -3,8 +3,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
-import { showModal, showRegisterModal } from '../../store/slices/auth.slice';
-import { loginUser } from '../../store/actions/actions';
+import {
+  showModal,
+  showRegisterModal,
+  loginUser
+} from '../../store/slices/auth.slice';
 import { connect } from 'react-redux';
 import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,13 +19,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
 const LoginForm = (props: any) => {
+  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     username: '',
     password: ''
   });
 
-  const auth = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showModal());
   };

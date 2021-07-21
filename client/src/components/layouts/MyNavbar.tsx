@@ -18,12 +18,9 @@ import store, { RootState } from '../../store/store';
 import { loadUser } from '../../store/slices/auth.slice';
 import logoutIcon from '../../assets/logout.svg';
 
-// import { User } from "../../store/actions/types";
-
 const MyNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  console.log(auth);
   const showLoginForm = () => {
     dispatch(showModal());
   };

@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { AnswerQuestion } from '../../answer-question/entities/answer-question.entity';
+import { Answer } from '../../answer/entities/answer.entity';
 
 @Entity()
 export class Question {
@@ -18,9 +18,6 @@ export class Question {
 
   //   @Column()
   //   playerChoiceId: string;
-
-  // @OneToMany(() => AnswerQuestion, (answer) => answer.question)
-  // answers: AnswerQuestion[];
 
   @Column({
     default: ''
@@ -43,4 +40,7 @@ export class Question {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Answer, (answer) => answer.question)
+  answers: Answer[];
 }

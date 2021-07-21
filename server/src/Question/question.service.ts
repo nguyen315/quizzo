@@ -4,36 +4,52 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
+import { Answer } from 'src/answer/entities/answer.entity';
 @Injectable()
 export class QuestionService {
   constructor(
-    @InjectRepository(Question) private questionRepository: Repository<Question>
+    @InjectRepository(Question)
+    private questionRepository: Repository<Question>,
+    @InjectRepository(Answer) private answerRepository: Repository<Answer>
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto, userId: string) {
-    const createdQuestion = this.questionRepository.create({
+    const newQuestion = {
       ...createQuestionDto,
       userId: userId
-    });
-    await this.questionRepository.save(createdQuestion);
-    return createdQuestion;
+    };
+
+    const createdQuestion = this.questionRepository.create(newQuestion);
+    return await this.questionRepository.save(createdQuestion);
   }
 
-  findAll(): Promise<Question[]> {
-    return this.questionRepository.find();
+  async findAll() {
+    const questions = await this.questionRepository.find();
+    const responseData = [];
+    let question_id = null;
+    let answers = null;
+    for (const idx in questions) {
+      question_id = questions[idx].id;
+      answers = await this.answerRepository.find({
+        question_id: question_id
+      });
+      responseData[idx] = { ...questions[idx], answers: answers };
+    }
+    return responseData;
   }
 
-  findOne(id: number) {
-    return this.questionRepository.findOne(id);
+  async findOne(id: number) {
+    const answers = await this.answerRepository.find({ question_id: id });
+    const question = await this.questionRepository.findOne(id);
+    return { ...question, answers };
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    this.questionRepository.update(id, updateQuestionDto);
-    return this.findOne(id);
+  async update(id: number, updateQuestionDto: UpdateQuestionDto) {
+    await this.questionRepository.update(id, updateQuestionDto);
+    return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return this.questionRepository.delete(id);
+  async remove(id: number) {
+    return await this.questionRepository.delete(id);
   }
 }

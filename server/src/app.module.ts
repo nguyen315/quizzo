@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+import { QuestionModule } from './Question/question.module';
+import { AnswerQuestionModule } from './answer-question/answer-question.module';
+import { TagQuestionModule } from './tag-question/tag-question.module';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
 
@@ -23,7 +26,10 @@ import ormConfigProd from './config/orm.config.prod';
       imports: [ConfigModule],
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd
-    })
+    }),
+    QuestionModule,
+    AnswerQuestionModule,
+    TagQuestionModule
   ],
   controllers: [AppController],
   providers: [AppService]

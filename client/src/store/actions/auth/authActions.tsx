@@ -45,7 +45,7 @@ export const registerUser = createAsyncThunk(
   async (registerForm: registerForm, { dispatch, getState }) => {
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
-      if (response.data.success) {
+      if (response.data) {
         localStorage.setItem('Authorization', response.data.accessToken);
         if (localStorage['Authorization']) {
           setAuthToken(localStorage['Authorization']);

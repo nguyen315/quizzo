@@ -22,14 +22,14 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ default: '' })
   firstName: string;
 
-  @Column()
+  @Column({ default: '' })
   lastName: string;
 
-  //@Column()
-  //avartar: string;
+  @Column({ default: '' })
+  avartar: string;
 
   @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
   users: AnonymousUser[];

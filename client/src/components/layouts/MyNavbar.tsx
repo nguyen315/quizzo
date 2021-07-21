@@ -17,6 +17,7 @@ import '../../css/landing/navbar.css';
 import store, { RootState } from '../../store/store';
 import { loadUser } from '../../store/slices/auth.slice';
 import logoutIcon from '../../assets/logout.svg';
+import { setAuthToken } from '../../utils/setAuthToken';
 
 const MyNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -29,6 +30,8 @@ const MyNavbar: React.FC = (props: any) => {
   };
 
   const logoutUser = () => {
+    localStorage.removeItem('Authorization');
+    setAuthToken(null);
     dispatch(logOut());
   };
 

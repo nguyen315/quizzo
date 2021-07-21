@@ -1,43 +1,44 @@
-import { User } from 'src/User/user.entity'
-import { 
-    BeforeInsert,
-    Column,
-    CreateDateColumn,
-    Entity, 
-    OneToOne, 
-    JoinColumn,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
-} from "typeorm";
-import * as securePin from "secure-pin";
+import { User } from 'src/User/user.entity';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import * as securePin from 'secure-pin';
 
 @Entity()
 export class Room {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @OneToOne(type => User) @JoinColumn()
-    user_id: User;
+  @OneToOne(() => User, user => user.id)
+  @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
+  user: User;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    pinCode: string;
+  @Column()
+  pinCode: string;
 
-    @BeforeInsert()
-    async addPinCode() {
-        securePin.generatePin(6, (pin) => {
-            this.pinCode = pin;
-        });
-    }
+  @BeforeInsert()
+  async addPinCode() {
+    securePin.generatePin(6, (pin) => {
+      this.pinCode = pin;
+    });
+  }
 
-    @Column({ default: 15 })
-    timeUp: number;
+  @Column({ default: 15 })
+  timeUp: number;
 
-    @CreateDateColumn()
-    created_at: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updated_at: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

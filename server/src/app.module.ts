@@ -1,3 +1,4 @@
+import { RoomModule } from './Room/room.module';
 import { AuthModule } from './Auth/auth.module';
 import { UserModule } from './User/user.module';
 import { Module } from '@nestjs/common';
@@ -10,6 +11,7 @@ import ormConfigProd from './config/orm.config.prod';
 
 @Module({
   imports: [
+    RoomModule,
     AuthModule,
     UserModule,
 

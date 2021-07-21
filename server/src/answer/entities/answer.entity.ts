@@ -2,30 +2,34 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
-  OneToMany,
+  ManyToOne,
+  JoinColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import { Question } from 'src/Question/entities/question.entity';
 
 @Entity()
-export class AnswerQuestion {
+export class Answer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToMany(() => Question, (questionId) => questionId.id)
-  question: Question;
+  @Column()
+  question_id: number;
 
   @Column()
-  title: string;
+  content: string;
 
   @Column()
-  isChoice: boolean;
+  isCorrect: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => Question, (question) => question.answers, { eager: false })
+  @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
+  question: Question;
 }

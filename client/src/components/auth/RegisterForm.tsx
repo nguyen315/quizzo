@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   showRegisterModal,
-  registerUser,
-  showModal
-} from '../../store/actions/auth/authActions';
+  showModal,
+  registerUser
+} from '../../store/slices/auth.slice';
 import { connect } from 'react-redux';
 import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,7 @@ import {
   faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../store/store';
 
 const RegisterForm: React.FC = (props: any) => {
   const [registerForm, setRegisterForm] = useState({
@@ -25,6 +26,8 @@ const RegisterForm: React.FC = (props: any) => {
     password: '',
     confirmPassword: ''
   });
+
+  const auth = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
   const setShowModal = () => {
@@ -65,7 +68,7 @@ const RegisterForm: React.FC = (props: any) => {
     <>
       <Modal
         className="Auth-Modal"
-        show={props.auth.showRegisterModal}
+        show={auth.showRegisterModal}
         onHide={resetFormRegister}
       >
         <Modal.Header className="Auth-Modal_header" closeButton>
@@ -151,8 +154,4 @@ const RegisterForm: React.FC = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { auth: state.auth };
-};
-
-export default connect(mapStateToProps)(RegisterForm);
+export default RegisterForm;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, connect } from 'react-redux';
-import { loadUser } from '../../store/actions/auth/authActions';
+import { loadUser } from '../../store/slices/auth.slice';
 import store from '../../store/store';
 // import NavbarMenu from "../layouts/NavbarMenu";
 

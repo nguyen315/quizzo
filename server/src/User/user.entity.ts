@@ -1,9 +1,11 @@
 import { AnonymousUser } from 'src/AnonymousUsers/anonumousUser.entity';
+import { Room } from 'src/Room/room.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -30,6 +32,9 @@ export class User {
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  // @OneToOne (() => Room, (room) => room.user)
+  // room: Room;
 
   @CreateDateColumn()
   created_at: Date;

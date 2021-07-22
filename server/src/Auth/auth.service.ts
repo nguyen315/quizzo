@@ -14,14 +14,20 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignUpDto } from 'src/Dto/user.dto';
 
+import { MailService } from 'src/mail/mail.service';
+import { sign } from 'crypto';
+
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService, 
+    private mailService: MailService
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
+
     if (signUpDto.password !== signUpDto.confirmPassword) {
       throw new BadRequestException(
         'Password and Confirmation are not identical.'
@@ -52,6 +58,9 @@ export class AuthService {
 
       // extract password before return
       const { password, ...result } = newUser;
+
+      await this.mailService.sendUserConfirmation(signUpDto, token);
+      
       return result;
     } catch (err) {
       // throw what error

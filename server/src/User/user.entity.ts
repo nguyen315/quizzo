@@ -28,8 +28,8 @@ export class User {
   @Column({ default: '' })
   lastName: string;
 
-  //@Column()
-  //avartar: string;
+  @Column({ default: '' })
+  avartar: string;
 
   @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
   users: AnonymousUser[];

@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Room } from './room.entity';
 import { CreateRoomDto } from '../Dto/Room/create-room.dto';
+import { UpdateRoomDto } from '../Dto/Room/update-room.dto'
 import { User } from 'src/User/user.entity';
 
 @Injectable()
@@ -16,12 +17,11 @@ export class RoomService {
   ) {}
 
   async create(createRoomDto: CreateRoomDto, user_id: number) {
-    const newRoom = await this.roomRepository.create({
+    const createdRoom = await this.roomRepository.create({
       ...createRoomDto,
-      user_id // Get overloaded error here
+      user_id: user_id
     });
-    this.roomRepository.save(newRoom);
-    return newRoom;
+    return await this.roomRepository.save(createdRoom);
   }
 
   findAll(): Promise<Room[]> {
@@ -30,5 +30,14 @@ export class RoomService {
 
   findOne(id: number) {
     return this.roomRepository.findOne(id);
+  }
+
+	update(id: number, updateRoomDto: UpdateRoomDto) {
+    this.roomRepository.update(id, updateRoomDto);
+    return this.findOne(id);
+  }
+
+  deleteOne(id: number) {
+    return this.roomRepository.delete(id);
   }
 }

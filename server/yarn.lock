@@ -5398,6 +5398,11 @@ schema-utils@^3.0.0:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
+secure-pin@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/secure-pin/-/secure-pin-1.0.14.tgz#6e8bd00dc85ec7743bf53085a654b2882e3a34e2"
+  integrity sha1-bovQDchex3Q79TCFplSyiC46NOI=
+
 "semver@2 || 3 || 4 || 5", semver@^5.5.0, semver@^5.6.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"

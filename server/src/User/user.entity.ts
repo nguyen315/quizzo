@@ -15,6 +15,12 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
+  users: AnonymousUser[];
+
+  @OneToMany (() => Room, (room) => room.user)
+  room: Room[];
+
   @Column()
   email: string;
 
@@ -27,14 +33,8 @@ export class User {
   //@Column()
   //avartar: string;
 
-  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
-  users: AnonymousUser[];
-
   @Column({ default: false })
   isAdmin: boolean;
-
-  // @OneToOne (() => Room, (room) => room.user)
-  // room: Room;
 
   @CreateDateColumn()
   created_at: Date;

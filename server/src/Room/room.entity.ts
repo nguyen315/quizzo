@@ -4,8 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -16,11 +16,9 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @OneToOne(() => User, user => user.id)
-  // @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
-
-  @Column()
-  user_id: number;
+  @ManyToOne(() => User, user => user.id, { eager: false })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 
   @Column()
   name: string;

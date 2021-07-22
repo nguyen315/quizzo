@@ -13,34 +13,43 @@ import { User } from 'src/User/user.entity';
 @Injectable()
 export class RoomService {
   constructor(
-    @InjectRepository(Room) private roomRepository: Repository<Room>
+    @InjectRepository(Room) private roomRepository: Repository<Room>,
+    @InjectRepository(Room) private userRepository: Repository<User>
   ) {}
 
-  async create(createRoomDto: CreateRoomDto, user_id: number) {
+  async create(createRoomDto: CreateRoomDto, user_id: User) {
     const newRoom = {
       ...createRoomDto,
       user_id: user_id,
       pinCode: Math.floor(100000 + Math.random() * 900000)
     };
     const createdRoom = await this.roomRepository.create(newRoom);
-    console.log(createdRoom);
     return await this.roomRepository.save(createdRoom);
   }
 
   async findAll() {
-    return await this.roomRepository.find();
+    const users = await this.userRepository.find()
+    const response = [];
+    for (const user of users) {
+      let user_id = user.id;
+      let rooms = await this.roomRepository.find({
+        user_id: user_id // No overload matches this call errors!
+      });
+      response.push({ ...user, rooms: rooms});
+    }
+    return response;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.roomRepository.findOne(id);
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto) {
+  async update(id: number, updateRoomDto: UpdateRoomDto) {
     this.roomRepository.update(id, updateRoomDto);
     return this.findOne(id);
   }
 
-  deleteOne(id: number) {
+  async deleteOne(id: number) {
     return this.roomRepository.delete(id);
   }
 }

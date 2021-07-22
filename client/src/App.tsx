@@ -9,6 +9,7 @@ import Landing from './views/Landing';
 import About from './views/About';
 import Dashboard from './views/Dashboard';
 import ListQuestions from './views/ListQuestions';
+import Socket from './views/Socket';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
             path="/list-questions"
             component={ListQuestions}
           />
+          <ProtectedRoute exact path="/socket" component={Socket} />
         </Switch>
       </Router>
     </Provider>

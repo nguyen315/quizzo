@@ -33,7 +33,7 @@ export class RoomController {
     const user = req.user;
     try {
       const createdRoom = await this.roomService.create(createRoomDto, user.id);
-      res.json({ success: true, createdRoom: createdRoom });
+      res.json({ success: true, room: createdRoom });
     } catch (error) {
       res
         .status(500)
@@ -42,7 +42,10 @@ export class RoomController {
   }
 
   @Get()
-  async findAll(@Request() req, @Response() res) {
+  async findAll(
+    @Request() req, 
+    @Response() res
+  ) {
     try {
       const rooms = await this.roomService.findAll();
       res.json({ success: true, rooms: rooms });
@@ -54,17 +57,53 @@ export class RoomController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.roomService.findOne(+id);
+  async findOne(
+    @Param('id') id: number, 
+    @Request() req, 
+    @Response() res
+  ) {
+    try {
+      const room = await this.roomService.findOne(+id);
+      res.json({ success: true, room: room });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomService.update(+id, updateRoomDto);
+  async update(
+    @Param('id') id: number, 
+    @Body() updateRoomDto: UpdateRoomDto,
+    @Request() req, 
+    @Response() res
+  ) {
+    const user = req.user;
+    try {
+      const room = await this.roomService.update(+id, updateRoomDto);
+      res.json({ success: true, room: room });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Delete(':id')
-  deleteOne(id: number) {
-    return this.roomService.deleteOne(+id);
+  async deleteOne(
+    @Param('id') id: number, 
+    @Request() req, 
+    @Response() res
+  ) {
+    const user = req.user;
+    try {
+      const deletedRoom = await this.roomService.deleteOne(+id);
+      res.json({ success: true, room: deletedRoom });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 }

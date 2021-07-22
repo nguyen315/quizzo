@@ -33,8 +33,8 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @OneToOne (() => Room, (room) => room.user)
-  room: Room;
+  // @OneToOne (() => Room, (room) => room.user)
+  // room: Room;
 
   @CreateDateColumn()
   created_at: Date;

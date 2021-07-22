@@ -16,9 +16,11 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User, user => user.id)
-  @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
-  user: User;
+  // @OneToOne(() => User, user => user.id)
+  // @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
+
+	@Column()
+  user_id: number;
 
   @Column()
   name: string;

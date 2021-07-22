@@ -6,11 +6,11 @@ const ListMessages = (props: any) => {
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
+        flexDirection: 'column-reverse',
         width: 'auto',
         backgroundColor: '#fff',
-        height: 500
+        height: 500,
+        overflow: 'scroll'
       }}
     >
       {props.messages?.map((message: any) => (

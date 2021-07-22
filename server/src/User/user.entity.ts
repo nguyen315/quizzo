@@ -22,10 +22,10 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ default: "" })
   firstName: string;
 
-  @Column()
+  @Column({ default: "" })
   lastName: string;
 
   //@Column()

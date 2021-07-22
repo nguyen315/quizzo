@@ -5,7 +5,7 @@ import '../../css/questions/answer.css';
 const Answer = (props: { answer: any }) => {
   return (
     <Card className="answerItem">
-      <Card.Body>{props.answer.title}</Card.Body>
+      <Card.Body>{props.answer.content}</Card.Body>
     </Card>
   );
 };

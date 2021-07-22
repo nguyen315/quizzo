@@ -132,7 +132,7 @@ const ListQuestions: React.FC = (props: any) => {
       <MyNavbar />
       <SearchBar />
 
-      {data.map((question) => (
+      {questions.map((question) => (
         <Question question={question} />
       ))}
     </Container>

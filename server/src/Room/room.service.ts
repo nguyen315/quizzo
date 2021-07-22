@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Room } from './room.entity';
 import { CreateRoomDto } from '../Dto/Room/create-room.dto';
-import { UpdateRoomDto } from '../Dto/Room/update-room.dto'
+import { UpdateRoomDto } from '../Dto/Room/update-room.dto';
 import { User } from 'src/User/user.entity';
 
 @Injectable()
@@ -17,22 +17,25 @@ export class RoomService {
   ) {}
 
   async create(createRoomDto: CreateRoomDto, user_id: number) {
-    const createdRoom = await this.roomRepository.create({
+    const newRoom = {
       ...createRoomDto,
-      user_id: user_id
-    });
+      user_id: user_id,
+      pinCode: Math.floor(100000 + Math.random() * 900000)
+    };
+    const createdRoom = await this.roomRepository.create(newRoom);
+    console.log(createdRoom);
     return await this.roomRepository.save(createdRoom);
   }
 
-  findAll(): Promise<Room[]> {
-    return this.roomRepository.find();
+  async findAll() {
+    return await this.roomRepository.find();
   }
 
   findOne(id: number) {
     return this.roomRepository.findOne(id);
   }
 
-	update(id: number, updateRoomDto: UpdateRoomDto) {
+  update(id: number, updateRoomDto: UpdateRoomDto) {
     this.roomRepository.update(id, updateRoomDto);
     return this.findOne(id);
   }

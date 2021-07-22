@@ -8,10 +8,11 @@ import {
   Post,
   UseGuards,
   Request,
+  Response,
   Body,
   Param,
   Delete,
-	Put
+  Put
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
 import { RoomService } from './room.service';
@@ -25,16 +26,31 @@ export class RoomController {
 
   @Post()
   async create(
-		@Request() req, 
-		@Body() createRoomDto: CreateRoomDto) 
-	{
+    @Request() req,
+    @Response() res,
+    @Body() createRoomDto: CreateRoomDto
+  ) {
     const user = req.user;
-    return await this.roomService.create(createRoomDto, user.id);
+    try {
+      const createdRoom = await this.roomService.create(createRoomDto, user.id);
+      res.json({ success: true, createdRoom: createdRoom });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Get()
-  findAll() {
-    return this.roomService.findAll();
+  async findAll(@Request() req, @Response() res) {
+    try {
+      const rooms = await this.roomService.findAll();
+      res.json({ success: true, rooms: rooms });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Get(':id')
@@ -43,15 +59,12 @@ export class RoomController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateRoomDto: UpdateRoomDto
-  ) {
+  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(+id, updateRoomDto);
   }
 
   @Delete(':id')
-	deleteOne(id: number) {
-		return this.roomService.deleteOne(+id);
-	}
+  deleteOne(id: number) {
+    return this.roomService.deleteOne(+id);
+  }
 }

@@ -19,21 +19,21 @@ export class Room {
   // @OneToOne(() => User, user => user.id)
   // @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
 
-	@Column()
+  @Column()
   user_id: number;
 
   @Column()
   name: string;
 
   @Column()
-  pinCode: string;
+  pinCode: number;
 
-  @BeforeInsert()
-  async addPinCode() {
-    securePin.generatePin(6, (pin) => {
-      this.pinCode = pin;
-    });
-  }
+  // @BeforeInsert()
+  // async addPinCode() {
+  //   securePin.generatePin(6, (pin) => {
+  //     this.pinCode = pin;
+  //   });
+  // }
 
   @Column({ default: 15 })
   timeUp: number;

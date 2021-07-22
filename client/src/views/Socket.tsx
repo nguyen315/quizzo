@@ -8,6 +8,7 @@ import ListMessages from '../components/socket/ListMessages';
 import { Container } from 'react-bootstrap';
 
 const socketUrl = `${apiUrl}/socket`;
+console.log(socketUrl);
 
 const Socket = () => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -20,12 +21,14 @@ const Socket = () => {
   ]);
 
   const configureSocket = () => {
-    const socket = socketClient(socketUrl);
-    socket.on('connection', () => {});
-    socket.on('message', (message: String) => {
+    let thissocket = socketClient('http://localhost:5000/api/', {
+      path: 'socket'
+    });
+    thissocket.on('connection', () => {});
+    thissocket.on('message', (message: String) => {
       setMessages((prevState) => prevState.concat(message));
     });
-    setSocket(socket);
+    setSocket(thissocket);
   };
 
   const handleSendMessage = () => {
@@ -34,9 +37,9 @@ const Socket = () => {
     socket.emit('send-message', message);
   };
 
-  // useEffect(() => {
-  //   configureSocket();
-  // });
+  useEffect(() => {
+    configureSocket();
+  }, []);
 
   return (
     <Container fluid>

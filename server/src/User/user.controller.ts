@@ -12,9 +12,9 @@ export class UserController {
   @Get(':id')
   async getOne(@Param('id') id: number): Promise<Omit<User, 'password'>> {
     const user = await this.userService.findOne(id);
-    // extract password before return
+    // extract password before returning
     const { password, ...result } = user;
-    return result;
+    return user;
   }
 
   @Post(':id/update-user')
@@ -26,5 +26,19 @@ export class UserController {
     this.userService.updateFirstName(id, firstname);
     this.userService.updateLastName(id, lastname);
     return 'updated successfully';
+  }
+  @Post()
+  addUser(@Body() user: User): Promise<User> {
+    return this.userService.createUser(user);
+  }
+
+  @Post(':id/change-password')
+  async changePassword(
+    @Param('id') id: number,
+    @Body('password') password: string,
+    @Body('oldPassword') oldPassword: string
+  ) {
+    await this.userService.changePassword(id, password, oldPassword);
+    return 'changed password successfully';
   }
 }

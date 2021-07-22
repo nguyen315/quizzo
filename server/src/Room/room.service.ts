@@ -14,10 +14,10 @@ import { User } from 'src/User/user.entity';
 export class RoomService {
   constructor(
     @InjectRepository(Room) private roomRepository: Repository<Room>,
-    @InjectRepository(Room) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>
   ) {}
 
-  async create(createRoomDto: CreateRoomDto, user_id: User) {
+  async create(createRoomDto: CreateRoomDto, user_id: number) {
     const newRoom = {
       ...createRoomDto,
       user_id: user_id,
@@ -28,14 +28,14 @@ export class RoomService {
   }
 
   async findAll() {
-    const users = await this.userRepository.find()
+    const users = await this.userRepository.find();
     const response = [];
+    let rooms = null;
     for (const user of users) {
       let user_id = user.id;
-      let rooms = await this.roomRepository.find({
-        user_id: user_id // No overload matches this call errors!
-      });
-      response.push({ ...user, rooms: rooms});
+      rooms = await this.roomRepository.find({ user_id: user_id });
+      console.log(rooms);
+      response.push({ ...user, rooms: rooms });
     }
     return response;
   }

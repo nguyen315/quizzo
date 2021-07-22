@@ -16,9 +16,12 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, user => user.id, { eager: false })
+  @ManyToOne(() => User, user => user.room, { eager: false })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
+
+  @Column()
+  user_id: number;
 
   @Column()
   name: string;

@@ -16,9 +16,6 @@ export class Question {
   @Column()
   userId: string;
 
-  //   @Column()
-  //   playerChoiceId: string;
-
   @Column({
     default: ''
   })

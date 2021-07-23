@@ -1,16 +1,19 @@
+import { Response } from 'express';
 import {
   Request,
   UseGuards,
   HttpException,
   HttpStatus,
+  Delete,
+  Query,
+  Controller,
+  Get,
+  Param,
   Post,
   Body,
   ParseIntPipe,
-  Req,
   Res
 } from '@nestjs/common';
-import { Controller, Get, Param } from '@nestjs/common';
-import { Response } from 'express';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -19,6 +22,10 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get()
+  getAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
   @Get(':id')
   async getOne(@Param('id') id: number): Promise<Omit<User, 'password'>> {
     // Check userId from request token match with userId you want to get info
@@ -26,6 +33,11 @@ export class UserController {
     // extract password before returning
     const { password, ...result } = user;
     return user;
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<void> {
+    return await this.userService.remove(id);
   }
 
   @Post(':id/update-user')
@@ -40,11 +52,15 @@ export class UserController {
     res.json({
       success: true
     });
-    return 'updated successfully';
   }
   @Post()
   addUser(@Body() user: User): Promise<User> {
     return this.userService.createUser(user);
+  }
+
+  @Get('activate/confirm?')
+  async activateUser(@Query('token') token: string): Promise<any> {
+    return await this.userService.setActive(token);
   }
 
   @Post(':id/change-password')

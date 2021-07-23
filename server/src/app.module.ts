@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from './mail/mail.module';
 import { QuestionModule } from './Question/question.module';
 import { TagQuestionModule } from './tag-question/tag-question.module';
 import { AnswerModule } from './answer/answer.module';
@@ -30,6 +31,7 @@ import { ChatGateway } from './chat.gateway';
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd
     }),
+    MailModule,
     QuestionModule,
     TagQuestionModule,
     AnswerModule

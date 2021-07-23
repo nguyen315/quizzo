@@ -33,18 +33,18 @@ export class User {
   @Column({ default: '' })
   avartar: string;
 
-  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
-  users: AnonymousUser[];
-
   @Column({ default: false })
   isAdmin: boolean;
-
-  // @OneToOne (() => Room, (room) => room.user)
-  // room: Room;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Room, (room) => room.user)
+  room: Room[];
+
+  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
+  users: AnonymousUser[];
 }

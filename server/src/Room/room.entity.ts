@@ -4,8 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -16,14 +16,11 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @OneToOne(() => User, user => user.id)
-  // @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
+  @Column()
+  name: string;
 
   @Column()
   user_id: number;
-
-  @Column()
-  name: string;
 
   @Column()
   pinCode: number;
@@ -43,4 +40,8 @@ export class Room {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.room, { eager: false })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 }

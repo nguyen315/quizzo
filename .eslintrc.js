@@ -1,23 +1,24 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    sourceType: "module",
+    sourceType: 'module'
   },
-  plugins: ["@typescript-eslint/eslint-plugin", "prettier"],
+  plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   extends: [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'prettier'
   ],
   env: {
     node: true,
-    jest: true,
+    jest: true
   },
   rules: {
-    "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "prettier/prettier": 2
-  },
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'prefer-const': 'off',
+    'prettier/prettier': 2
+  }
 };

@@ -1,4 +1,5 @@
 import { AnonymousUser } from 'src/AnonymousUsers/anonumousUser.entity';
+import { Room } from 'src/Room/room.entity';
 import {
   Column,
   CreateDateColumn,
@@ -31,13 +32,10 @@ export class User {
   @Column({ default: '' })
   avartar: string;
 
-  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
-  users: AnonymousUser[];
-
   @Column({ default: false })
   isAdmin: boolean;
 
-  @Column({default: false})
+  @Column({ default: false })
   isActive: boolean;
 
   @CreateDateColumn()
@@ -45,4 +43,10 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Room, (room) => room.user)
+  room: Room[];
+
+  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
+  users: AnonymousUser[];
 }

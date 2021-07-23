@@ -48,6 +48,8 @@ export class AuthService {
 
       // extract password before return
       const { password, ...result } = newUser;
+      const payload = { username: newUser.username, sub: newUser.id };
+      result['accessToken'] = this.jwtService.sign(payload);
       return result;
     } catch (err) {
       // throw what error

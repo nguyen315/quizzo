@@ -49,7 +49,7 @@ export class AppController {
   }
 
   @Post('api/sign-up')
-  async signUp(@Body() signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
+  async signUp(@Body() signUpDto: SignUpDto): Promise<any> {
     return this.authService.signUp(signUpDto);
   }
 }

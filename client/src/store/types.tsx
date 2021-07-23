@@ -8,6 +8,8 @@ export enum EAction {
 export type User = {
   username: string;
   email: string;
+  firstName: string;
+  lastName: string;
 };
 
 export type LoginForm = {
@@ -23,8 +25,8 @@ export type registerForm = {
 };
 
 export type updateProfileForm = {
-  firstName: string;
-  lastName: string;
+  firstName: string | undefined;
+  lastName: string | undefined;
 };
 
 export type changePasswordForm = {

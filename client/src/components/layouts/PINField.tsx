@@ -1,6 +1,6 @@
-import React from "react";
-import rightArrow from "../../assets/right-arrow.svg";
-import "../../css/landing/pin-field.css";
+import React from 'react';
+import rightArrow from '../../assets/right-arrow.svg';
+import '../../css/landing/pin-field.css';
 
 const PINField: React.FC = () => {
   return (

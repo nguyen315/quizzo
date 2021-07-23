@@ -58,7 +58,21 @@ export class QuestionService {
   }
 
   async update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    await this.questionRepository.update(id, updateQuestionDto);
+    const { answers, ...updateQuestion } = updateQuestionDto;
+    await this.questionRepository.update(id, updateQuestion);
+    let updatedAnswer = null;
+    let newUpdateAnswer = null;
+    let idAnswer = null;
+    const foundQuestion = await this.findOne(id);
+
+    for (const idx in answers) {
+      idAnswer = foundQuestion.answers[idx].id;
+      newUpdateAnswer = { ...answers[idx], question_id: id };
+      updatedAnswer = await this.answerRepository.update(
+        idAnswer,
+        newUpdateAnswer
+      );
+    }
     return await this.findOne(id);
   }
 

@@ -173,9 +173,7 @@ input, input:focus, textarea:focus, select:focus {
   outline: none;
   border: none;
   background-color: transparent;
-  font-size: 2em;
   font-weight: 200;
-  width: 100%;
   padding-right: 1em;
 }
 
@@ -204,10 +202,6 @@ input, input:focus, textarea:focus, select:focus {
 @media screen and (max-width: 992px) {
   #pin-field {
     padding: 10px 15px 10px 20px;
-  }
-
-  input, input:focus, textarea:focus, select:focus {
-    font-size: 1.35em;
   }
 
   .enter-arrow-btn {

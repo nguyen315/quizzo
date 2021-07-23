@@ -39,4 +39,14 @@ export class UserService {
   findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ email: email });
   }
+  
+  async setActive(id: number): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+    await this.userRepository.save({
+      ...user,
+      isActive: true
+    });
+
+    return await this.userRepository.findOne(id);
+  }
 }

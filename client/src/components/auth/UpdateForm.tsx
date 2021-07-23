@@ -10,8 +10,8 @@ const UpdateForm = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [updateForm, setUpdateForm] = useState({
-    firstName: '',
-    lastName: ''
+    firstName: auth.user?.firstName,
+    lastName: auth.user?.lastName
   });
 
   const setShowModal = () => {
@@ -26,8 +26,8 @@ const UpdateForm = (props: any) => {
 
   const resetUpdateForm = () => {
     setUpdateForm({
-      firstName: '',
-      lastName: ''
+      firstName: auth.user?.firstName,
+      lastName: auth.user?.lastName
     });
     setShowModal();
   };

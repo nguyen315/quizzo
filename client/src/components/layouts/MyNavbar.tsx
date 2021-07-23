@@ -21,6 +21,7 @@ import logoutIcon from '../../assets/logout.svg';
 import UpdateForm from '../auth/UpdateForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { setAuthToken } from '../../utils/setAuthToken';
 
 const MyNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -33,6 +34,8 @@ const MyNavbar: React.FC = (props: any) => {
   };
 
   const logoutUser = () => {
+    setAuthToken(null);
+    localStorage.removeItem('Authorization');
     dispatch(logOut());
   };
 

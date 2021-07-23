@@ -3,3 +3,5 @@ package-lock.json
 
 #environment
 .env
+
+.DS_Store

@@ -34,6 +34,7 @@ export class QuestionController {
       );
       res.json({ success: true, createdQuestion: createdQuestion });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: 'Internal server error'

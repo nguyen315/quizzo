@@ -1,18 +1,15 @@
-import React, { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import quizzoLogo from "../../assets/logo.svg";
-import logoutIcon from "../../assets/logout.svg";
-import { connect, useDispatch } from "react-redux";
-import {
-  showModal,
-  showRegisterModal,
-} from "../../store/actions/auth/authActions";
-import { Link } from "react-router-dom";
-import store from "../../store/store";
-import LoginForm from "../auth/LoginForm";
-import RegisterForm from "../auth/RegisterForm";
+import React, { useState } from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import quizzoLogo from '../../assets/logo.svg';
+import logoutIcon from '../../assets/logout.svg';
+import { connect, useDispatch } from 'react-redux';
+import { showModal, showRegisterModal } from '../../store/slices/auth.slice';
+import { Link } from 'react-router-dom';
+import store from '../../store/store';
+import LoginForm from '../auth/LoginForm';
+import RegisterForm from '../auth/RegisterForm';
 
 const NavbarMenu: React.FC = () => {
   const dispatch = useDispatch();

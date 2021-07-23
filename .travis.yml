@@ -24,11 +24,10 @@ jobs:
         - npm install
       script:
         - echo "Start Client" # will replace with test
-        - CI=false npm run build # if CI=true, then when building project will treat warning as error
       deploy:
-        provider: surge
-        project: ./client/build
-        domain: quizzo.surge.sh
+        provider: heroku
+        api_key: $HEROKU_API_KEY
+        app: quizzo-client
         on:
           branch: master
         skip_cleanup: true

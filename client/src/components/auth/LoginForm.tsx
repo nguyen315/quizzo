@@ -1,24 +1,38 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
-import { showModal, loginUser } from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
-import "../../css/auth.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import {
+  showModal,
+  showRegisterModal,
+  loginUser
+} from '../../store/slices/auth.slice';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
+import { AppDispatch } from '../../store/store';
+import { Link, useHistory } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const LoginForm = (props: any) => {
+  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: ''
   });
 
-  const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showModal());
+  };
+
+  const goToSignUp = () => {
+    dispatch(showModal());
+    dispatch(showRegisterModal());
   };
 
   const { username, password } = loginForm;
@@ -28,14 +42,15 @@ const LoginForm = (props: any) => {
   };
 
   const resetFormLogin = () => {
-    setLoginForm({ username: "", password: "" });
+    setLoginForm({ username: '', password: '' });
     setShowModal();
   };
 
   const login = async (event: any) => {
     event.preventDefault();
     try {
-      dispatch(loginUser(loginForm));
+      const responseData = await dispatch(loginUser(loginForm));
+      // responseData have field .payload.success
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +60,7 @@ const LoginForm = (props: any) => {
     <>
       <Modal
         className="Auth-Modal"
-        show={props.auth.showModal}
+        show={auth.showModal}
         onHide={resetFormLogin}
       >
         <Modal.Header className="Auth-Modal_header" closeButton>
@@ -93,9 +108,10 @@ const LoginForm = (props: any) => {
           </Modal.Body>
           <Modal.Footer>
             <Form.Text
+              className="Auth-Modal_footer forgot-pass"
               to="/"
               as={Link}
-              className="Auth-Modal_footer forgot-pass"
+              onClick={goToSignUp}
             >
               New here? <span className="hightLightText">Sign Up</span>
             </Form.Text>
@@ -106,8 +122,4 @@ const LoginForm = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { auth: state.auth };
-};
-
-export default connect(mapStateToProps)(LoginForm);
+export default LoginForm;

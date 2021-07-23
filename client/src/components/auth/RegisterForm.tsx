@@ -1,33 +1,42 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   showRegisterModal,
-  registerUser,
-} from "../../store/actions/auth/authActions";
-import { connect } from "react-redux";
-import "../../css/auth.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  showModal,
+  registerUser
+} from '../../store/slices/auth.slice';
+import { connect } from 'react-redux';
+import '../../css/auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
   faUnlockAlt,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+  faEnvelope
+} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { RootState } from '../../store/store';
 
 const RegisterForm: React.FC = (props: any) => {
   const [registerForm, setRegisterForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
+
+  const auth = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
   const setShowModal = () => {
     dispatch(showRegisterModal());
+  };
+
+  const goToLogin = () => {
+    dispatch(showRegisterModal());
+    dispatch(showModal());
   };
 
   const { username, password, email, confirmPassword } = registerForm;
@@ -38,10 +47,10 @@ const RegisterForm: React.FC = (props: any) => {
 
   const resetFormRegister = () => {
     setRegisterForm({
-      username: "",
-      password: "",
-      email: "",
-      confirmPassword: "",
+      username: '',
+      password: '',
+      email: '',
+      confirmPassword: ''
     });
     setShowModal();
   };
@@ -59,7 +68,7 @@ const RegisterForm: React.FC = (props: any) => {
     <>
       <Modal
         className="Auth-Modal"
-        show={props.auth.showRegisterModal}
+        show={auth.showRegisterModal}
         onHide={resetFormRegister}
       >
         <Modal.Header className="Auth-Modal_header" closeButton>
@@ -134,6 +143,7 @@ const RegisterForm: React.FC = (props: any) => {
               to="/"
               as={Link}
               className="Auth-Modal_footer forgot-pass"
+              onClick={goToLogin}
             >
               Login <span className="hightLightText">Here</span>
             </Form.Text>
@@ -144,8 +154,4 @@ const RegisterForm: React.FC = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { auth: state.auth };
-};
-
-export default connect(mapStateToProps)(RegisterForm);
+export default RegisterForm;

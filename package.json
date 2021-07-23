@@ -1,0 +1,36 @@
+{
+  "name": "quizzo",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eslintrc.js",
+  "dependencies": {
+    "secure-pin": "^1.0.14",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.0",
+    "prettier": "^2.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint \"client/src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\"",
+    "format": "prettier \"client/src/**/*.{ts,tsx}\" \"server/src/**/*.{ts,tsx}\" --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cvn-intern/quizzo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cvn-intern/quizzo/issues"
+  },
+  "homepage": "https://github.com/cvn-intern/quizzo#readme"
+}

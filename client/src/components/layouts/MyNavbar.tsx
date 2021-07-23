@@ -1,28 +1,31 @@
-import React, { useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import PropTypes from "prop-types";
-import { Container } from "react-bootstrap";
-import { BsFillPersonFill } from "react-icons/bs";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
+import { Container } from 'react-bootstrap';
+import { BsFillPersonFill } from 'react-icons/bs';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import {
+  logOut,
   showModal,
   showRegisterModal,
-  logout,
-} from "../../store/actions/auth/authActions";
-import LoginForm from "../auth/LoginForm";
-import RegisterForm from "../auth/RegisterForm";
-import "../../css/landing/navbar.css";
-import store from "../../store/store";
-import { loadUser } from "../../store/actions/auth/authActions";
-import logoutIcon from "../../assets/logout.svg";
-
-// import { User } from "../../store/actions/types";
+  showUpdateModal
+} from '../../store/slices/auth.slice';
+import LoginForm from '../auth/LoginForm';
+import RegisterForm from '../auth/RegisterForm';
+import '../../css/landing/navbar.css';
+import store, { RootState } from '../../store/store';
+import { loadUser } from '../../store/slices/auth.slice';
+import logoutIcon from '../../assets/logout.svg';
+import UpdateForm from '../auth/UpdateForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { setAuthToken } from '../../utils/setAuthToken';
 
 const MyNavbar: React.FC = (props: any) => {
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-
   const showLoginForm = () => {
     dispatch(showModal());
   };
@@ -31,7 +34,13 @@ const MyNavbar: React.FC = (props: any) => {
   };
 
   const logoutUser = () => {
-    dispatch(logout());
+    setAuthToken(null);
+    localStorage.removeItem('Authorization');
+    dispatch(logOut());
+  };
+
+  const update = () => {
+    dispatch(showUpdateModal());
   };
 
   useEffect(() => {
@@ -42,10 +51,14 @@ const MyNavbar: React.FC = (props: any) => {
   }, []);
 
   let navBar = null;
-  if (props.auth.user) {
+  if (auth.user) {
     navBar = (
       <>
-        <nav>Welcome {props.auth.user?.username}</nav>
+        <div>Welcome, </div>
+        <Button variant="secondary" onClick={update}>
+          <FontAwesomeIcon icon={faUser} />
+          {auth.user?.username}
+        </Button>
         <Button
           variant="secondary"
           className="font-weight-bolder text-white"
@@ -79,6 +92,7 @@ const MyNavbar: React.FC = (props: any) => {
     <>
       <LoginForm />
       <RegisterForm />
+      <UpdateForm />
       <Navbar collapseOnSelect expand="md" id="header">
         <Container>
           <Navbar.Brand></Navbar.Brand>

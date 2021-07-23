@@ -14,22 +14,22 @@ import { join } from 'path';
         secure: false,
         auth: {
           user: 'quizzo_game@outlook.com',
-          pass: 'quizzo123',
-        },
+          pass: 'quizzo123'
+        }
       },
       defaults: {
-        from: '"No Reply" <noreply@outlook.com>',
+        from: '"No Reply" <noreply@outlook.com>'
       },
       template: {
         dir: join(__dirname, 'templates'),
         adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
         options: {
-          strict: true,
-        },
-      },
-    }),
+          strict: true
+        }
+      }
+    })
   ],
   providers: [MailService],
-  exports: [MailService], // 👈 export for DI
+  exports: [MailService] // 👈 export for DI
 })
 export class MailModule {}

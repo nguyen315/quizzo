@@ -14,13 +14,26 @@ export class QuestionService {
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto, userId: string) {
+    const { answers, ...createQuestion } = createQuestionDto;
     const newQuestion = {
-      ...createQuestionDto,
+      ...createQuestion,
       userId: userId
     };
 
     const createdQuestion = this.questionRepository.create(newQuestion);
-    return await this.questionRepository.save(createdQuestion);
+    const responseQuestion = await this.questionRepository.save(
+      createdQuestion
+    );
+    let createdAnswers = [];
+    let createdAnswer = null;
+    let newAnswer = null;
+
+    for (const idx in answers) {
+      newAnswer = { ...answers[idx], question_id: responseQuestion.id };
+      createdAnswer = await this.answerRepository.create(newAnswer);
+      createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
+    }
+    return { ...responseQuestion, createdAnswers };
   }
 
   async findAll() {
@@ -50,6 +63,7 @@ export class QuestionService {
   }
 
   async remove(id: number) {
+    await this.answerRepository.delete({ question_id: id });
     return await this.questionRepository.delete(id);
   }
 }

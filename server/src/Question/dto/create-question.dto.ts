@@ -1,4 +1,5 @@
 import { IsDefined, IsString } from 'class-validator';
+import { Answer } from '../../answer/entities/answer.entity';
 
 export class CreateQuestionDto {
   @IsString()
@@ -16,4 +17,6 @@ export class CreateQuestionDto {
   @IsString()
   @IsDefined()
   tagId: string | null;
+
+  answers: any[];
 }

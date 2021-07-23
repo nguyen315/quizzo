@@ -16,10 +16,6 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, user => user.room, { eager: false })
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: User;
-
   @Column()
   user_id: number;
 
@@ -29,13 +25,6 @@ export class Room {
   @Column()
   pinCode: number;
 
-  // @BeforeInsert()
-  // async addPinCode() {
-  //   securePin.generatePin(6, (pin) => {
-  //     this.pinCode = pin;
-  //   });
-  // }
-
   @Column({ default: 15 })
   timeUp: number;
 
@@ -44,4 +33,8 @@ export class Room {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.room, { eager: false })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 }

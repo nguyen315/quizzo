@@ -22,8 +22,14 @@ export class User {
   @Column()
   password: string;
 
-  //@Column()
-  //avartar: string;
+  @Column({ default: '' })
+  firstName: string;
+
+  @Column({ default: '' })
+  lastName: string;
+
+  @Column({ default: '' })
+  avartar: string;
 
   @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
   users: AnonymousUser[];

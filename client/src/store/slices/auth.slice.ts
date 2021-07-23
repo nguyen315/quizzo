@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { users } from '../../data/users';
 import { setAuthToken } from '../../utils/setAuthToken';
 import { User } from '../types';
 import {
@@ -83,14 +84,16 @@ export const updateProfile = createAsyncThunk(
   'api/users/update',
   async (updateForm: updateProfileForm, { dispatch, getState }) => {
     try {
-      const response = await axios.post(`${apiUrl}/update`, updateForm);
+      const state: any = getState();
+      const userID = state.auth.user.id;
+      const response = await axios.post(
+        `${apiUrl}/users/${userID}/update-user`,
+        updateForm
+      );
       if (response.data.success) {
-        dispatch(loadUser);
+        dispatch(showUpdateModal());
       }
-      return response.data;
-    } catch (error) {
-      dispatch(showUpdateModal());
-    }
+    } catch (error) {}
   }
 );
 

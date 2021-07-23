@@ -1,12 +1,15 @@
 export enum EAction {
   showModal = 'SHOW_MODAL',
   login = 'SET_AUTH',
-  showRegisterModal = 'SHOW_REGISTER_MODAL'
+  showRegisterModal = 'SHOW_REGISTER_MODAL',
+  showUpdateModal = 'SHOW_UPDATE_MODAL'
 }
 
 export type User = {
   username: string;
   email: string;
+  firstName: string;
+  lastName: string;
 };
 
 export type LoginForm = {
@@ -19,6 +22,11 @@ export type registerForm = {
   email: string;
   password: string;
   confirmPassword: string;
+};
+
+export type updateProfileForm = {
+  firstName: string | undefined;
+  lastName: string | undefined;
 };
 
 export type changePasswordForm = {

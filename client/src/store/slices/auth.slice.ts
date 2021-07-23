@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { users } from '../../data/users';
 import { setAuthToken } from '../../utils/setAuthToken';
 import { User } from '../types';
 import {
@@ -8,7 +9,8 @@ import {
   LoginForm,
   registerForm,
   changePasswordForm,
-  apiUrl
+  apiUrl,
+  updateProfileForm
 } from '../types';
 
 interface State {
@@ -17,6 +19,7 @@ interface State {
   authLoading?: boolean;
   showModal?: boolean;
   showRegisterModal?: boolean;
+  showUpdateModal?: boolean;
 }
 
 const initialState: State = {
@@ -24,7 +27,8 @@ const initialState: State = {
   isAuthenticated: false,
   authLoading: false,
   showModal: false,
-  showRegisterModal: false
+  showRegisterModal: false,
+  showUpdateModal: false
 };
 
 export const loadUser =
@@ -76,6 +80,23 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  'api/users/update',
+  async (updateForm: updateProfileForm, { dispatch, getState }) => {
+    try {
+      const state: any = getState();
+      const userID = state.auth.user.id;
+      const response = await axios.post(
+        `${apiUrl}/users/${userID}/update-user`,
+        updateForm
+      );
+      if (response.data.success) {
+        dispatch(showUpdateModal());
+      }
+    } catch (error) {}
+  }
+);
+
 const authSlices = createSlice({
   name: 'auth',
   initialState,
@@ -85,6 +106,9 @@ const authSlices = createSlice({
     },
     showRegisterModal(state) {
       state.showRegisterModal = !state.showRegisterModal;
+    },
+    showUpdateModal(state) {
+      state.showUpdateModal = !state.showUpdateModal;
     },
     logIn(state, action) {
       state.isAuthenticated = action.payload.isAuthenticated;
@@ -98,5 +122,5 @@ const authSlices = createSlice({
 });
 
 export default authSlices.reducer;
-export const { showModal, showRegisterModal, logIn, logOut } =
+export const { showModal, showRegisterModal, showUpdateModal, logIn, logOut } =
   authSlices.actions;

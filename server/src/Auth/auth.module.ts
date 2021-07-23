@@ -11,6 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 import { MailModule } from 'src/mail/mail.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/User/user.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,8 @@ import { MailModule } from 'src/mail/mail.module';
     JwtModule.register({
       secret: jwtConstants.secret
       // signOptions: { expiresIn: '90s' },
-    })
+    }),
+    TypeOrmModule.forFeature([User])
   ],
   controllers: [],
   providers: [AuthService, LocalStrategy, JwtStrategy],

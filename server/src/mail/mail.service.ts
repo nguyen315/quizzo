@@ -6,18 +6,19 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user, token: string) {
-    // const url = `outlook.com/auth/confirm?token=${token}`;
-    const url = `http://localhost:5000/`
+    const url = `http://localhost:5000/api/users/activate/confirm?token=${token}`;
+    //const url = `http://localhost:5000/`
 
     await this.mailerService.sendMail({
       to: user.email,
       from: 'quizzo_game@outlook.com',
       subject: 'Welcome to Nice App! Confirm your Email',
       template: './confirmation', // `.hbs` extension is appended automatically
-      context: { // ✏️ filling curly brackets with content
+      context: {
+        // ✏️ filling curly brackets with content
         name: user.username,
-        url,
-      },
+        url
+      }
     });
   }
 }

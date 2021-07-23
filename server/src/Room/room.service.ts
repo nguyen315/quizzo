@@ -30,12 +30,14 @@ export class RoomService {
   async findAll() {
     const users = await this.userRepository.find()
     const response = [];
+    let responseUser = null;
     for (const user of users) {
       let user_id = user.id;
       let rooms = await this.roomRepository.find({
         user_id: user_id
       });
-      response.push({ ...user, rooms: rooms});
+      let { password, ...responseUser } = user;
+      response.push({ ...responseUser, rooms: rooms});
     }
     return response;
   }

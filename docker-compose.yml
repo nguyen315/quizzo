@@ -8,7 +8,7 @@ services:
       - /app/node_modules
       - ./server:/app
     ports:
-      - 8080:5000
+      - 5000:5000
     environment:
       MYSQL_HOST: mysql_container
       MYSQL_USER: root

@@ -14,12 +14,6 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
-  users: AnonymousUser[];
-
-  @OneToMany (() => Room, (room) => room.user)
-  room: Room[];
-
   @Column()
   email: string;
 
@@ -29,8 +23,14 @@ export class User {
   @Column()
   password: string;
 
-  //@Column()
-  //avartar: string;
+  @Column({ default: '' })
+  firstName: string;
+
+  @Column({ default: '' })
+  lastName: string;
+
+  @Column({ default: '' })
+  avartar: string;
 
   @Column({ default: false })
   isAdmin: boolean;
@@ -40,4 +40,10 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Room, (room) => room.user)
+  room: Room[];
+
+  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
+  users: AnonymousUser[];
 }

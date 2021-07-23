@@ -11,6 +11,7 @@ import { TagQuestionModule } from './tag-question/tag-question.module';
 import { AnswerModule } from './answer/answer.module';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
@@ -34,6 +35,6 @@ import ormConfigProd from './config/orm.config.prod';
     AnswerModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, ChatGateway]
 })
 export class AppModule {}

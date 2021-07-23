@@ -28,7 +28,7 @@ export class RoomService {
   }
 
   async findAll() {
-    const users = await this.userRepository.find()
+    const users = await this.userRepository.find();
     const response = [];
     let responseUser = null;
     for (const user of users) {

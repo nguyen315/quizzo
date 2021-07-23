@@ -8,6 +8,8 @@ const Dashboard = () => {
       <MyNavbar />
       <div>
         <Link to="/list-questions">List Questions</Link>
+        <br />
+        <Link to="/socket">Socket</Link>
       </div>
     </Container>
   );

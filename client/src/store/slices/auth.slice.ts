@@ -8,7 +8,8 @@ import {
   LoginForm,
   registerForm,
   changePasswordForm,
-  apiUrl
+  apiUrl,
+  updateProfileForm
 } from '../types';
 
 interface State {
@@ -17,6 +18,7 @@ interface State {
   authLoading?: boolean;
   showModal?: boolean;
   showRegisterModal?: boolean;
+  showUpdateModal?: boolean;
 }
 
 const initialState: State = {
@@ -24,7 +26,8 @@ const initialState: State = {
   isAuthenticated: false,
   authLoading: true,
   showModal: false,
-  showRegisterModal: false
+  showRegisterModal: false,
+  showUpdateModal: false
 };
 
 export const loadUser =
@@ -76,6 +79,21 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  'api/users/update',
+  async (updateForm: updateProfileForm, { dispatch, getState }) => {
+    try {
+      const response = await axios.post(`${apiUrl}/update`, updateForm);
+      if (response.data.success) {
+        dispatch(loadUser);
+      }
+      return response.data;
+    } catch (error) {
+      dispatch(showUpdateModal());
+    }
+  }
+);
+
 const authSlices = createSlice({
   name: 'auth',
   initialState,
@@ -85,6 +103,9 @@ const authSlices = createSlice({
     },
     showRegisterModal(state) {
       state.showRegisterModal = !state.showRegisterModal;
+    },
+    showUpdateModal(state) {
+      state.showUpdateModal = !state.showUpdateModal;
     },
     logIn(state, action) {
       state.isAuthenticated = action.payload.isAuthenticated;
@@ -98,5 +119,5 @@ const authSlices = createSlice({
 });
 
 export default authSlices.reducer;
-export const { showModal, showRegisterModal, logIn, logOut } =
+export const { showModal, showRegisterModal, showUpdateModal, logIn, logOut } =
   authSlices.actions;

@@ -9,7 +9,8 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import {
   logOut,
   showModal,
-  showRegisterModal
+  showRegisterModal,
+  showUpdateModal
 } from '../../store/slices/auth.slice';
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
@@ -17,7 +18,9 @@ import '../../css/landing/navbar.css';
 import store, { RootState } from '../../store/store';
 import { loadUser } from '../../store/slices/auth.slice';
 import logoutIcon from '../../assets/logout.svg';
-import { setAuthToken } from '../../utils/setAuthToken';
+import UpdateForm from '../auth/UpdateForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const MyNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -30,9 +33,11 @@ const MyNavbar: React.FC = (props: any) => {
   };
 
   const logoutUser = () => {
-    localStorage.removeItem('Authorization');
-    setAuthToken(null);
     dispatch(logOut());
+  };
+
+  const update = () => {
+    dispatch(showUpdateModal());
   };
 
   useEffect(() => {
@@ -46,7 +51,11 @@ const MyNavbar: React.FC = (props: any) => {
   if (auth.user) {
     navBar = (
       <>
-        <nav>Welcome {auth.user?.username}</nav>
+        <div>Welcome, </div>
+        <Button variant="secondary" onClick={update}>
+          <FontAwesomeIcon icon={faUser} />
+          {auth.user?.username}
+        </Button>
         <Button
           variant="secondary"
           className="font-weight-bolder text-white"
@@ -80,6 +89,7 @@ const MyNavbar: React.FC = (props: any) => {
     <>
       <LoginForm />
       <RegisterForm />
+      <UpdateForm />
       <Navbar collapseOnSelect expand="md" id="header">
         <Container>
           <Navbar.Brand></Navbar.Brand>

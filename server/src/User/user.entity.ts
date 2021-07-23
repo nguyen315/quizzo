@@ -23,6 +23,11 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ default: false })
+  isActivated: boolean;
+
+  //@Column()
+  //avartar: string;
   @Column({ default: '' })
   firstName: string;
 
@@ -44,6 +49,8 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @Column({ default: null })
+  token: string;
   @OneToMany(() => Room, (room) => room.user)
   room: Room[];
 

@@ -33,6 +33,13 @@ export class UserService {
     return this.userRepository.findOne({ username: userName });
   }
 
+  checkLength(text: string, minLength: number, maxLength: number) {
+    if (text.length < minLength || text.length > maxLength) {
+      return true;
+    }
+    return false;
+  }
+
   updateLastName(id: number, lastname: string) {
     if (this.checkLength(lastname, 1, 20)) {
       throw new BadRequestException(
@@ -49,13 +56,6 @@ export class UserService {
       );
     }
     return this.userRepository.update({ id: id }, { firstName: firstname });
-  }
-
-  checkLength(text: string, minLength: number, maxLength: number) {
-    if (text.length < minLength || text.length > maxLength) {
-      return true;
-    }
-    return false;
   }
 
   findByEmail(email: string): Promise<User | undefined> {

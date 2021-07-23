@@ -8,7 +8,6 @@ import ListMessages from '../components/socket/ListMessages';
 import { Container } from 'react-bootstrap';
 
 const socketUrl = `${apiUrl}/socket`;
-// console.log(socketUrl);
 
 const Socket = () => {
   const auth = useSelector((state: RootState) => state.auth);

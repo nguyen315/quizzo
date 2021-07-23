@@ -24,6 +24,8 @@ jobs:
         - npm install
       script:
         - echo "Start Client" # will replace with test
+      before_deploy:
+        - cd $TRAVIS_BUILD_DIR/client
       deploy:
         provider: heroku
         api_key: $HEROKU_API_KEY

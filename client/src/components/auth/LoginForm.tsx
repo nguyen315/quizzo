@@ -13,7 +13,7 @@ import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 import { AppDispatch } from '../../store/store';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -50,6 +50,7 @@ const LoginForm = (props: any) => {
     event.preventDefault();
     try {
       const responseData = await dispatch(loginUser(loginForm));
+      // responseData have field .payload.success
     } catch (error) {
       console.log(error);
     }

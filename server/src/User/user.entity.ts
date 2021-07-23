@@ -40,13 +40,16 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
+  @Column({ default: false })
+  isActive: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({default: null})
+  @Column({ default: null })
   token: string;
   @OneToMany(() => Room, (room) => room.user)
   room: Room[];
@@ -54,5 +57,3 @@ export class User {
   @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
   users: AnonymousUser[];
 }
-
-

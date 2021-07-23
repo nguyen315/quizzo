@@ -20,5 +20,5 @@ export class UpdateQuestionDto extends PartialType(CreateQuestionDto) {
   @IsDefined()
   tagId: string | null;
 
-  answers: Answer[];
+  answers: any[];
 }

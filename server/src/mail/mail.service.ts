@@ -6,8 +6,12 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user, token: string) {
-    const url = `http://localhost:5000/api/users/activate/confirm?token=${token}`;
-    //const url = `http://localhost:5000/`
+    const baseUrl =
+      process.env.NODE_ENV !== 'production'
+        ? process.env.DEV_URL
+        : process.env.PROD_URL;
+
+    const url = `${baseUrl}/api/users/activate/confirm?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,

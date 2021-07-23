@@ -17,20 +17,13 @@ export class Room {
   id: number;
 
   @Column()
-  name: string;
-
-  @Column()
   user_id: number;
 
   @Column()
-  pinCode: number;
+  name: string;
 
-  // @BeforeInsert()
-  // async addPinCode() {
-  //   securePin.generatePin(6, (pin) => {
-  //     this.pinCode = pin;
-  //   });
-  // }
+  @Column()
+  pinCode: number;
 
   @Column({ default: 15 })
   timeUp: number;

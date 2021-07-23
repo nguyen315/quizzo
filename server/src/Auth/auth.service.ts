@@ -66,9 +66,12 @@ export class AuthService {
 
       await this.mailService.sendUserConfirmation(signUpDto, token);
 
+      const payload = { username: newUser.username, sub: newUser.id };
+      result['accessToken'] = this.jwtService.sign(payload);
       return result;
     } catch (err) {
       // throw what error
+      console.log(err);
       throw new HttpException(
         'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR

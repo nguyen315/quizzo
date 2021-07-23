@@ -5,8 +5,10 @@ import { Provider } from 'react-redux';
 import LandingPage from './views/LandingPage';
 import store from './store/store';
 import ProtectedRoute from './components/routing/ProtectedRoute';
-import Landing from './views/Landing';
 import About from './views/About';
+import Dashboard from './views/Dashboard';
+import ListQuestions from './views/ListQuestions';
+import Socket from './views/Socket';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +17,13 @@ const App: React.FC = () => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/about" component={About} />
+          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute
+            exact
+            path="/list-questions"
+            component={ListQuestions}
+          />
+          <ProtectedRoute exact path="/socket" component={Socket} />
         </Switch>
       </Router>
     </Provider>

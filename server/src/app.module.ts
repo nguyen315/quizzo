@@ -1,3 +1,4 @@
+import { RoomModule } from './Room/room.module';
 import { AuthModule } from './Auth/auth.module';
 import { UserModule } from './User/user.module';
 import { Module } from '@nestjs/common';
@@ -6,11 +7,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
+import { QuestionModule } from './Question/question.module';
+import { TagQuestionModule } from './tag-question/tag-question.module';
+import { AnswerModule } from './answer/answer.module';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
+    RoomModule,
     AuthModule,
     UserModule,
 
@@ -25,9 +31,12 @@ import ormConfigProd from './config/orm.config.prod';
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd
     }),
-    MailModule
+    MailModule,
+    QuestionModule,
+    TagQuestionModule,
+    AnswerModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, ChatGateway]
 })
 export class AppModule {}

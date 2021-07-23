@@ -7,7 +7,7 @@ const {
   MYSQL_DB: DB
 } = process.env;
 
-// console.log(HOST, USER, PASSWORD);
+console.log(HOST, USER, PASSWORD);
 
 const config: MysqlConnectionOptions = {
   type: 'mysql',

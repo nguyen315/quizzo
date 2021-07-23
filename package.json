@@ -4,6 +4,7 @@
   "description": "",
   "main": ".eslintrc.js",
   "dependencies": {
+    "secure-pin": "^1.0.14",
     "typescript": "^4.3.5"
   },
   "devDependencies": {

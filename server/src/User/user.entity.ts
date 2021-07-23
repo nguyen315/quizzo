@@ -1,4 +1,5 @@
 import { AnonymousUser } from 'src/AnonymousUsers/anonumousUser.entity';
+import { Room } from 'src/Room/room.entity';
 import {
   Column,
   CreateDateColumn,
@@ -27,9 +28,14 @@ export class User {
 
   //@Column()
   //avartar: string;
+  @Column({ default: '' })
+  firstName: string;
 
-  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
-  users: AnonymousUser[];
+  @Column({ default: '' })
+  lastName: string;
+
+  @Column({ default: '' })
+  avartar: string;
 
   @Column({ default: false })
   isAdmin: boolean;
@@ -42,6 +48,11 @@ export class User {
 
   @Column({default: null})
   token: string;
+  @OneToMany(() => Room, (room) => room.user)
+  room: Room[];
+
+  @OneToMany((type) => AnonymousUser, (anonumousUser) => anonumousUser.user)
+  users: AnonymousUser[];
 }
 
 

@@ -22,7 +22,7 @@ interface State {
 const initialState: State = {
   user: null,
   isAuthenticated: false,
-  authLoading: true,
+  authLoading: false,
   showModal: false,
   showRegisterModal: false
 };

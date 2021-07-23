@@ -5,10 +5,7 @@ import Button from 'react-bootstrap/Button';
 import quizzoLogo from '../../assets/logo.svg';
 import logoutIcon from '../../assets/logout.svg';
 import { connect, useDispatch } from 'react-redux';
-import {
-  showModal,
-  showRegisterModal
-} from '../../store/slices/auth.slice';
+import { showModal, showRegisterModal } from '../../store/slices/auth.slice';
 import { Link } from 'react-router-dom';
 import store from '../../store/store';
 import LoginForm from '../auth/LoginForm';

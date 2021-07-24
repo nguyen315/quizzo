@@ -6,6 +6,7 @@ import SearchBar from '../components/question/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import AddQuestionModal from '../components/question/AddQuestionModal';
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -38,11 +39,14 @@ const ListQuestions: React.FC = () => {
   }, [questionsStatus, dispatch]);
 
   return (
-    <Container fluid>
-      <MyNavbar />
-      <SearchBar />
-      {content}
-    </Container>
+    <>
+      <Container fluid>
+        <MyNavbar />
+        <SearchBar />
+        {content}
+      </Container>
+      <AddQuestionModal />
+    </>
   );
 };
 

@@ -22,6 +22,7 @@
     "@types/react-redux": "^7.1.18",
     "@types/react-router-dom": "^5.1.8",
     "axios": "^0.21.1",
+    "formik": "^2.2.9",
     "proxy": "^1.0.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
@@ -36,7 +37,8 @@
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^4.1.3",
     "typescript": "^4.3.5",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

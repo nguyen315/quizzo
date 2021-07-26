@@ -42,10 +42,7 @@ export class RoomController {
   }
 
   @Get()
-  async findAll(
-    @Request() req, 
-    @Response() res
-  ) {
+  async findAll(@Request() req, @Response() res) {
     try {
       const rooms = await this.roomService.findAll();
       res.json({ success: true, rooms: rooms });
@@ -57,11 +54,7 @@ export class RoomController {
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id') id: number, 
-    @Request() req, 
-    @Response() res
-  ) {
+  async findOne(@Param('id') id: number, @Request() req, @Response() res) {
     try {
       const room = await this.roomService.findOne(+id);
       res.json({ success: true, room: room });
@@ -74,9 +67,9 @@ export class RoomController {
 
   @Put(':id')
   async update(
-    @Param('id') id: number, 
+    @Param('id') id: number,
     @Body() updateRoomDto: UpdateRoomDto,
-    @Request() req, 
+    @Request() req,
     @Response() res
   ) {
     const user = req.user;
@@ -91,11 +84,7 @@ export class RoomController {
   }
 
   @Delete(':id')
-  async deleteOne(
-    @Param('id') id: number, 
-    @Request() req, 
-    @Response() res
-  ) {
+  async deleteOne(@Param('id') id: number, @Request() req, @Response() res) {
     const user = req.user;
     try {
       const deletedRoom = await this.roomService.deleteOne(+id);

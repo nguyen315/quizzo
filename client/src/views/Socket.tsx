@@ -7,7 +7,10 @@ import { apiUrl } from '../store/types';
 import ListMessages from '../components/socket/ListMessages';
 import { Container } from 'react-bootstrap';
 
-const socketUrl = `${apiUrl}/socket`;
+const url =
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:5000'
+    : 'https://quizzo-service.herokuapp.com';
 
 const Socket = () => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -16,7 +19,7 @@ const Socket = () => {
   const [messages, setMessages] = useState<String[]>([]);
 
   const configureSocket = () => {
-    const clientSocket = io('http://localhost:5000', {
+    const clientSocket = io(url, {
       path: '/api/socket',
       transports: ['websocket']
     });

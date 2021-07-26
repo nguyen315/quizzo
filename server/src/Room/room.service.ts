@@ -37,7 +37,7 @@ export class RoomService {
         user_id: user_id
       });
       let { password, ...responseUser } = user;
-      response.push({ ...responseUser, rooms: rooms});
+      response.push({ ...responseUser, rooms: rooms });
     }
     return response;
   }

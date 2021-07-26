@@ -2,7 +2,8 @@ import {
   Injectable,
   BadRequestException,
   HttpException,
-  HttpStatus
+  HttpStatus,
+  Inject
 } from '@nestjs/common';
 import { User } from 'src/User/user.entity';
 import { UserService } from 'src/User/user.service';
@@ -10,14 +11,24 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignUpDto } from 'src/Dto/user.dto';
 
+import { MailService } from 'src/mail/mail.service';
+import { sign } from 'crypto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 @Injectable()
 export class AuthService {
+  public activationPending = [];
   constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private mailService: MailService
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
+
     if (signUpDto.password !== signUpDto.confirmPassword) {
       throw new BadRequestException(
         'Password and Confirmation are not identical.'
@@ -46,10 +57,15 @@ export class AuthService {
         email: signUpDto.email
       });
 
+      await this.userRepository.save({
+        ...newUser,
+        token: token
+      });
       // extract password before return
       const { password, ...result } = newUser;
       const payload = { username: newUser.username, sub: newUser.id };
       result['accessToken'] = this.jwtService.sign(payload);
+      await this.mailService.sendUserConfirmation(signUpDto, token);
       return result;
     } catch (err) {
       // throw what error

@@ -1,5 +1,6 @@
 import { BadRequestException, Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from 'src/Auth/auth.service';
 import { SignUpDto } from 'src/Dto/user.dto';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -33,6 +34,13 @@ export class UserService {
     return this.userRepository.findOne({ username: userName });
   }
 
+  checkLength(text: string, minLength: number, maxLength: number) {
+    if (text.length < minLength || text.length > maxLength) {
+      return true;
+    }
+    return false;
+  }
+
   updateLastName(id: number, lastname: string) {
     if (this.checkLength(lastname, 1, 20)) {
       throw new BadRequestException(
@@ -51,15 +59,19 @@ export class UserService {
     return this.userRepository.update({ id: id }, { firstName: firstname });
   }
 
-  checkLength(text: string, minLength: number, maxLength: number) {
-    if (text.length < minLength || text.length > maxLength) {
-      return true;
-    }
-    return false;
-  }
-
   findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ email: email });
+  }
+
+  async setActive(token: string): Promise<any> {
+    const user = await this.userRepository.findOne({ token: token });
+    if (user.token === token) {
+      await this.userRepository.save({
+        ...user,
+        token: null,
+        isActivated: true
+      });
+    }
   }
 
   async changePassword(id: number, newPassword: string, oldPassword: string) {

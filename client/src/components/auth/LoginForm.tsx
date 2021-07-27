@@ -10,7 +10,7 @@ import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { RootState } from '../../store/store';
+import { AppDispatch, RootState } from '../../store/store';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -21,8 +21,7 @@ const validationSchema = yup.object({
 
 const LoginForm = () => {
   const auth = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<AppDispatch>();
   const setShowModal = () => {
     dispatch(showModal());
   };
@@ -34,9 +33,10 @@ const LoginForm = () => {
 
   const login = async (data: any) => {
     try {
-      // responseData have field .payload.success
-      const responseData = await dispatch(loginUser(data));
-    } catch (error) {}
+      await dispatch(loginUser(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -66,6 +66,10 @@ const LoginForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Modal.Body>
+                {auth.error ? (
+                  <div className="response-error-message">{auth.error}</div>
+                ) : null}
+
                 {/* username */}
                 <Form.Group className="groupInput">
                   <Form.Label className="iconInput">
@@ -79,11 +83,16 @@ const LoginForm = () => {
                     value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    isInvalid={touched.username && !!errors.username}
                   />
+
                   {/* error message username */}
-                  {touched.username && errors.username ? (
-                    <div className="error-message">{errors.username}</div>
-                  ) : null}
+                  <Form.Control.Feedback
+                    type="invalid"
+                    className="error-message"
+                  >
+                    {errors.username}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* password */}
@@ -99,11 +108,14 @@ const LoginForm = () => {
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    isInvalid={touched.password && !!errors.password}
                   />
-                  {/* error message password */}
-                  {touched.password && errors.password ? (
-                    <div className="error-message">{errors.password}</div>
-                  ) : null}
+                  <Form.Control.Feedback
+                    type="invalid"
+                    className="error-message"
+                  >
+                    {errors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Text

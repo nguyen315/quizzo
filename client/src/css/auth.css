@@ -65,6 +65,13 @@
   margin-left: 37%;
 }
 
+.response-error-message {
+  color: #ff6565;
+  width: 85%;
+  margin: 0 auto 10px;
+  font-size: 1em;
+}
+
 .error-message {
   color: #ff6565;
   width: 85%;

@@ -1,30 +1,27 @@
-import React, { useState, useCallback } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   showModal,
   showRegisterModal,
   loginUser
 } from '../../store/slices/auth.slice';
-import { connect } from 'react-redux';
 import '../../css/auth.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
-import { AppDispatch } from '../../store/store';
-import { Link, useHistory } from 'react-router-dom';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { RootState } from '../../store/store';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-const LoginForm = (props: any) => {
+const validationSchema = yup.object({
+  username: yup.string().required('*username is required'),
+  password: yup.string().required('*password is required')
+});
+
+const LoginForm = () => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  const [loginForm, setLoginForm] = useState({
-    username: '',
-    password: ''
-  });
 
   const setShowModal = () => {
     dispatch(showModal());
@@ -35,88 +32,111 @@ const LoginForm = (props: any) => {
     dispatch(showRegisterModal());
   };
 
-  const { username, password } = loginForm;
-
-  const onChangeLoginForm = (e: any) => {
-    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
-  };
-
-  const resetFormLogin = () => {
-    setLoginForm({ username: '', password: '' });
-    setShowModal();
-  };
-
-  const login = async (event: any) => {
-    event.preventDefault();
+  const login = async (data: any) => {
     try {
-      const responseData = await dispatch(loginUser(loginForm));
       // responseData have field .payload.success
-    } catch (error) {
-      console.log(error);
-    }
+      const responseData = await dispatch(loginUser(data));
+    } catch (error) {}
   };
 
   return (
     <>
-      <Modal
-        className="Auth-Modal"
-        show={auth.showModal}
-        onHide={resetFormLogin}
-      >
+      <Modal className="Auth-Modal" show={auth.showModal} onHide={setShowModal}>
         <Modal.Header className="Auth-Modal_header" closeButton>
           <Modal.Title className="Auth-Modal_title">Log In</Modal.Title>
         </Modal.Header>
-        <Form onSubmit={login}>
-          <Modal.Body>
-            <Form.Group className="groupInput">
-              <Form.Label className="iconInput">
-                <FontAwesomeIcon icon={faUser} />
-              </Form.Label>
-              <Form.Control
-                className="Auth-Modal_input"
-                type="text"
-                placeholder="Username"
-                name="username"
-                required
-                aria-describedby="title-help"
-                value={username}
-                onChange={onChangeLoginForm}
-              />
-            </Form.Group>
+        <Formik
+          initialValues={{ username: '', password: '' }}
+          validationSchema={validationSchema}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            setSubmitting(true);
+            await login(values);
+            resetForm();
+            setSubmitting(false);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <Modal.Body>
+                {/* username */}
+                <Form.Group className="groupInput">
+                  <Form.Label className="iconInput">
+                    <FontAwesomeIcon icon={faUser} />
+                  </Form.Label>
+                  <Form.Control
+                    className="Auth-Modal_input"
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    value={values.username}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {/* error message username */}
+                  {touched.username && errors.username ? (
+                    <div className="error-message">{errors.username}</div>
+                  ) : null}
+                </Form.Group>
 
-            <Form.Group className="groupInput">
-              <Form.Label className="iconInput">
-                <FontAwesomeIcon icon={faUnlockAlt} />
-              </Form.Label>
-              <Form.Control
-                className="Auth-Modal_input"
-                type="password"
-                placeholder="********"
-                name="password"
-                value={password}
-                onChange={onChangeLoginForm}
-              />
-            </Form.Group>
-            <Form.Text to="/forgotPassword" as={Link} className="forgot-pass">
-              Forgot <span className="hightLightText">password</span>
-            </Form.Text>
-            <div className="Auth-Modal_button">
-              <Button className="" variant="primary" type="submit">
-                Login
-              </Button>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Form.Text
-              className="Auth-Modal_footer forgot-pass"
-              to="/"
-              as={Link}
-              onClick={goToSignUp}
-            >
-              New here? <span className="hightLightText">Sign Up</span>
-            </Form.Text>
-          </Modal.Footer>
-        </Form>
+                {/* password */}
+                <Form.Group className="groupInput">
+                  <Form.Label className="iconInput">
+                    <FontAwesomeIcon icon={faUnlockAlt} />
+                  </Form.Label>
+                  <Form.Control
+                    className="Auth-Modal_input"
+                    type="password"
+                    placeholder="********"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {/* error message password */}
+                  {touched.password && errors.password ? (
+                    <div className="error-message">{errors.password}</div>
+                  ) : null}
+                </Form.Group>
+
+                <Form.Text
+                  to="/forgotPassword"
+                  as={Link}
+                  className="forgot-pass"
+                >
+                  Forgot <span className="hightLightText">password</span>
+                </Form.Text>
+
+                <div className="Auth-Modal_button">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Login
+                  </Button>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Form.Text
+                  className="Auth-Modal_footer forgot-pass"
+                  to="/"
+                  as={Link}
+                  onClick={goToSignUp}
+                >
+                  New here? <span className="hightLightText">Sign Up</span>
+                </Form.Text>
+              </Modal.Footer>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     </>
   );

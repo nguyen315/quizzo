@@ -14,6 +14,7 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
+import { CurrentUser } from 'src/User/user.decorator';
 
 @Controller('api/questions')
 export class QuestionController {
@@ -22,11 +23,10 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req,
+    @CurrentUser() user,
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
-    const user = req.user;
     try {
       const createdQuestion = await this.questionService.create(
         createQuestionDto,

@@ -4,8 +4,6 @@ import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-import { CurrentUser } from './user.decorator';
-
 @UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UserController {
@@ -48,10 +46,4 @@ export class UserController {
     await this.userService.changePassword(id, password, oldPassword);
     return 'changed password successfully';
   }
-
-  // Test for using CurrentUser decorator
-  @Post('test')
-  async findOne(@CurrentUser() user) {
-    console.log(user);
-}
 }

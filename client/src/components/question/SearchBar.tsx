@@ -1,16 +1,20 @@
 import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
+import '../../css/questions/searchBar.css';
+import { HiOutlineFilter } from 'react-icons/hi';
 
 const SearchBar = () => {
   return (
-    <Form className="d-flex">
-      <FormControl
+    <Form className="d-flex search-bar-form">
+      <input
         type="search"
-        placeholder="Search"
-        className="mr-2"
+        placeholder="Enter tag filter"
         aria-label="Search"
+        className="search-bar"
       />
-      <Button variant="outline-success">Search</Button>
+      <Button className="search-button">
+        <HiOutlineFilter />
+      </Button>
     </Form>
   );
 };

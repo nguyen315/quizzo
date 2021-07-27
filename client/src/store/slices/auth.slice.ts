@@ -21,6 +21,7 @@ interface State {
   showModal?: boolean;
   showRegisterModal?: boolean;
   showUpdateModal?: boolean;
+  error?: string | null;
 }
 
 const initialState: State = {
@@ -29,7 +30,8 @@ const initialState: State = {
   authLoading: false,
   showModal: false,
   showRegisterModal: false,
-  showUpdateModal: false
+  showUpdateModal: false,
+  error: null
 };
 
 export const loadUser =
@@ -68,16 +70,20 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'api/users/login',
-  async (loginForm: LoginForm, { dispatch }) => {
+  async (loginForm: LoginForm, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
+      console.log(response);
       if (response.data.success) {
         localStorage.setItem('Authorization', response.data.accessToken);
         dispatch(loadUser());
       }
       dispatch(showModal());
+
       return response.data;
-    } catch (error) {}
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -118,6 +124,15 @@ const authSlices = createSlice({
     logOut(state) {
       state.isAuthenticated = false;
       state.user = null;
+    }
+  },
+  extraReducers: {
+    [loginUser.fulfilled.toString()]: (state, actino) => {
+      state.error = null;
+    },
+    [loginUser.rejected.toString()]: (state, action) => {
+      console.log(action);
+      state.error = action.payload.message;
     }
   }
 });

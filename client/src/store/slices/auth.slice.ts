@@ -12,6 +12,7 @@ import {
   apiUrl,
   updateProfileForm
 } from '../types';
+import { AppDispatch } from '../store';
 
 interface State {
   user?: User | null;
@@ -67,7 +68,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'api/users/login',
-  async (loginForm: LoginForm, { dispatch, getState }) => {
+  async (loginForm: LoginForm, { dispatch }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
       if (response.data.success) {

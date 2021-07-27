@@ -1,6 +1,14 @@
-.answerItem {
+.answer {
   width: auto;
   height: auto;
-  padding: 0;
-  margin: 1em 0;
+  margin-bottom: 1em;
+  color: #000;
+}
+
+.form-check-label {
+  color: #000 !important;
+}
+
+.correct-answer {
+  background-color: #f1f1f1;
 }

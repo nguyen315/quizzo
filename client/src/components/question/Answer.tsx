@@ -1,12 +1,16 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Form } from 'react-bootstrap';
 import '../../css/questions/answer.css';
 
 const Answer = (props: { answer: any }) => {
   return (
-    <Card className="answerItem">
-      <Card.Body>{props.answer.content}</Card.Body>
-    </Card>
+    <Form.Check
+      type="radio"
+      label={props.answer.content}
+      disabled
+      checked={props.answer.isCorrect}
+      className={props.answer.isCorrect ? 'correct-answer' : 'answer'}
+    />
   );
 };
 

@@ -33,7 +33,7 @@ export class QuestionService {
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
-    return { ...responseQuestion, createdAnswers };
+    return { ...responseQuestion, answers: createdAnswers };
   }
 
   async findAll() {

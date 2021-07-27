@@ -5,6 +5,11 @@ import { Question } from './entities/question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Answer } from 'src/answer/entities/answer.entity';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination
+} from 'nestjs-typeorm-paginate';
 @Injectable()
 export class QuestionService {
   constructor(
@@ -49,6 +54,19 @@ export class QuestionService {
       responseData[idx] = { ...questions[idx], answers: answers };
     }
     return responseData;
+  }
+
+  async findAllWithPagination(
+    options: IPaginationOptions,
+    userID: string
+  ): Promise<Pagination<Question>> {
+    const id = Number(userID);
+    const queryBuilder = await this.questionRepository
+      .createQueryBuilder('questions')
+      .where('questions.userId = :id', { id })
+      .leftJoinAndSelect('questions.answers', 'answers');
+
+    return paginate<Question>(queryBuilder, options);
   }
 
   async findOne(id: number) {

@@ -8,12 +8,17 @@ import {
   Delete,
   UseGuards,
   Request,
-  Response
+  Response,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Question } from './entities/question.entity';
 
 @Controller('api/questions')
 export class QuestionController {
@@ -48,6 +53,33 @@ export class QuestionController {
     try {
       const questions = await this.questionService.findAll();
       res.json({ success: true, questions: questions });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  async PaginativeFindAll(
+    @Response() res,
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    try {
+      const content = await this.questionService.findAllWithPagination(
+        {
+          page,
+          limit,
+          route: '/api/questions/paginate'
+        },
+        req.user.id
+      );
+      res.json({ success: true, ...content });
     } catch (error) {
       res.status(500).json({
         success: false,

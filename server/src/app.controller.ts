@@ -13,7 +13,7 @@ import { AppService } from './app.service';
 import { UserService } from './User/user.service';
 import { AuthService } from './Auth/auth.service';
 import { SignUpDto } from './Dto/user.dto';
-import { User } from './User/user.entity';
+import { CurrentUser } from './User/user.decorator';
 
 @Controller()
 export class AppController {
@@ -30,8 +30,8 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('api/login')
-  async login(@Request() req, @Response() res) {
-    const token = await this.authService.login(req.user);
+  async login(@CurrentUser() user, @Response() res) {
+    const token = await this.authService.login(user);
     res.status(200).json({
       success: true,
       accessToken: token.access_token
@@ -40,8 +40,7 @@ export class AppController {
 
   @UseGuards(JwtAuthGuard)
   @Get('api/login')
-  async loadUser(@Request() req, @Response() res) {
-    const user = await this.userService.findOne(req.user.id);
+  async loadUser(@CurrentUser() user, @Response() res) {
     // extract password before return
     const { password, ...result } = user;
     res.send(result);

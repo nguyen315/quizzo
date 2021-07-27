@@ -1,4 +1,4 @@
-import { Request, UseGuards, HttpException, HttpStatus, Req } from '@nestjs/common';
+import { Request, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
@@ -17,8 +17,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async getOne(@Request() req, @Param('id') id: number): Promise<Omit<User, 'password'>> {
-    console.log(req.user);
+  async getOne(@Param('id') id: number): Promise<Omit<User, 'password'>> {
     const user = await this.userService.findOne(id);
     // extract password before returning
     const { password, ...result } = user;
@@ -50,8 +49,9 @@ export class UserController {
     return 'changed password successfully';
   }
 
+  // Test for using CurrentUser decorator
   @Post('test')
-  async findOne(@Request() req, @CurrentUser() user) {
+  async findOne(@CurrentUser() user) {
     console.log(user);
 }
 }

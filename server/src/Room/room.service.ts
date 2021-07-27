@@ -6,8 +6,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Room } from './room.entity';
-import { CreateRoomDto } from '../Dto/Room/create-room.dto';
-import { UpdateRoomDto } from '../Dto/Room/update-room.dto';
+import { CreateRoomDto } from './dto/create-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
 import { User } from 'src/User/user.entity';
 
 @Injectable()

@@ -24,7 +24,7 @@ const LoggedInNavbar: React.FC = (props: any) => {
       <br />
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand className="NavbarQuizzo" href="#home">
+          <Navbar.Brand className="NavbarQuizzo" as={Link} to="/">
             Quizzo
           </Navbar.Brand>
           <Nav className="me-auto">

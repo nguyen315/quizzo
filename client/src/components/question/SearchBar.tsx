@@ -1,20 +1,19 @@
 import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import '../../css/questions/searchBar.css';
-import { HiOutlineFilter } from 'react-icons/hi';
+import { BsSearch, BsX } from 'react-icons/bs';
 
 const SearchBar = () => {
   return (
     <Form className="d-flex search-bar-form">
+      <BsSearch className="search-icon" />
+
       <input
         type="search"
-        placeholder="Enter tag filter"
+        placeholder="Search for question title"
         aria-label="Search"
         className="search-bar"
       />
-      <Button className="search-button">
-        <HiOutlineFilter />
-      </Button>
     </Form>
   );
 };

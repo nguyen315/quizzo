@@ -3,10 +3,12 @@ import Question from '../components/question/Question';
 import { Container } from 'react-bootstrap';
 import MyNavbar from '../components/layouts/MyNavbar';
 import SearchBar from '../components/question/SearchBar';
+import FilterBar from '../components/question/FilterBar';
 import CreateQuestionForm from '../components/question/CreateQuestionForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import '../css/questions/listQuestion.css';
 
 const data = [
   {
@@ -30,8 +32,7 @@ const data = [
     answers: [
       {
         id: 1,
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a neque aliquam, hendrerit dui id, porttitor ex. Suspendisse nec dui ut dui rutrum pretium a non turpis. Proin nibh neque, mollis sed congue sit amet, egestas quis metus. Sed sit amet ultricies magna.',
+        content: 'Lorem  ru sius. Sed sit amet ultricies magna.',
         isCorrect: false,
         createdAt: '',
         updatedAt: ''
@@ -98,11 +99,17 @@ const ListQuestions: React.FC = () => {
   console.log(content);
 
   return (
-    <Container fluid>
+    <Container fluid="lg">
       <MyNavbar />
-      <SearchBar />
 
-      <CreateQuestionForm />
+      <div>
+        <span className="title question-list-title">Question List</span>
+      </div>
+      <div className="mt-3 search-filter-bar">
+        <SearchBar />
+        <FilterBar />
+      </div>
+
       {content}
     </Container>
   );

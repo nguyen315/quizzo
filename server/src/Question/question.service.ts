@@ -61,10 +61,11 @@ export class QuestionService {
     userID: string
   ): Promise<Pagination<Question>> {
     const id = Number(userID);
+    const answers= await this.answerRepository.find();
     const queryBuilder = await this.questionRepository
       .createQueryBuilder('questions')
-      .where('questions.userId = :id', { id })
-      .leftJoinAndSelect('questions.answers', 'answers');
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .andWhere('questions.userId = :id', { id });
 
     return paginate<Question>(queryBuilder, options);
   }

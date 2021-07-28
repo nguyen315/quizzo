@@ -6,6 +6,7 @@ import SearchBar from '../components/question/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -39,7 +40,7 @@ const ListQuestions: React.FC = () => {
 
   return (
     <Container fluid>
-      <MyNavbar />
+      <LoggedInNavBar />
       <SearchBar />
       {content}
     </Container>

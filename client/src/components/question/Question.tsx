@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Card, Form, InputGroup, FormControl, Button } from 'react-bootstrap';
+import {
+  Card,
+  Form,
+  InputGroup,
+  FormControl,
+  Button,
+  Row
+} from 'react-bootstrap';
 import Answer from './Answer';
 import Tag from './Tag';
 import '../../css/questions/question.css';
 import { BiTrashAlt } from 'react-icons/bi';
-import { AiOutlineEdit } from 'react-icons/ai';
-import { MdExpandMore } from 'react-icons/md';
-import { IconContext } from 'react-icons';
+import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai';
+import { MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
 
 const Question = (props: { question: any }) => {
   const [isExpand, setIsExpand] = useState(false);
@@ -19,50 +25,60 @@ const Question = (props: { question: any }) => {
 
   return (
     <Card className="question">
-      <div className="content">
-        <Card.Body>
-          {/* header */}
-          <div className="question-header">
-            <div className="question-section">
-              <blockquote className="blockquote">
-                <div className="clickable" onClick={toggleAnswers}>
-                  <span>{props.question.title}</span>
-                </div>
-              </blockquote>
+      <Card.Body className="content">
+        <span className="clickable" onClick={toggleAnswers}>
+          {isExpand ? (
+            <MdKeyboardArrowDown className="icon ml-0 mt-1" />
+          ) : (
+            <MdKeyboardArrowRight className="icon ml-0 mt-1" />
+          )}
+        </span>
 
-              {/* tags */}
-              <div className="d-inline-block">
-                {props.question.tags.map((tag: any) => (
-                  <Tag tag={tag} key={tag.id} />
-                ))}
-              </div>
+        <div className="question-section">
+          <blockquote className="blockquote">
+            <div className="clickable" onClick={toggleAnswers}>
+              <span>{props.question.title}</span>
             </div>
-            <div className="d-inline">
-              <span className="clickable" onClick={toggleAnswers}>
-                <MdExpandMore className="icon" />
-              </span>
-              <span className="clickable ">
-                <AiOutlineEdit className="icon" />
-              </span>
-              <span className="clickable">
-                <BiTrashAlt className="icon" fill="#ED4867" />
-              </span>
-            </div>
+          </blockquote>
+
+          {/* tags */}
+          <div>
+            {props.question.tags.map((tag: any) => (
+              <Tag tag={tag} key={tag.id} />
+            ))}
           </div>
-
           {/* expand content */}
           <div className="question-content">
             {/* answer */}
             {isExpand && (
-              <Form>
-                {props.question.answers.map((answer: any) => (
-                  <Answer answer={answer} />
+              <Row className="mt-4 mb -4 mr-0 ml-0 flex-grow-1">
+                {props.question.answers.map((answer: any, index: number) => (
+                  <Answer answer={answer} key={answer.id} index={index} />
                 ))}
-              </Form>
+              </Row>
             )}
           </div>
-        </Card.Body>
-      </div>
+          <div className="smaller-font mt-4 clickable link">Preview image</div>
+        </div>
+
+        <div className="right-section">
+          <div className="icon-section">
+            <span className="clickable ">
+              <AiOutlineEye className="icon" />
+            </span>
+            <span className="clickable ">
+              <AiOutlineEdit className="icon" />
+            </span>
+            <span className="clickable">
+              <BiTrashAlt className="icon" fill="#ED4867" />
+            </span>
+          </div>
+
+          <div className="smaller-font date">
+            {props.question.updatedAt.toLocaleString('en-SG')}
+          </div>
+        </div>
+      </Card.Body>
     </Card>
   );
 };

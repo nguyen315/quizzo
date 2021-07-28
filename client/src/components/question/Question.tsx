@@ -20,7 +20,7 @@ const Question = (props: { question: any }) => {
       <div className="content">
         <Card.Header>
           <div>Question ID: {props.question.id}</div>
-          <div>Tags: {props.question.tagId}</div>
+          <div>Tags: {props.question.tagId || ''}</div>
         </Card.Header>
         <Card.Body>
           <blockquote className="blockquote mb-0">

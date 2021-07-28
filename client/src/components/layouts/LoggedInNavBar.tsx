@@ -3,6 +3,7 @@ import { Container, Dropdown, Nav, Navbar } from 'react-bootstrap';
 import { RootState } from '../../store/store';
 import { logOut, showUpdateModal } from '../../store/slices/auth.slice';
 import { setAuthToken } from '../../utils/setAuthToken';
+import { Link } from 'react-router-dom';
 
 const LoggedInNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -27,8 +28,12 @@ const LoggedInNavbar: React.FC = (props: any) => {
             Quizzo
           </Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/dashboard">Home</Nav.Link>
-            <Nav.Link href="/list-questions">Questions</Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/list-questions">
+              Questions
+            </Nav.Link>
             <Nav.Link href="#rooms">Rooms</Nav.Link>
             <Dropdown>
               <Dropdown.Toggle variant="success">Account</Dropdown.Toggle>

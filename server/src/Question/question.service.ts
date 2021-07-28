@@ -38,11 +38,13 @@ export class QuestionService {
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
-    return { ...responseQuestion, createdAnswers };
+    return { ...responseQuestion, answers: createdAnswers };
   }
 
-  async findAll() {
-    const questions = await this.questionRepository.find();
+  async findAll(userId: number) {
+    const questions = await this.questionRepository.find({
+      userId: userId.toString()
+    });
     const responseData = [];
     let question_id = null;
     let answers = null;

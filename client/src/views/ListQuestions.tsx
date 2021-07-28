@@ -6,6 +6,8 @@ import SearchBar from '../components/question/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import AddQuestionModal from '../components/question/AddQuestionModal';
+import '../css/questions/question.css';
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -35,14 +37,19 @@ const ListQuestions: React.FC = () => {
     if (questionsStatus === 'idle') {
       dispatch(fetchQuestions());
     }
-  }, [questionsStatus, dispatch]);
+  }, [questionsStatus, dispatch, questions]);
 
   return (
-    <Container fluid>
-      <MyNavbar />
-      <SearchBar />
-      {content}
-    </Container>
+    <>
+      <Container fluid>
+        <MyNavbar />
+        <SearchBar />
+        <div className="btn-create">
+          <AddQuestionModal />
+        </div>
+        {content}
+      </Container>
+    </>
   );
 };
 

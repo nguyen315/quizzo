@@ -1,10 +1,13 @@
+import { Tag } from 'src/tag/entities/tag.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinTable
 } from 'typeorm';
 import { Answer } from '../../answer/entities/answer.entity';
 
@@ -17,9 +20,9 @@ export class Question {
   userId: string;
 
   @Column({
-    default: ''
+    default: 0
   })
-  tagId: string;
+  tagId: number;
 
   @Column()
   title: string;
@@ -40,4 +43,7 @@ export class Question {
 
   @OneToMany(() => Answer, (answer) => answer.question)
   answers: Answer[];
+
+  @ManyToMany(() => Tag, (tag) => tag.questions)
+  tags: Tag[];
 }

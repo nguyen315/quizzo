@@ -31,9 +31,9 @@ const LoginForm = () => {
     dispatch(showRegisterModal());
   };
 
-  const login = async (data: any) => {
+  const login = async (loginData: any) => {
     try {
-      await dispatch(loginUser(data));
+      await dispatch(loginUser(loginData));
     } catch (error) {
       console.log(error);
     }
@@ -66,8 +66,11 @@ const LoginForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Modal.Body>
-                {auth.error ? (
-                  <div className="response-error-message">{auth.error}</div>
+                {/* response error message */}
+                {auth.loginError ? (
+                  <div className="response-error-message">
+                    {auth.loginError}
+                  </div>
                 ) : null}
 
                 {/* username */}
@@ -110,6 +113,8 @@ const LoginForm = () => {
                     onBlur={handleBlur}
                     isInvalid={touched.password && !!errors.password}
                   />
+
+                  {/* error message password */}
                   <Form.Control.Feedback
                     type="invalid"
                     className="error-message"
@@ -126,6 +131,7 @@ const LoginForm = () => {
                   Forgot <span className="hightLightText">password</span>
                 </Form.Text>
 
+                {/* login button */}
                 <div className="Auth-Modal_button">
                   <Button
                     variant="primary"

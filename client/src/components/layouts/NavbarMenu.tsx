@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
@@ -7,7 +7,6 @@ import logoutIcon from '../../assets/logout.svg';
 import { connect, useDispatch } from 'react-redux';
 import { showModal, showRegisterModal } from '../../store/slices/auth.slice';
 import { Link } from 'react-router-dom';
-import store from '../../store/store';
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
 

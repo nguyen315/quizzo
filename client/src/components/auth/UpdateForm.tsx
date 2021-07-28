@@ -1,12 +1,10 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { showUpdateModal, updateProfile } from '../../store/slices/auth.slice';
 import { RootState } from '../../store/store';
 
-const UpdateForm = (props: any) => {
+const UpdateForm = () => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [updateForm, setUpdateForm] = useState({

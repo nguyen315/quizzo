@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { users } from '../../data/users';
 import { setAuthToken } from '../../utils/setAuthToken';
 import { User } from '../types';
 import {
@@ -21,7 +20,8 @@ interface State {
   showModal?: boolean;
   showRegisterModal?: boolean;
   showUpdateModal?: boolean;
-  error?: string | null;
+  loginError?: string | null;
+  registerError?: string | null;
 }
 
 const initialState: State = {
@@ -31,7 +31,8 @@ const initialState: State = {
   showModal: false,
   showRegisterModal: false,
   showUpdateModal: false,
-  error: null
+  loginError: null,
+  registerError: null
 };
 
 export const loadUser =
@@ -50,7 +51,7 @@ export const loadUser =
 
 export const registerUser = createAsyncThunk(
   'api/users/register',
-  async (registerForm: registerForm, { dispatch, getState }) => {
+  async (registerForm: registerForm, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data) {
@@ -62,8 +63,8 @@ export const registerUser = createAsyncThunk(
         dispatch(showRegisterModal());
       }
       return response.data;
-    } catch (error) {
-      dispatch(showRegisterModal());
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -110,9 +111,11 @@ const authSlices = createSlice({
   reducers: {
     showModal(state) {
       state.showModal = !state.showModal;
+      state.loginError = null;
     },
     showRegisterModal(state) {
       state.showRegisterModal = !state.showRegisterModal;
+      state.registerError = null;
     },
     showUpdateModal(state) {
       state.showUpdateModal = !state.showUpdateModal;
@@ -128,11 +131,18 @@ const authSlices = createSlice({
   },
   extraReducers: {
     [loginUser.fulfilled.toString()]: (state, actino) => {
-      state.error = null;
+      state.loginError = null;
     },
     [loginUser.rejected.toString()]: (state, action) => {
       console.log(action);
-      state.error = action.payload.message;
+      state.loginError = action.payload.message;
+    },
+    [registerUser.fulfilled.toString()]: (state, actino) => {
+      state.registerError = null;
+    },
+    [registerUser.rejected.toString()]: (state, action) => {
+      console.log(action);
+      state.registerError = action.payload.message;
     }
   }
 });

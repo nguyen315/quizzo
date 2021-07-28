@@ -4,6 +4,7 @@
   "description": "",
   "main": ".eslintrc.js",
   "dependencies": {
+    "@nestjs/mapped-types": "*",
     "secure-pin": "^1.0.14",
     "typescript": "^4.3.5"
   },

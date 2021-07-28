@@ -51,7 +51,8 @@ export class QuestionController {
   @Get()
   async findAll(@Request() req, @Response() res) {
     try {
-      const questions = await this.questionService.findAll();
+      const user = req.user;
+      const questions = await this.questionService.findAll(user.id);
       res.json({ success: true, questions: questions });
     } catch (error) {
       res.status(500).json({

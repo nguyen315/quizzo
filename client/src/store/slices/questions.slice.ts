@@ -54,8 +54,6 @@ const questionsSlice = createSlice({
     // Create question
     [createQuestion.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      // Add any fetched questions to the array
-      console.log(action.payload);
       state.questions = [...state.questions, action.payload];
     }
   }

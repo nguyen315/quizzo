@@ -20,20 +20,16 @@ import { createQuestion } from '../../store/slices/questions.slice';
 import { RootState } from '../../store/store';
 
 const AddQuestionModal: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-
+  const dispatch = useDispatch();
+  const [showForm, setShowForm] = useState(false);
   const [checkedA, setCheckedA] = useState(false);
   const [checkedB, setCheckedB] = useState(false);
   const [checkedC, setCheckedC] = useState(false);
   const [checkedD, setCheckedD] = useState(false);
 
-  const [showForm, setShowForm] = useState(false);
-
   const clickCreate = () => {
     setShowForm(!showForm);
   };
-
-  const dispatch = useDispatch();
 
   const clickA = () => {
     setCheckedA(!checkedA);
@@ -48,13 +44,7 @@ const AddQuestionModal: React.FC = () => {
     setCheckedD(!checkedD);
   };
 
-  const resetModalData = () => {
-    setShowModal(!showModal);
-  };
-  const onClick = () => {
-    setShowModal(!showModal);
-  };
-
+  // function handle connect to redux
   const handlerSubmit = (values: any) => {
     const answers = [
       {
@@ -81,11 +71,11 @@ const AddQuestionModal: React.FC = () => {
       image: values.image,
       answers: answers
     };
-    console.log(questionForm);
     dispatch(createQuestion(questionForm));
     setShowForm(false);
   };
 
+  // Vadilation input
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .min(2, '*Title must have at least 2 characters')
@@ -96,6 +86,7 @@ const AddQuestionModal: React.FC = () => {
     answerC: Yup.string().required('*answerC is required'),
     answerD: Yup.string().required('*answerD is required')
   });
+
   return (
     <>
       <Formik

@@ -10,11 +10,6 @@ const Dashboard = () => {
     <Container fluid>
       <LoggedInNavBar />
       <UpdateForm />
-      <div>
-        <Link to="/list-questions">List Questions</Link>
-        <br />
-        <Link to="/socket">Socket</Link>
-      </div>
     </Container>
   );
 };

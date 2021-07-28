@@ -45,6 +45,5 @@ export class Question {
   answers: Answer[];
 
   @ManyToMany(() => Tag, (tag) => tag.questions)
-  // @JoinTable()
   tags: Tag[];
 }

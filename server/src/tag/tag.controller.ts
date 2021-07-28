@@ -56,7 +56,7 @@ export class TagController {
   @Get('findByQuestionId/:questionId')
   async findByQuestionId(@Request() req, @Response() res) {
     try {
-      const question_id = req.params.question_id;
+      const question_id = req.params.questionId;
       const tags = await this.tagService.findTagByQuestionId(question_id);
       res.json({ success: true, tags: tags });
     } catch (error) {

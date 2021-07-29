@@ -10,11 +10,15 @@ import Dashboard from './views/Dashboard';
 import ListQuestions from './views/ListQuestions';
 import Socket from './views/Socket';
 
+import ListRooms from './views/ListRooms';
+
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
         <Switch>
+          <Route exact path="/list-rooms" component={ListRooms} />
+
           <Route exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/about" component={About} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />

@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import Question from '../components/question/Question';
 import { Container } from 'react-bootstrap';
 import MyNavbar from '../components/layouts/MyNavbar';
 import SearchBar from '../components/room/searchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { fetchQuestions } from '../store/slices/questions.slice';
-
 import { Row, Col, Card } from 'react-bootstrap';
 
 import Room from '../components/room/room';
@@ -14,8 +11,31 @@ import AddRoom from '../components/room/AddRoom';
 
 import '../css/room/room.css';
 import '../css/room/searchbar.css';
+import { fetchRooms } from '../store/slices/rooms.slice';
 
 const ListRooms: React.FC = () => {
+  const rooms = useSelector((state: RootState) => state.rooms.rooms);
+
+  const roomsStatus = useSelector((state: RootState) => state.rooms.status);
+  const roomsError = useSelector((state: RootState) => state.rooms.error);
+
+  const dispatch = useDispatch();
+
+  let content: {} | null | undefined;
+  if (roomsStatus === 'loading') {
+    content = <div>Loading...</div>;
+  } else if (roomsStatus === 'succeeded') {
+    content = rooms.map((room) => <Room key={room.pin} room={room} />);
+  } else if (roomsStatus === 'failed') {
+    content = <div>{roomsError}</div>;
+  }
+
+  useEffect(() => {
+    if (roomsStatus === 'idle') {
+      dispatch(fetchRooms());
+    }
+  }, [roomsStatus, dispatch]);
+
   return (
     <Container fluid>
       <MyNavbar />
@@ -29,10 +49,8 @@ const ListRooms: React.FC = () => {
           </Col>
         ))}
 
-        {Array.from({ length: 8 }).map((_, idx) => (
-          <Col>
-            <Room />
-          </Col>
+        {Array.from({ length: 4 }).map((_, idx) => (
+          <Col>{content}</Col>
         ))}
       </Row>
     </Container>

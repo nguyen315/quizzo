@@ -66,7 +66,7 @@ const AddQuestionModal: React.FC = () => {
     ];
     const questionForm = {
       title: values.title,
-      tagId: +values.tagId,
+      tags: [],
       type: values.type,
       image: values.image,
       answers: answers
@@ -93,7 +93,7 @@ const AddQuestionModal: React.FC = () => {
         initialValues={{
           title: '',
           image: '',
-          tagId: '',
+          tagId: 0,
           type: '1',
           answerA: '',
           answerB: '',

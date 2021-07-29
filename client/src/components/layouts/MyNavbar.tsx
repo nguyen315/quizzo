@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -15,7 +14,7 @@ import {
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
 import '../../css/landing/navbar.css';
-import store, { RootState } from '../../store/store';
+import { RootState } from '../../store/store';
 import { loadUser } from '../../store/slices/auth.slice';
 import logoutIcon from '../../assets/logout.svg';
 import UpdateForm from '../auth/UpdateForm';
@@ -23,7 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { setAuthToken } from '../../utils/setAuthToken';
 
-const MyNavbar: React.FC = (props: any) => {
+const MyNavbar: React.FC = () => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const showLoginForm = () => {

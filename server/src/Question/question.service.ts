@@ -5,20 +5,29 @@ import { Question } from './entities/question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Answer } from 'src/answer/entities/answer.entity';
+import { Tag } from 'src/tag/entities/tag.entity';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination
+} from 'nestjs-typeorm-paginate';
+import { query } from 'express';
 @Injectable()
 export class QuestionService {
   constructor(
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
-    @InjectRepository(Answer) private answerRepository: Repository<Answer>
+    @InjectRepository(Answer) private answerRepository: Repository<Answer>,
+    @InjectRepository(Tag) private tagRepository: Repository<Tag>
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto, userId: string) {
-    const { answers, ...createQuestion } = createQuestionDto;
+    const { answers, tags, ...createQuestion } = createQuestionDto;
     const newQuestion = {
       ...createQuestion,
       userId: userId
     };
+    console.log(tags);
 
     const createdQuestion = this.questionRepository.create(newQuestion);
     const responseQuestion = await this.questionRepository.save(
@@ -33,11 +42,18 @@ export class QuestionService {
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
-    return { ...responseQuestion, createdAnswers };
+    await this.questionRepository
+      .createQueryBuilder()
+      .relation(Question, 'tags')
+      .of(responseQuestion)
+      .add(tags);
+    return { ...responseQuestion, answers: createdAnswers };
   }
 
-  async findAll() {
-    const questions = await this.questionRepository.find();
+  async findAll(userId: number) {
+    const questions = await this.questionRepository.find({
+      userId: userId.toString()
+    });
     const responseData = [];
     let question_id = null;
     let answers = null;
@@ -51,6 +67,34 @@ export class QuestionService {
     return responseData;
   }
 
+  async findAllWithPagination(options: IPaginationOptions, userID: string) {
+    const UserId = Number(userID);
+    const queryBuilderForTotal = await this.questionRepository
+      .createQueryBuilder('questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .getMany();
+    const total = queryBuilderForTotal.length;
+    const queryBuilder = await this.questionRepository
+      .createQueryBuilder('questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .skip(Number(options.limit) * (Number(options.page) - 1))
+      .take(Number(options.limit))
+      .getMany();
+    let question = null;
+    let resDta = [];
+    for (const idx in queryBuilder) {
+      const foundAnswer = queryBuilder[idx].answers;
+      question = await this.questionRepository.findOne(queryBuilder[idx].id, {
+        relations: ['tags']
+      });
+      resDta[idx] = { ...question, answers: foundAnswer };
+    }
+
+    return { ...resDta, total };
+  }
+
   async findOne(id: number) {
     const answers = await this.answerRepository.find({ question_id: id });
     const question = await this.questionRepository.findOne(id);
@@ -58,7 +102,7 @@ export class QuestionService {
   }
 
   async update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    const { answers, ...updateQuestion } = updateQuestionDto;
+    const { answers, tags, ...updateQuestion } = updateQuestionDto;
     await this.questionRepository.update(id, updateQuestion);
     let updatedAnswer = null;
     let newUpdateAnswer = null;
@@ -72,6 +116,21 @@ export class QuestionService {
         idAnswer,
         newUpdateAnswer
       );
+    }
+
+    const updatedQuestion = await this.questionRepository.findOne({ id: id });
+    const question = await this.questionRepository.findOne(id, {
+      relations: ['tags']
+    });
+
+    question.tags = [];
+    await this.questionRepository.save(question);
+    for (const idx in tags) {
+      await this.questionRepository
+        .createQueryBuilder()
+        .relation(Question, 'tags')
+        .of(updatedQuestion)
+        .add(tags[idx]);
     }
     return await this.findOne(id);
   }

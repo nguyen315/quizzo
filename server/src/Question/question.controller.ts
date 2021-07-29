@@ -8,12 +8,18 @@ import {
   Delete,
   UseGuards,
   Request,
-  Response
+  Response,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Question } from './entities/question.entity';
+import { CurrentUser } from 'src/User/user.decorator';
 
 @Controller('api/questions')
 export class QuestionController {
@@ -22,11 +28,10 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req,
+    @CurrentUser() user,
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
-    const user = req.user;
     try {
       const createdQuestion = await this.questionService.create(
         createQuestionDto,
@@ -46,8 +51,53 @@ export class QuestionController {
   @Get()
   async findAll(@Request() req, @Response() res) {
     try {
-      const questions = await this.questionService.findAll();
+      const user = req.user;
+      const questions = await this.questionService.findAll(user.id);
       res.json({ success: true, questions: questions });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  async PaginativeFindAll(
+    @Response() res,
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10
+  ) {
+    limit = limit > 100 ? 100 : limit;
+
+    try {
+      const content = await this.questionService.findAllWithPagination(
+        {
+          page,
+          limit
+        },
+        req.user.id
+      );
+      const previous = page === 1 ? 1 : page - 1;
+      const last = Math.ceil(content.total / limit);
+      const next = page === last ? 0 : page + 1;
+      res.json({
+        success: true,
+        content,
+        totalPage: last,
+        links: {
+          previousLink:
+            page === 1
+              ? ``
+              : `/api/questions/paginate?page=${previous}&limit=${limit}`,
+          nextLink:
+            next === 0
+              ? ``
+              : `/api/questions/paginate?page=${next}&limit=${limit}`
+        }
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -86,6 +136,7 @@ export class QuestionController {
       );
       res.json({ success: true, updatedQuestion: updatedQuestion });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: 'Internal server error'

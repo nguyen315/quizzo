@@ -1,66 +1,15 @@
 import React, { useEffect } from 'react';
 import Question from '../components/question/Question';
 import { Container } from 'react-bootstrap';
-import MyNavbar from '../components/layouts/MyNavbar';
 import SearchBar from '../components/question/SearchBar';
 import FilterBar from '../components/question/FilterBar';
-import CreateQuestionForm from '../components/question/CreateQuestionForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
+import AddQuestionModal from '../components/question/AddQuestionModal';
+import '../css/questions/question.css';
 import '../css/questions/listQuestion.css';
-
-const data = [
-  {
-    id: 1,
-    userId: 1,
-    title: 'Question title 1',
-    image: '',
-    type: '',
-    createdAt: '',
-    updatedAt: new Date(),
-    tags: [
-      {
-        id: 1,
-        title: 'Algorithm'
-      },
-      {
-        id: 2,
-        title: 'Cybozu'
-      }
-    ],
-    answers: [
-      {
-        id: 1,
-        content: 'Lorem  ru sius. Sed sit amet ultricies magna.',
-        isCorrect: false,
-        createdAt: '',
-        updatedAt: ''
-      },
-      {
-        id: 1,
-        content: 'Answer B of question 1',
-        isCorrect: false,
-        createdAt: '',
-        updatedAt: ''
-      },
-      {
-        id: 1,
-        content: 'Answer C of question 1',
-        isCorrect: false,
-        createdAt: '',
-        updatedAt: ''
-      },
-      {
-        id: 1,
-        content: 'Answer D of question 1',
-        isCorrect: true,
-        createdAt: '',
-        updatedAt: ''
-      }
-    ]
-  }
-];
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -90,18 +39,14 @@ const ListQuestions: React.FC = () => {
     if (questionsStatus === 'idle') {
       dispatch(fetchQuestions());
     }
-  }, [questionsStatus, dispatch]);
-
-  // fake data to display UI first, delete this assignment to load real data
-  content = data.map((question) => (
-    <Question key={question.id} question={question} />
-  ));
-  console.log(content);
+  }, [questionsStatus, dispatch, questions]);
 
   return (
     <Container fluid="lg">
-      <MyNavbar />
-
+      <LoggedInNavBar />
+      <div className="btn-create">
+        <AddQuestionModal />
+      </div>
       <div>
         <span className="title question-list-title">Question List</span>
       </div>

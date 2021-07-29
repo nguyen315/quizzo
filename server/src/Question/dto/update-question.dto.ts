@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateQuestionDto } from './create-question.dto';
-import { IsDefined, IsString } from 'class-validator';
+import { IsDefined, IsNumber, IsString } from 'class-validator';
 import { Answer } from '../../answer/entities/answer.entity';
 
 export class UpdateQuestionDto extends PartialType(CreateQuestionDto) {
@@ -16,9 +16,7 @@ export class UpdateQuestionDto extends PartialType(CreateQuestionDto) {
   @IsDefined()
   image: string | null;
 
-  @IsString()
-  @IsDefined()
-  tagId: string | null;
-
   answers: any[];
+
+  tags: any[];
 }

@@ -6,9 +6,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Room } from './room.entity';
-import { CreateRoomDto } from '../Dto/Room/create-room.dto';
-import { UpdateRoomDto } from '../Dto/Room/update-room.dto';
+import { CreateRoomDto } from './dto/create-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
 import { User } from 'src/User/user.entity';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class RoomService {
@@ -40,6 +45,17 @@ export class RoomService {
       response.push({ ...responseUser, rooms: rooms });
     }
     return response;
+  }
+
+  async findAllWithPagination(
+    options: IPaginationOptions,
+    userId: number
+  ): Promise<Pagination<Room>> {
+    const queryBuilder = await this.roomRepository
+      .createQueryBuilder('rooms')
+      .where('rooms.user_id = :userId', { userId });
+
+    return paginate<Room>(queryBuilder, options);
   }
 
   async findOne(id: number) {

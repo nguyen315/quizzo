@@ -2,26 +2,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 import { Question } from 'src/Question/entities/question.entity';
 
 @Entity()
-export class Answer {
+export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  question_id: number;
+  title: string;
 
   @Column()
-  content: string;
-
-  @Column()
-  isCorrect: boolean;
+  color: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,10 +27,7 @@ export class Answer {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Question, (question) => question.answers, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
-  question: Question;
+  @ManyToMany(() => Question, (question) => question.tags, { cascade: true })
+  @JoinTable()
+  questions: Question[];
 }

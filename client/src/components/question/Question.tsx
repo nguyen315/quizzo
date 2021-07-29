@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  Form,
-  InputGroup,
-  FormControl,
-  Button,
-  Row
-} from 'react-bootstrap';
+import { Card, Row } from 'react-bootstrap';
 import Answer from './Answer';
 import Tag from './Tag';
 import '../../css/questions/question.css';
@@ -26,15 +19,17 @@ const Question = (props: { question: any }) => {
   return (
     <Card className="question">
       <Card.Body className="content">
+        {/* expand icon */}
         <span className="clickable" onClick={toggleAnswers}>
           {isExpand ? (
-            <MdKeyboardArrowDown className="icon ml-0 mt-1" />
+            <MdKeyboardArrowDown className="icon ml-0 mt-3px" />
           ) : (
-            <MdKeyboardArrowRight className="icon ml-0 mt-1" />
+            <MdKeyboardArrowRight className="icon ml-0 mt-3px" />
           )}
         </span>
 
         <div className="question-section">
+          {/* question title */}
           <blockquote className="blockquote">
             <div className="clickable" onClick={toggleAnswers}>
               <span>{props.question.title}</span>
@@ -43,13 +38,13 @@ const Question = (props: { question: any }) => {
 
           {/* tags */}
           <div>
-            {props.question.tags.map((tag: any) => (
+            {/* "?" in tags to check if exist tags then render */}
+            {props.question.tags?.map((tag: any) => (
               <Tag tag={tag} key={tag.id} />
             ))}
           </div>
-          {/* expand content */}
-          <div className="question-content">
-            {/* answer */}
+          {/* expand answer */}
+          <div className="answers-content">
             {isExpand && (
               <Row className="mt-4 mb -4 mr-0 ml-0 flex-grow-1">
                 {props.question.answers.map((answer: any, index: number) => (
@@ -61,6 +56,7 @@ const Question = (props: { question: any }) => {
           <div className="smaller-font mt-4 clickable link">Preview image</div>
         </div>
 
+        {/* icon & date section */}
         <div className="right-section">
           <div className="icon-section">
             <span className="clickable ">

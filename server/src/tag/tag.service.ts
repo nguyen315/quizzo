@@ -16,15 +16,8 @@ export class TagService {
   ) {}
 
   async create(createTagDto: CreateTagDto) {
-    const { question_id, ...newTag } = createTagDto;
+    const { ...newTag } = createTagDto;
     const createdTag = await this.tagRepository.create(newTag);
-    let foundQuestion = [];
-    for (const idx in question_id) {
-      foundQuestion[idx] = this.questionRepository.findOne({
-        id: question_id[idx]
-      });
-    }
-    createdTag.questions = foundQuestion;
     return await this.tagRepository.save(createdTag);
   }
 
@@ -47,9 +40,6 @@ export class TagService {
   async update(id: number, updateTagDto: UpdateTagDto) {
     await this.tagRepository.update(id, updateTagDto);
     return await this.findOne(id);
-  }
-
-  async updateTagToQuestion(tagId, questionId) {
   }
 
   async remove(id: number) {

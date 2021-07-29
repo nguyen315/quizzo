@@ -6,6 +6,7 @@ import SearchBar from '../components/question/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
+import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import AddQuestionModal from '../components/question/AddQuestionModal';
 import '../css/questions/question.css';
 
@@ -42,7 +43,7 @@ const ListQuestions: React.FC = () => {
   return (
     <>
       <Container fluid>
-        <MyNavbar />
+        <LoggedInNavBar />
         <SearchBar />
         <div className="btn-create">
           <AddQuestionModal />

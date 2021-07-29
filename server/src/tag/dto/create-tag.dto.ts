@@ -8,4 +8,6 @@ export class CreateTagDto {
   @IsString()
   @IsDefined()
   color: string;
+
+  question_id: number[];
 }

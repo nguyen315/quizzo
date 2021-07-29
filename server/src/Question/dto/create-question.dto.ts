@@ -10,13 +10,7 @@ export class CreateQuestionDto {
   @IsDefined()
   type: string;
 
-  @IsString()
-  @IsDefined()
   image: string | null;
-
-  // @IsNumber()
-  // @IsDefined()
-  // tagId: number | null;
 
   answers: any[];
 

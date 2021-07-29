@@ -27,7 +27,6 @@ export class QuestionService {
       ...createQuestion,
       userId: userId
     };
-    console.log(tags);
 
     const createdQuestion = this.questionRepository.create(newQuestion);
     const responseQuestion = await this.questionRepository.save(
@@ -42,11 +41,12 @@ export class QuestionService {
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
-    await this.questionRepository
-      .createQueryBuilder()
-      .relation(Question, 'tags')
-      .of(responseQuestion)
-      .add(tags);
+    if (tags.length > 0 && typeof tags !== 'string')
+      await this.questionRepository
+        .createQueryBuilder()
+        .relation(Question, 'tags')
+        .of(responseQuestion)
+        .add(tags);
     return { ...responseQuestion, answers: createdAnswers };
   }
 

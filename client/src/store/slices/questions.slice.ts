@@ -25,11 +25,21 @@ export const fetchQuestions = createAsyncThunk(
 export const createQuestion = createAsyncThunk(
   '/questions/createQuestion',
   async (questionForm: any) => {
-    console.log(questionForm);
-    const response = await axios.post(`${apiUrl}/questions`, questionForm);
-    if (response.data.success) {
-      return response.data.createdQuestion;
-    }
+    try {
+      const response = await axios.post(`${apiUrl}/questions`, questionForm);
+      if (response.data.success) {
+        return response.data.question;
+      }
+    } catch (error) {}
+  }
+);
+
+export const uploadImage = createAsyncThunk(
+  'questions/upload',
+  async (formData: any) => {
+    try {
+      await axios.post(`${apiUrl}/questions/upload`, formData);
+    } catch (error) {}
   }
 );
 

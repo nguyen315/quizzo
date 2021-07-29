@@ -14,18 +14,26 @@
 }
 
 .room {
-  border: none;
+  border: 1px solid transparent;
   box-shadow: none;
   padding-top: 2%;
   padding-left: 2%;
   margin: auto;
   height: 346px;
-  /* width: 17vw; */
   width: 290px;
   border-radius: 5px;
   margin-bottom: 23px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.room:hover {
+  /* border: 1px solid #000000; */
+  /* border-radius: 1px; */
+  /* border: #ed4867; */
+  background: #e1e1e1;
+  border: 3px solid #d0d0d0;
+  margin: -1px;
 }
 
 .room-title {
@@ -43,20 +51,23 @@
 
 .info {
   width: 110%;
-}
-
-.room-info {
+  font-weight: 300;
   font-family: 'Poppins', sans-serif;
   font-size: 12px;
-  font-weight: 400;
 }
 
 .room-info-answer {
-  font-family: 'Poppins', sans-serif;
-  font-size: 12px;
   font-weight: 400;
   float: right;
   margin-top: 5px;
+}
+
+#room-pin {
+  font-weight: bold;
+}
+
+#level {
+  color: #ed4867;
 }
 
 .room-info div {

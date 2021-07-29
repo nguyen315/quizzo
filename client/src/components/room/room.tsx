@@ -33,7 +33,9 @@ const Room = () => {
         <Card.Text className="info">
           <div>
             <label className="room-info">Room PIN:</label>
-            <span className="room-info-answer">123456 {}</span>
+            <span className="room-info-answer" id="room-pin">
+              123456 {}
+            </span>
           </div>
           <div>
             <label className="room-info">Total questions:</label>
@@ -41,7 +43,9 @@ const Room = () => {
           </div>
           <div>
             <label className="room-info">Level:</label>
-            <span className="room-info-answer">hard</span>
+            <span className="room-info-answer" id="level">
+              hard
+            </span>
           </div>
           <div>
             <label className="room-info">Time per question:</label>

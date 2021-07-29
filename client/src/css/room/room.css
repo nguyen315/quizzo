@@ -28,7 +28,8 @@
   margin-right: 10px;
 }
 
-.room-question {
+.room-title {
+  /* background: palegreen; */
   overflow: scroll;
   display: block;
   height: 80px;
@@ -37,12 +38,25 @@
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 20px;
+  float: left;
+}
+
+.info {
+  width: 110%;
 }
 
 .room-info {
   font-family: 'Poppins', sans-serif;
   font-size: 12px;
   font-weight: 400;
+}
+
+.room-info-answer {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  float: right;
+  margin-top: 5px;
 }
 
 .room-info div {
@@ -57,7 +71,7 @@
   display: flex;
   justify-content: center;
   height: 35px;
-  width: 223px;
+  width: 240px;
   border-radius: 7px;
   border: none;
   font-size: 17px;
@@ -70,4 +84,21 @@
     rgba(253, 137, 39, 0.95) 73.9%
   );
   color: white;
+}
+
+.drop-down {
+  display: block;
+  width: fit-content;
+  height: 100px;
+  /* background: palevioletred; */
+  font-family: 'Poppins', sans-serif;
+  margin-left: 200px;
+}
+
+#dropdown-basic {
+  background: darkgray;
+}
+
+#delete {
+  color: #ed4867;
 }

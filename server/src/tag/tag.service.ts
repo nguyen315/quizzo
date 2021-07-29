@@ -50,11 +50,6 @@ export class TagService {
   }
 
   async updateTagToQuestion(tagId, questionId) {
-    // const foundTag = await this.tagRepository.find({ id: tagId });
-    // const question = new Question();
-    // question.tags = foundTag;
-    // question.id = questionId;
-    // await this.questionRepository.save(question);
   }
 
   async remove(id: number) {

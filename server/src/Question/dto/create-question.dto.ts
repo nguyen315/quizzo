@@ -1,4 +1,4 @@
-import { IsDefined, IsString } from 'class-validator';
+import { IsDefined, IsNumber, IsString } from 'class-validator';
 import { Answer } from '../../answer/entities/answer.entity';
 
 export class CreateQuestionDto {
@@ -14,9 +14,7 @@ export class CreateQuestionDto {
   @IsDefined()
   image: string | null;
 
-  @IsString()
-  @IsDefined()
-  tagId: string | null;
-
   answers: any[];
+
+  tags: any[];
 }

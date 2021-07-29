@@ -22,6 +22,17 @@ export const fetchQuestions = createAsyncThunk(
   }
 );
 
+export const createQuestion = createAsyncThunk(
+  '/questions/createQuestion',
+  async (questionForm: any) => {
+    console.log(questionForm);
+    const response = await axios.post(`${apiUrl}/questions`, questionForm);
+    if (response.data.success) {
+      return response.data.createdQuestion;
+    }
+  }
+);
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState,
@@ -33,11 +44,17 @@ const questionsSlice = createSlice({
     [fetchQuestions.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
       // Add any fetched questions to the array
-      state.questions = state.questions.concat(action.payload.questions);
+      state.questions = action.payload.questions;
     },
     [fetchQuestions.rejected.toString()]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
+    },
+
+    // Create question
+    [createQuestion.fulfilled.toString()]: (state, action) => {
+      state.status = 'succeeded';
+      state.questions = [...state.questions, action.payload];
     }
   }
 });

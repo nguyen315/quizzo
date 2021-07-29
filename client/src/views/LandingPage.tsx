@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from '../store/slices/auth.slice';
 import QuizzoTitle from '../components/layouts/QuizzoTitle';
 import MyNavbar from '../components/layouts/MyNavbar';
+import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import PINField from '../components/layouts/PINField';
 import Footer from '../components/layouts/Footer';
 import { Redirect } from 'react-router';
@@ -18,13 +19,10 @@ const LandingPage: React.FC = (props: any) => {
     fetchData();
   }, []);
 
-  if (auth.isAuthenticated) {
-    return <Redirect to="/dashboard" />;
-  }
-
   return (
     <>
-      <MyNavbar />
+      {auth.isAuthenticated ? <LoggedInNavBar /> : <MyNavbar />}
+
       <QuizzoTitle />
       <PINField />
       <Footer />

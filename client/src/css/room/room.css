@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&display=swap');
+
+/* .g-4 {
+  text-align: center;
+  color: red;
+} */
+
+.list-room {
+  /* background: palevioletred; */
+  padding-left: 1%;
+  padding-right: 3%;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.room {
+  border: none;
+  box-shadow: none;
+  padding-top: 2%;
+  padding-left: 2%;
+  margin: auto;
+  height: 346px;
+  /* width: 17vw; */
+  width: 290px;
+  border-radius: 5px;
+  margin-bottom: 23px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.room-question {
+  overflow: scroll;
+  display: block;
+  height: 80px;
+  width: 170px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.room-info {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.room-info div {
+  height: 21px;
+  margin-bottom: 5px;
+}
+
+.play-button {
+  background: #f4f1f1;
+  font-family: 'Poppins', sans-serif;
+  color: #5f5f5f;
+  display: flex;
+  justify-content: center;
+  height: 35px;
+  width: 223px;
+  border-radius: 7px;
+  border: none;
+  font-size: 17px;
+}
+
+.play-button:hover {
+  background: linear-gradient(
+    96.49deg,
+    #f06051 24.76%,
+    rgba(253, 137, 39, 0.95) 73.9%
+  );
+  color: white;
+}

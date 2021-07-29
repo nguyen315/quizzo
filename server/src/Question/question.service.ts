@@ -82,8 +82,17 @@ export class QuestionService {
       .skip(Number(options.limit) * (Number(options.page) - 1))
       .take(Number(options.limit))
       .getMany();
-      
-    return { ...queryBuilder, total };
+    let question = null;
+    let resDta = [];
+    for (const idx in queryBuilder) {
+      const foundAnswer = queryBuilder[idx].answers;
+      question = await this.questionRepository.findOne(queryBuilder[idx].id, {
+        relations: ['tags']
+      });
+      resDta[idx] = { ...question, answers: foundAnswer };
+    }
+
+    return { ...resDta, total };
   }
 
   async findOne(id: number) {
@@ -130,5 +139,4 @@ export class QuestionService {
     await this.answerRepository.delete({ question_id: id });
     return await this.questionRepository.delete(id);
   }
-
 }

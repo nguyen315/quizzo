@@ -19,11 +19,6 @@ export class Question {
   @Column()
   userId: string;
 
-  @Column({
-    default: 0
-  })
-  tagId: number;
-
   @Column()
   title: string;
 
@@ -41,9 +36,14 @@ export class Question {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Answer, (answer) => answer.question)
+  @OneToMany(() => Answer, (answer) => answer.question, {
+    cascade: true
+  })
   answers: Answer[];
 
-  @ManyToMany(() => Tag, (tag) => tag.questions)
+  @ManyToMany(() => Tag, (tag) => tag.questions, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   tags: Tag[];
 }

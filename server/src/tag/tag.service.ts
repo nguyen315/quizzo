@@ -4,16 +4,27 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './entities/tag.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getConnection } from 'typeorm';
+import { Question } from 'src/Question/entities/question.entity';
 
 @Injectable()
 export class TagService {
   constructor(
     @InjectRepository(Tag)
-    private tagRepository: Repository<Tag>
+    private tagRepository: Repository<Tag>,
+    @InjectRepository(Question)
+    private questionRepository: Repository<Question>
   ) {}
 
   async create(createTagDto: CreateTagDto) {
-    const createdTag = await this.tagRepository.create(createTagDto);
+    const { question_id, ...newTag } = createTagDto;
+    const createdTag = await this.tagRepository.create(newTag);
+    let foundQuestion = [];
+    for (const idx in question_id) {
+      foundQuestion[idx] = this.questionRepository.findOne({
+        id: question_id[idx]
+      });
+    }
+    createdTag.questions = foundQuestion;
     return await this.tagRepository.save(createdTag);
   }
 
@@ -38,7 +49,15 @@ export class TagService {
     return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async updateTagToQuestion(tagId, questionId) {
+    // const foundTag = await this.tagRepository.find({ id: tagId });
+    // const question = new Question();
+    // question.tags = foundTag;
+    // question.id = questionId;
+    // await this.questionRepository.save(question);
+  }
+
+  async remove(id: number) {
+    return await this.tagRepository.delete(id);
   }
 }

@@ -15,9 +15,6 @@ export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: null })
-  question_id: number;
-
   @Column()
   title: string;
 

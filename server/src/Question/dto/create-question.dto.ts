@@ -14,9 +14,11 @@ export class CreateQuestionDto {
   @IsDefined()
   image: string | null;
 
-  @IsNumber()
-  @IsDefined()
-  tagId: number | null;
+  // @IsNumber()
+  // @IsDefined()
+  // tagId: number | null;
 
   answers: any[];
+
+  tags: any[];
 }

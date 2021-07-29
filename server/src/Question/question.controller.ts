@@ -8,12 +8,16 @@ import {
   Delete,
   UseGuards,
   Request,
-  Response
+  Response,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('api/questions')
 export class QuestionController {
@@ -87,6 +91,7 @@ export class QuestionController {
       );
       res.json({ success: true, updatedQuestion: updatedQuestion });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: 'Internal server error'
@@ -101,6 +106,51 @@ export class QuestionController {
     try {
       await this.questionService.remove(question_id);
       res.json({ success: true, message: 'Delete question successfully' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  async PaginativeFindAll(
+    @Response() res,
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+  ) {
+    console.log('im here');
+    limit = limit > 100 ? 100 : limit;
+    try {
+      const content = await this.questionService.findAllWithPagination(
+        {
+          page,
+          limit
+        },
+        req.user.id
+      );
+      const previous = page === 1 ? 1 : page - 1;
+      const last = Math.ceil(content.total / limit);
+      const next = page === last ? 0 : page + 1;
+      res.json({
+        success: true,
+        content,
+        totalPage: last,
+        links: {
+          previousLink:
+            page === 1
+              ? ``
+              : `/api/questions/paginate?page=${previous}&limit=${limit}`,
+          nextLink:
+            next === 0
+              ? ``
+              : `/api/questions/paginate?page=${next}&limit=${limit}`
+        }
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({

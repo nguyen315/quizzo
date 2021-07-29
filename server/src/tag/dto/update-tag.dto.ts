@@ -11,7 +11,7 @@ export class UpdateTagDto extends PartialType(CreateTagDto) {
   @IsDefined()
   color: string;
 
-  @IsNumber()
-  @IsDefined()
-  question_id: number;
+  // @IsNumber()
+  // @IsDefined()
+  // question_id: number;
 }

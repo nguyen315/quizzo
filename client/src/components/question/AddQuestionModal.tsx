@@ -66,7 +66,7 @@ const AddQuestionModal: React.FC = () => {
     ];
     const questionForm = {
       title: values.title,
-      tagId: values.tagId,
+      tagId: +values.tagId,
       type: values.type,
       image: values.image,
       answers: answers

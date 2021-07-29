@@ -16,9 +16,7 @@ export class UpdateQuestionDto extends PartialType(CreateQuestionDto) {
   @IsDefined()
   image: string | null;
 
-  @IsNumber()
-  @IsDefined()
-  tagId: number | null;
-
   answers: any[];
+
+  tags: any[];
 }

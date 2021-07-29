@@ -29,7 +29,10 @@ export class Answer {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Question, (question) => question.answers, { eager: false })
+  @ManyToOne(() => Question, (question) => question.answers, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
   question: Question;
 }

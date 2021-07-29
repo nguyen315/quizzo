@@ -11,7 +11,9 @@ import {
   Response,
   Query,
   DefaultValuePipe,
-  ParseIntPipe
+  ParseIntPipe,
+  UseInterceptors,
+  UploadedFile
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -19,7 +21,26 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Question } from './entities/question.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import path = require('path');
+import { join } from 'path';
 
+let imageID = uuidv4();
+
+const storage = {
+  storage: diskStorage({
+    destination: './uploads/image',
+    filename: (req, file, cb) => {
+      const filename: string =
+        imageID + path.parse(file.originalname).name.replace(/\s/g, '');
+      const extention: string = path.parse(file.originalname).ext;
+
+      cb(null, `${filename}${extention}`);
+    }
+  })
+};
 @Controller('api/questions')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
@@ -31,13 +52,15 @@ export class QuestionController {
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
+    console.log(createQuestionDto);
     const user = req.user;
     try {
+      createQuestionDto.image = imageID + createQuestionDto.image;
       const createdQuestion = await this.questionService.create(
         createQuestionDto,
         user.id
       );
-      res.json({ success: true, createdQuestion: createdQuestion });
+      res.json({ success: true, question: createdQuestion });
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -158,5 +181,18 @@ export class QuestionController {
         message: 'Internal server error'
       });
     }
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('image', storage))
+  uploadFile(@UploadedFile() file) {
+    console.log(file);
+    return { imagePath: file.filename };
+  }
+
+  @Get('upload/:imgName')
+  findImangeName(@Request() req, @Response() res) {
+    const imgName = req.params.imgName;
+    return res.sendFile(join(process.cwd(), 'uploads/image/' + imgName));
   }
 }

@@ -11,11 +11,13 @@ const Question = (props: { question: any }) => {
       return !prevState;
     });
   };
-
+  console.log('../../../../server/uploads/image/' + props.question.image);
   return (
     <Card className="question" onClick={toggleAnswers}>
       <div className="img" style={{ backgroundColor: '#AAA' }}>
-        <img src={props.question.image || ''} />
+        <img
+          src={'../../../../server/uploads/image/' + props.question.image || ''}
+        />
       </div>
       <div className="content">
         <Card.Header>

@@ -12,7 +12,10 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
 import { RoomService } from './room.service';
@@ -50,6 +53,33 @@ export class RoomController {
       res
         .status(500)
         .json({ success: false, message: 'Internal server error' });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  async PaginativeFindAll(
+    @Response() res,
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    try {
+      const content = await this.roomService.findAllWithPagination(
+        {
+          page,
+          limit,
+          route: '/api/rooms/paginate'
+        },
+        req.user.id
+      );
+      res.json({ success: true, ...content });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
     }
   }
 

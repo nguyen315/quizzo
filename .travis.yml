@@ -9,7 +9,7 @@ jobs:
         - npm install
       script:
         - echo "Start Server" # will replace with test
-      brefore_deploy:
+      before_deploy:
         - cd $TRAVIS_BUILD_DIR/server
       deploy:
         provider: heroku

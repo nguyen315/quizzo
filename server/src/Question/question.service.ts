@@ -11,6 +11,7 @@ import {
   paginate,
   Pagination
 } from 'nestjs-typeorm-paginate';
+import { query } from 'express';
 @Injectable()
 export class QuestionService {
   constructor(
@@ -66,6 +67,25 @@ export class QuestionService {
     return responseData;
   }
 
+  async findAllWithPagination(options: IPaginationOptions, userID: string) {
+    const UserId = Number(userID);
+    const queryBuilderForTotal = await this.questionRepository
+      .createQueryBuilder('questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .getMany();
+    const total = queryBuilderForTotal.length;
+    const queryBuilder = await this.questionRepository
+      .createQueryBuilder('questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .skip(Number(options.limit) * (Number(options.page) - 1))
+      .take(Number(options.limit))
+      .getMany();
+      
+    return { ...queryBuilder, total };
+  }
+
   async findOne(id: number) {
     const answers = await this.answerRepository.find({ question_id: id });
     const question = await this.questionRepository.findOne(id);
@@ -111,22 +131,4 @@ export class QuestionService {
     return await this.questionRepository.delete(id);
   }
 
-  async findAllWithPagination(options: IPaginationOptions, userID: string) {
-    const UserId = Number(userID);
-    const queryBuilderForTotal = await this.questionRepository
-      .createQueryBuilder('questions')
-      .leftJoinAndSelect('questions.answers', 'answers')
-      .where('questions.userId = :UserId', { UserId })
-      .getMany();
-    const total = queryBuilderForTotal.length;
-    const queryBuilder = await this.questionRepository
-      .createQueryBuilder('questions')
-      .leftJoinAndSelect('questions.answers', 'answers')
-      .where('questions.userId = :UserId', { UserId })
-      .skip(Number(options.limit) * (Number(options.page) - 1))
-      .take(Number(options.limit))
-      .getMany();
-
-    return { ...queryBuilder, total };
-  }
 }

@@ -6,9 +6,20 @@
 }
 
 .title {
-  background: -webkit-linear-gradient(80deg,#fd8927f0, #f06051);
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.NavbarQuizzo {
+  font-size: 2.25em;
+  font-weight: 600;
+  color: #fd8927f0;
+}
+
+.NavbarQuizzo:hover {
+  color: #fd8927f0;
+  opacity: 75%;
 }
 
 .intro {

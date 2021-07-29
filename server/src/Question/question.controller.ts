@@ -70,16 +70,33 @@ export class QuestionController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
   ) {
     limit = limit > 100 ? 100 : limit;
+
     try {
       const content = await this.questionService.findAllWithPagination(
         {
           page,
-          limit,
-          route: '/api/questions/paginate'
+          limit
         },
         req.user.id
       );
-      res.json({ success: true, ...content });
+      const previous = page === 1 ? 1 : page - 1;
+      const last = Math.ceil(content.total / limit);
+      const next = page === last ? 0 : page + 1;
+      res.json({
+        success: true,
+        content,
+        totalPage: last,
+        links: {
+          previousLink:
+            page === 1
+              ? ``
+              : `/api/questions/paginate?page=${previous}&limit=${limit}`,
+          nextLink:
+            next === 0
+              ? ``
+              : `/api/questions/paginate?page=${next}&limit=${limit}`
+        }
+      });
     } catch (error) {
       res.status(500).json({
         success: false,

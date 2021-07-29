@@ -10,6 +10,7 @@ import {
   paginate,
   Pagination
 } from 'nestjs-typeorm-paginate';
+import { query } from 'express';
 @Injectable()
 export class QuestionService {
   constructor(
@@ -56,17 +57,23 @@ export class QuestionService {
     return responseData;
   }
 
-  async findAllWithPagination(
-    options: IPaginationOptions,
-    userID: string
-  ): Promise<Pagination<Question>> {
-    const id = Number(userID);
+  async findAllWithPagination(options: IPaginationOptions, userID: string) {
+    const UserId = Number(userID);
+    const queryBuilderForTotal = await this.questionRepository
+      .createQueryBuilder('questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .getMany();
+    const total = queryBuilderForTotal.length;
     const queryBuilder = await this.questionRepository
       .createQueryBuilder('questions')
-      .where('questions.userId = :id', { id })
-      .leftJoinAndSelect('questions.answers', 'answers');
-
-    return paginate<Question>(queryBuilder, options);
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .where('questions.userId = :UserId', { UserId })
+      .skip(Number(options.limit) * (Number(options.page) - 1))
+      .take(Number(options.limit))
+      .getMany();
+      
+    return { ...queryBuilder, total };
   }
 
   async findOne(id: number) {

@@ -19,6 +19,7 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Question } from './entities/question.entity';
+import { CurrentUser } from 'src/User/user.decorator';
 
 @Controller('api/questions')
 export class QuestionController {
@@ -27,11 +28,10 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req,
+    @CurrentUser() user,
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
-    const user = req.user;
     try {
       const createdQuestion = await this.questionService.create(
         createQuestionDto,

@@ -8,7 +8,9 @@ import circle from './circle.png';
 const AddRoom = () => {
   return (
     <Card className="add-room">
-      <Image className="add-logo" src={circle} roundedCircle />
+      <a href="#/Add-room">
+        <Image className="add-logo" src={circle} roundedCircle />
+      </a>
       <div className="create-a-new-room">Create a new room</div>
     </Card>
   );

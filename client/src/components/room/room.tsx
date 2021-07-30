@@ -10,10 +10,7 @@ const Room = (props: { room: any }) => {
   return (
     <Card className="room">
       <Card.Body>
-        <Card.Title className="room-question">
-          It’s a me-Mario! Thank you for playing my game! It’s a me-Mario! Thank
-          you for playing my game!
-        </Card.Title>
+        <Card.Title className="room-question">{props.room.name}</Card.Title>
         <Card.Text className="room-info">
           <div>Room PIN: {props.room.pinCode}</div>
           <div>Time per question: {props.room.timeUp}</div>

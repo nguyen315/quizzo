@@ -21,11 +21,13 @@ const ListRooms: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  let content: {} | null | undefined;
+  let content: any;
   if (roomsStatus === 'loading') {
     content = <div>Loading...</div>;
   } else if (roomsStatus === 'succeeded') {
-    content = rooms.map((room) => <Room key={room.pin} room={room} />);
+    console.log(rooms);
+    content = rooms.map((room) => <Room key={room.id} room={room} />);
+    console.log(content);
   } else if (roomsStatus === 'failed') {
     content = <div>{roomsError}</div>;
   }
@@ -40,7 +42,7 @@ const ListRooms: React.FC = () => {
     <Container fluid>
       <MyNavbar />
       <SearchBar />
-      {/* <div>// {content}</div> */}
+      {/* <div> {content}</div> */}
 
       <Row xs={1} md={2} lg={4} className="list-room">
         {Array.from({ length: 1 }).map((_, idx) => (
@@ -48,10 +50,10 @@ const ListRooms: React.FC = () => {
             <AddRoom />
           </Col>
         ))}
-
-        {Array.from({ length: 4 }).map((_, idx) => (
+        {content}
+        {/* {Array.from({ length: 4 }).map((_, idx) => (
           <Col>{content}</Col>
-        ))}
+        ))} */}
       </Row>
     </Container>
   );

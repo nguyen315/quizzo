@@ -41,12 +41,23 @@ export class QuestionService {
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
+
+    let tagIds = [];
+    let foundTags = [];
+    for (const idx in tags) {
+      foundTags[idx] = await this.tagRepository.find({ title: tags[idx] });
+    }
+    for (const idx in foundTags) {
+      tagIds[idx] = foundTags[idx][0].id;
+    }
+    console.log(foundTags);
+    console.log(tagIds);
     if (tags.length > 0 && typeof tags !== 'string')
       await this.questionRepository
         .createQueryBuilder()
         .relation(Question, 'tags')
         .of(responseQuestion)
-        .add(tags);
+        .add(tagIds);
     return { ...responseQuestion, answers: createdAnswers };
   }
 

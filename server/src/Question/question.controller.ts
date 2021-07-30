@@ -52,10 +52,10 @@ export class QuestionController {
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
-    console.log(createQuestionDto);
     const user = req.user;
     try {
-      createQuestionDto.image = imageID + createQuestionDto.image;
+      if (createQuestionDto.image !== '')
+        createQuestionDto.image = imageID + createQuestionDto.image;
       const createdQuestion = await this.questionService.create(
         createQuestionDto,
         user.id
@@ -186,7 +186,6 @@ export class QuestionController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('image', storage))
   uploadFile(@UploadedFile() file) {
-    console.log(file);
     return { imagePath: file.filename };
   }
 

@@ -69,14 +69,16 @@ const AddQuestionModal: React.FC = () => {
     ];
     const questionForm = {
       title: values.title,
-      tags: [],
+      tags: values.tags.split(' '),
       type: values.type,
-      image: values.image.files[0].name,
+      image: values.image.file !== undefined ? values.image.files[0].name : '',
       answers: answers
     };
-    const formData = new FormData();
-    formData.append('image', values.image.files[0]);
-    dispatch(uploadImage(formData));
+    if (questionForm.image !== '') {
+      const formData = new FormData();
+      formData.append('image', values.image.files[0]);
+      dispatch(uploadImage(formData));
+    }
     dispatch(createQuestion(questionForm));
     setShowForm(false);
   };
@@ -99,7 +101,7 @@ const AddQuestionModal: React.FC = () => {
         initialValues={{
           title: '',
           image: '',
-          tagId: 0,
+          tags: '',
           type: '1',
           answerA: '',
           answerB: '',
@@ -192,7 +194,9 @@ const AddQuestionModal: React.FC = () => {
                         className="answer-input"
                         type="text"
                         placeholder="#Tag"
-                        name="tagId"
+                        name="tags"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Form.Group>
                   </Col>

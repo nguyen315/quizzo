@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Answer from './Answer';
 import '../../css/questions/question.css';
+import defaultImage from '../../assets/download.png';
 
 const Question = (props: { question: any }) => {
   const [isShowAnswers, setIsShowAnswers] = useState(false);
@@ -16,7 +17,11 @@ const Question = (props: { question: any }) => {
     <Card className="question" onClick={toggleAnswers}>
       <div className="img" style={{ backgroundColor: '#AAA' }}>
         <img
-          src={baseUrl + props.question.image}
+          src={
+            props.question.image !== ''
+              ? baseUrl + props.question.image
+              : defaultImage
+          }
           alt=""
           width="200"
           height="200"

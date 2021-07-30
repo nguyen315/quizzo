@@ -11,12 +11,15 @@ const Question = (props: { question: any }) => {
       return !prevState;
     });
   };
-  console.log('../../../../server/uploads/image/' + props.question.image);
+  const baseUrl = 'http://localhost:5000/uploads/image/';
   return (
     <Card className="question" onClick={toggleAnswers}>
       <div className="img" style={{ backgroundColor: '#AAA' }}>
         <img
-          src={'../../../../server/uploads/image/' + props.question.image || ''}
+          src={baseUrl + props.question.image}
+          alt=""
+          width="200"
+          height="200"
         />
       </div>
       <div className="content">

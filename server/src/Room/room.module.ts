@@ -4,9 +4,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Room } from './room.entity';
 import { User } from 'src/User/user.entity';
+import { Question } from 'src/Question/entities/question.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Room]), TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmModule.forFeature([Room]), 
+    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([Question])
+  ],
   controllers: [RoomController],
   providers: [RoomService],
   exports: [RoomService]

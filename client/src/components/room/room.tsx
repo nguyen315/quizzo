@@ -1,18 +1,17 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import '../../css/room/room.css';
 import { Dropdown } from 'react-bootstrap';
+import { RootState } from '../../store/store';
 
-const Room = () => {
+const Room = (props: { room: any }) => {
   return (
     <Card className="room">
       <Card.Body>
-        <Card.Title className="room-title">
-          It’s a me-Mario! Thank you for playing my game! It’s a me-Mario! Thank
-          you for playing my game!
-        </Card.Title>
+        <Card.Title className="room-title">{props.room.name}</Card.Title>
 
         <Dropdown className="drop-down">
           <Dropdown.Toggle
@@ -34,12 +33,8 @@ const Room = () => {
           <div>
             <label className="room-info">Room PIN:</label>
             <span className="room-info-answer" id="room-pin">
-              123456
+              {props.room.pinCode}
             </span>
-          </div>
-          <div>
-            <label className="room-info">Total questions:</label>
-            <span className="room-info-answer">10</span>
           </div>
           <div>
             <label className="room-info">Level:</label>
@@ -49,11 +44,11 @@ const Room = () => {
           </div>
           <div>
             <label className="room-info">Time per question:</label>
-            <span className="room-info-answer">30s</span>
+            <span className="room-info-answer">{props.room.timeUp}</span>
           </div>
           <div>
             <label className="room-info">Created at:</label>
-            <span className="room-info-answer">30/06/2021</span>
+            <span className="room-info-answer">{props.room.createdAt}</span>
           </div>
         </Card.Text>
         <Button className="play-button">Play</Button>

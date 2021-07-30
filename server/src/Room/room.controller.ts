@@ -53,6 +53,16 @@ export class RoomController {
     }
   }
 
+  @Get('getRooms')
+  async findAll2(@Response() res) {
+    try {
+      const rooms = await this.roomService.findAll2();
+      res.json({ success: true, room: rooms });
+    } catch (error) {
+      res.status(500).json({success: false, message:'Internal server error'})
+    }
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number, @Request() req, @Response() res) {
     try {

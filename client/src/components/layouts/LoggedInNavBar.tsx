@@ -34,7 +34,9 @@ const LoggedInNavbar: React.FC = (props: any) => {
             <Nav.Link as={Link} to="/list-questions">
               Questions
             </Nav.Link>
-            <Nav.Link href="#rooms">Rooms</Nav.Link>
+            <Nav.Link as={Link} to="/list-rooms">
+              Rooms
+            </Nav.Link>
             <Dropdown>
               <Dropdown.Toggle variant="success">Account</Dropdown.Toggle>
               <Dropdown.Menu>

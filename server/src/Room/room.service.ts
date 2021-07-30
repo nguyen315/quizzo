@@ -56,6 +56,11 @@ export class RoomService {
       .where('rooms.user_id = :userId', { userId });
 
     return paginate<Room>(queryBuilder, options);
+
+  }
+  
+  async findAll2(){
+    return await this.roomRepository.find();
   }
 
   async findOne(id: number) {

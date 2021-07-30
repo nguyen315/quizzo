@@ -40,7 +40,8 @@ export class AppController {
 
   @UseGuards(JwtAuthGuard)
   @Get('api/login')
-  async loadUser(@CurrentUser() user, @Response() res) {
+  async loadUser(@Request() req, @Response() res) {
+    const user = await this.userService.findOne(req.user.id);
     // extract password before return
     const { password, ...result } = user;
     res.send(result);

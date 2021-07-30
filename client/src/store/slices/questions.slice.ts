@@ -3,12 +3,14 @@ import axios from 'axios';
 import { apiUrl } from '../types';
 
 interface State {
+  paginateQuestion: any[];
   questions: any[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: State = {
+  paginateQuestion: [],
   questions: [],
   status: 'idle',
   error: null
@@ -17,8 +19,8 @@ const initialState: State = {
 export const fetchQuestions = createAsyncThunk(
   '/questions/fetchQuestions',
   async () => {
-    const respone = await axios.get(`${apiUrl}/questions`);
-    return respone.data;
+    const response = await axios.get(`${apiUrl}/questions`);
+    return response.data;
   }
 );
 
@@ -43,6 +45,31 @@ export const uploadImage = createAsyncThunk(
   }
 );
 
+export const getQuestionByPage = createAsyncThunk(
+  'questions/paginate',
+  async (page: any) => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/questions/paginate?page=${page}&limit=5`
+      );
+      return response.data;
+    } catch (error) {}
+  }
+);
+
+export const getQuestionFirstPage = createAsyncThunk(
+  'questions/paginate',
+  async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/questions/paginate`);
+      let questions = [];
+      for (const idx in response.data.content) {
+      }
+      return response.data;
+    } catch (error) {}
+  }
+);
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState,
@@ -53,7 +80,6 @@ const questionsSlice = createSlice({
     },
     [fetchQuestions.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      // Add any fetched questions to the array
       state.questions = action.payload.questions;
     },
     [fetchQuestions.rejected.toString()]: (state, action) => {
@@ -65,6 +91,22 @@ const questionsSlice = createSlice({
     [createQuestion.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
       state.questions = [...state.questions, action.payload];
+    },
+
+    // Pagination question
+    [getQuestionByPage.fulfilled.toString()]: (state, action) => {
+      state.status = 'succeeded';
+      state.paginateQuestion = [
+        ...state.paginateQuestion,
+        action.payload.content
+      ];
+    },
+    [getQuestionFirstPage.fulfilled.toString()]: (state, action) => {
+      state.status = 'succeeded';
+      state.paginateQuestion = [
+        ...state.paginateQuestion,
+        action.payload.content
+      ];
     }
   }
 });

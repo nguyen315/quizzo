@@ -16,7 +16,10 @@ import {
 import '../../css/questions/addQuestion.css';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { createQuestion } from '../../store/slices/questions.slice';
+import {
+  createQuestion,
+  uploadImage
+} from '../../store/slices/questions.slice';
 import { RootState } from '../../store/store';
 
 const AddQuestionModal: React.FC = () => {
@@ -66,11 +69,16 @@ const AddQuestionModal: React.FC = () => {
     ];
     const questionForm = {
       title: values.title,
-      tags: [],
+      tags: values.tags.split(' '),
       type: values.type,
-      image: values.image,
+      image: values.image.file !== undefined ? values.image.files[0].name : '',
       answers: answers
     };
+    if (questionForm.image !== '') {
+      const formData = new FormData();
+      formData.append('image', values.image.files[0]);
+      dispatch(uploadImage(formData));
+    }
     dispatch(createQuestion(questionForm));
     setShowForm(false);
   };
@@ -93,7 +101,7 @@ const AddQuestionModal: React.FC = () => {
         initialValues={{
           title: '',
           image: '',
-          tagId: 0,
+          tags: '',
           type: '1',
           answerA: '',
           answerB: '',
@@ -110,6 +118,7 @@ const AddQuestionModal: React.FC = () => {
           handleChange,
           handleBlur,
           handleSubmit,
+          setFieldValue,
           isSubmitting
         }) => (
           <Form onSubmit={handleSubmit}>
@@ -154,6 +163,11 @@ const AddQuestionModal: React.FC = () => {
                           <Form.Control
                             type="file"
                             className="custom-file-input"
+                            name="image"
+                            onChange={(event) =>
+                              setFieldValue('image', event.target)
+                            }
+                            onBlur={handleBlur}
                           />
                         </Col>
                       </Row>
@@ -180,7 +194,9 @@ const AddQuestionModal: React.FC = () => {
                         className="answer-input"
                         type="text"
                         placeholder="#Tag"
-                        name="tagId"
+                        name="tags"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Form.Group>
                   </Col>
@@ -194,7 +210,6 @@ const AddQuestionModal: React.FC = () => {
                         value="A"
                         checked={checkedA}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                       />{' '}
                       A
                     </label>
@@ -227,7 +242,6 @@ const AddQuestionModal: React.FC = () => {
                         value="B"
                         checked={checkedB}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                       />{' '}
                       B
                     </label>
@@ -260,7 +274,6 @@ const AddQuestionModal: React.FC = () => {
                         value="C"
                         checked={checkedC}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                       />{' '}
                       C
                     </label>
@@ -293,7 +306,6 @@ const AddQuestionModal: React.FC = () => {
                         value="D"
                         checked={checkedD}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                       />{' '}
                       D
                     </label>

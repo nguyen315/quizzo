@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&display=swap');
+
+.add-room {
+  position: relative;
+  border: none;
+  box-shadow: none;
+  padding-top: 2%;
+  padding-left: 2%;
+  margin: auto;
+  height: 346px;
+  /* width: 17vw; */
+  width: 290px;
+  border-radius: 5px;
+  margin-bottom: 23px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.add-logo {
+  max-height: 40%;
+  max-width: 40%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.create-a-new-room {
+  /* background: palevioletred; */
+  font-family: 'Poppins', sans-serif;
+  width: fit-content;
+  font-size: 16px;
+  color: rgba(38, 38, 38, 0.5);
+  margin-left: 25%;
+  margin-top: 95%;
+}

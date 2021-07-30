@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 
+import '../../css/room/searchbar.css';
+
 const SearchBar = () => {
   return (
     <Form className="d-flex">

@@ -26,6 +26,7 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
 import { join } from 'path';
+import { CurrentUser } from 'src/User/user.decorator';
 
 let imageID = uuidv4();
 
@@ -48,11 +49,10 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req,
+    @CurrentUser() user,
     @Response() res,
     @Body() createQuestionDto: CreateQuestionDto
   ) {
-    const user = req.user;
     try {
       if (createQuestionDto.image !== '')
         createQuestionDto.image = imageID + createQuestionDto.image;

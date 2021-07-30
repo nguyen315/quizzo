@@ -26,6 +26,7 @@ export class UserController {
   getAll(): Promise<User[]> {
     return this.userService.findAll();
   }
+
   @Get(':id')
   async getOne(@Param('id') id: number): Promise<Omit<User, 'password'>> {
     // Check userId from request token match with userId you want to get info

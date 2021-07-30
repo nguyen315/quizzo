@@ -42,6 +42,10 @@ export class RoomService {
     return response;
   }
 
+  async findAll2(){
+    return await this.roomRepository.find();
+  }
+
   async findOne(id: number) {
     return this.roomRepository.findOne(id);
   }

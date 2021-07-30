@@ -39,7 +39,7 @@ const Room = (props: { room: any }) => {
           <div>
             <label className="room-info">Level:</label>
             <span className="room-info-answer" id="level">
-              hard
+              {props.room.level}
             </span>
           </div>
           <div>

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import * as securePin from 'secure-pin';
 
+
 @Entity()
 export class Room {
   @PrimaryGeneratedColumn()
@@ -24,6 +25,9 @@ export class Room {
 
   @Column()
   pinCode: number;
+
+  @Column()
+  level: string;
 
   @Column({ default: 15 })
   timeUp: number;

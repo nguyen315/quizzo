@@ -47,17 +47,19 @@ export class QuestionService {
     for (const idx in tags) {
       foundTags[idx] = await this.tagRepository.find({ title: tags[idx] });
     }
-    for (const idx in foundTags) {
-      tagIds[idx] = foundTags[idx][0].id;
+    console.log(foundTags[0]);
+    if (foundTags[0].length > 0) {
+      for (const idx in foundTags) {
+        tagIds[idx] = foundTags[idx][0].id;
+      }
     }
-    console.log(foundTags);
-    console.log(tagIds);
-    if (tags.length > 0 && typeof tags !== 'string')
+    if (tagIds.length > 0) {
       await this.questionRepository
         .createQueryBuilder()
         .relation(Question, 'tags')
         .of(responseQuestion)
         .add(tagIds);
+    }
     return { ...responseQuestion, answers: createdAnswers };
   }
 

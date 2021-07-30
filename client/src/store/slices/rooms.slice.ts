@@ -29,7 +29,8 @@ const roomsSlice = createSlice({
       state.status = 'loading';
     },
     [fetchRooms.fulfilled.toString()]: (state, action) => {
-      state.rooms = state.rooms.concat(action.payload.rooms);
+      state.status = 'succeeded';
+      state.rooms = state.rooms.concat(action.payload.room);
     },
     [fetchRooms.rejected.toString()]: (state, action) => {
       state.status = 'failed';

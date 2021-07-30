@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Question from '../components/question/Question';
 import { Container } from 'react-bootstrap';
 import MyNavbar from '../components/layouts/MyNavbar';
@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import {
   fetchQuestions,
-  getQuestionFirstPage
+  getQuestionFirstPage,
+  getQuestionByPage
 } from '../store/slices/questions.slice';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import AddQuestionModal from '../components/question/AddQuestionModal';
 import '../css/questions/question.css';
-// import ReactPaginate from 'react-paginate';
+import * as ReactPaginate from 'react-paginate';
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -28,6 +29,8 @@ const ListQuestions: React.FC = () => {
   const questionPageinate = useSelector(
     (state: RootState) => state.questions.paginateQuestion
   );
+
+  const [pageNumber, setPageNumber] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -52,7 +55,11 @@ const ListQuestions: React.FC = () => {
     dispatch(getQuestionFirstPage());
   }, [dispatch]);
 
-  console.log(typeof questionPageinate);
+  let pageCount = Math.ceil(questions.length / 10);
+
+  const changePage = ({ selected }: any) => {
+    dispatch(getQuestionByPage(selected));
+  };
 
   return (
     <>

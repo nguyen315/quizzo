@@ -62,10 +62,15 @@ export const getQuestionFirstPage = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(`${apiUrl}/questions/paginate`);
-      let questions = [];
+      let questions_res = [];
+      let i = 0;
       for (const idx in response.data.content) {
+        questions_res[i] = response.data.content[i];
+        i += 1;
+        console.log(typeof questions_res);
+        if (i === 9) break;
       }
-      return response.data;
+      return questions_res;
     } catch (error) {}
   }
 );
@@ -103,10 +108,8 @@ const questionsSlice = createSlice({
     },
     [getQuestionFirstPage.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      state.paginateQuestion = [
-        ...state.paginateQuestion,
-        action.payload.content
-      ];
+      console.log(typeof action.payload);
+      state.paginateQuestion = action.payload;
     }
   }
 });

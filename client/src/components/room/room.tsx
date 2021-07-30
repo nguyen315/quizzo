@@ -34,7 +34,7 @@ const Room = () => {
           <div>
             <label className="room-info">Room PIN:</label>
             <span className="room-info-answer" id="room-pin">
-              123456 {}
+              123456
             </span>
           </div>
           <div>

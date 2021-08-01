@@ -6,6 +6,7 @@ import '../../css/questions/question.css';
 import { BiTrashAlt } from 'react-icons/bi';
 import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai';
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
+import defaultImage from '../../assets/download.png';
 
 const Question = (props: { question: any }) => {
   const [isExpand, setIsExpand] = useState(false);
@@ -15,7 +16,7 @@ const Question = (props: { question: any }) => {
       return !prevState;
     });
   };
-
+  const baseUrl = 'http://localhost:5000/uploads/image/';
   return (
     <Card className="question">
       <Card.Body className="content">
@@ -34,6 +35,27 @@ const Question = (props: { question: any }) => {
             <div className="clickable" onClick={toggleAnswers}>
               <span>{props.question.title}</span>
             </div>
+            {/* <Card className="question" onClick={toggleAnswers}>
+      <div className="img" style={{ backgroundColor: '#AAA' }}>
+        <img
+          src={
+            props.question.image !== ''
+              ? baseUrl + props.question.image
+              : defaultImage
+          }
+          alt=""
+          width="200"
+          height="200"
+        />
+      </div>
+      <div className="content">
+        <Card.Header>
+          <div>Question ID: {props.question.id}</div>
+          <div>Tags: {props.question.tagId || ''}</div>
+        </Card.Header>
+        <Card.Body>
+          <blockquote className="blockquote mb-0">
+            <p>{props.question.title}</p> */}
           </blockquote>
 
           {/* tags */}

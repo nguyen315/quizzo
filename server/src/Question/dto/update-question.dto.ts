@@ -12,8 +12,6 @@ export class UpdateQuestionDto extends PartialType(CreateQuestionDto) {
   @IsDefined()
   type: string;
 
-  @IsString()
-  @IsDefined()
   image: string | null;
 
   answers: any[];

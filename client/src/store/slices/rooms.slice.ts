@@ -15,8 +15,8 @@ const initialState: State = {
 };
 
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
-  const respone = await axios.get(`${apiUrl}/rooms/getRooms`);
-  console.log(respone.data);
+  const respone = await axios.get(`${apiUrl}/rooms`);
+  console.log('DEBUG', respone.data);
   return respone.data;
 });
 
@@ -30,7 +30,7 @@ const roomsSlice = createSlice({
     },
     [fetchRooms.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      state.rooms = state.rooms.concat(action.payload.room);
+      state.rooms = state.rooms.concat(action.payload.rooms);
     },
     [fetchRooms.rejected.toString()]: (state, action) => {
       state.status = 'failed';

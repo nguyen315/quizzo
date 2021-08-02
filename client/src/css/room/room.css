@@ -1,12 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&display=swap');
 
-/* .g-4 {
-  text-align: center;
-  color: red;
-} */
-
 .list-room {
-  /* background: palevioletred; */
   padding-left: 1%;
   padding-right: 3%;
   width: 80%;
@@ -28,17 +22,13 @@
 }
 
 .room:hover {
-  /* border: 1px solid #000000; */
-  /* border-radius: 1px; */
-  /* border: #ed4867; */
   background: #e1e1e1;
   border: 3px solid #d0d0d0;
   margin: -1px;
 }
 
 .room-title {
-  /* background: palegreen; */
-  overflow: scroll;
+  overflow: auto;
   display: block;
   height: 80px;
   width: 170px;
@@ -101,7 +91,6 @@
   display: block;
   width: fit-content;
   height: 100px;
-  /* background: palevioletred; */
   font-family: 'Poppins', sans-serif;
   margin-left: 200px;
 }

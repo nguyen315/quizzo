@@ -17,8 +17,6 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/list-rooms" component={ListRooms} />
-
           <Route exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/about" component={About} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
@@ -27,6 +25,8 @@ const App: React.FC = () => {
             path="/list-questions"
             component={ListQuestions}
           />
+          <ProtectedRoute exact path="/list-rooms" component={ListRooms} />
+
           <ProtectedRoute exact path="/socket" component={Socket} />
         </Switch>
       </Router>

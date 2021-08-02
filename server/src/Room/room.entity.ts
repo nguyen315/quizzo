@@ -1,3 +1,4 @@
+import { Question } from 'src/Question/entities/question.entity';
 import { User } from 'src/User/user.entity';
 import {
   BeforeInsert,
@@ -5,12 +6,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import * as securePin from 'secure-pin';
-
 
 @Entity()
 export class Room {
@@ -27,7 +28,7 @@ export class Room {
   pinCode: number;
 
   @Column()
-  level: string;
+  level: number;
 
   @Column({ default: 15 })
   timeUp: number;
@@ -41,4 +42,10 @@ export class Room {
   @ManyToOne(() => User, (user) => user.room, { eager: false })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
+
+  @ManyToMany(() => Question, (question) => question.rooms, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  questions: Question[];
 }

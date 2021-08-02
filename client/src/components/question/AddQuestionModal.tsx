@@ -66,7 +66,7 @@ const AddQuestionModal: React.FC = () => {
       title: values.title,
       tags: values.tags.split(' '),
       type: values.type,
-      image: values.image.file !== undefined ? values.image.files[0].name : '',
+      image: values.image.files !== undefined ? values.image.files[0].name : '',
       answers: answers
     };
     if (questionForm.image !== '') {

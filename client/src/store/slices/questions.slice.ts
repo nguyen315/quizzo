@@ -65,10 +65,12 @@ export const getQuestionFirstPage = createAsyncThunk(
       let questions_res = [];
       let i = 0;
       for (const idx in response.data.content) {
-        questions_res[i] = response.data.content[i];
-        i += 1;
-        console.log(typeof questions_res);
-        if (i === 9) break;
+        try {
+          questions_res[i] = response.data.content[i];
+          i += 1;
+        } catch (error) {
+          break;
+        }
       }
       return questions_res;
     } catch (error) {}

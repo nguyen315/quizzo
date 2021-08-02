@@ -51,6 +51,7 @@ export class User {
 
   @Column({ default: null })
   token: string;
+  
   @OneToMany(() => Room, (room) => room.user)
   room: Room[];
 

@@ -14,28 +14,38 @@ import {
   paginate,
   Pagination
 } from 'nestjs-typeorm-paginate';
+import { Question } from 'src/Question/entities/question.entity';
 
 @Injectable()
 export class RoomService {
   constructor(
     @InjectRepository(Room) private roomRepository: Repository<Room>,
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Question) private questionRepository: Repository<Question>
   ) {}
 
   async create(createRoomDto: CreateRoomDto, user_id: number) {
+    const { questions, ...rest } = createRoomDto;
+
     const newRoom = {
-      ...createRoomDto,
+      ...rest,
       user_id: user_id,
       pinCode: Math.floor(100000 + Math.random() * 900000)
     };
     const createdRoom = await this.roomRepository.create(newRoom);
-    return await this.roomRepository.save(createdRoom);
+    const responseRoom = await this.roomRepository.save(createdRoom);
+    
+    await this.roomRepository
+      .createQueryBuilder()
+      .relation(Room, 'questions')
+      .of(responseRoom)
+      .add(questions);
+    return responseRoom;
   }
 
   async findAll() {
     const users = await this.userRepository.find();
     const response = [];
-    let responseUser = null;
     for (const user of users) {
       let user_id = user.id;
       let rooms = await this.roomRepository.find({

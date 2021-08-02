@@ -34,6 +34,7 @@ export class RoomController {
       const createdRoom = await this.roomService.create(createRoomDto, user.id);
       res.json({ success: true, room: createdRoom });
     } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ success: false, message: 'Internal server error' });
@@ -43,7 +44,7 @@ export class RoomController {
   @Get()
   async findAll(@Request() req, @Response() res) {
     try {
-      const rooms = await this.roomService.findAll();
+      const rooms = await this.roomService.findAll(req.user.id);
       res.json({ success: true, rooms: rooms });
     } catch (error) {
       res

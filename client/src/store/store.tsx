@@ -1,4 +1,5 @@
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/auth.slice';
 import questionsSlice from './slices/questions.slice';
@@ -8,7 +9,7 @@ const store = configureStore({
     auth: authReducer,
     questions: questionsSlice
   },
-  middleware: [thunk]
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });
 
 export type RootState = ReturnType<typeof store.getState>;

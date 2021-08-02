@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import {
   Controller,
   Get,
@@ -20,7 +16,7 @@ import {
 import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
 import { RoomService } from './room.service';
 import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from 'src/Room/dto/update-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('api/rooms')
@@ -62,8 +58,8 @@ export class RoomController {
   async PaginativeFindAll(
     @Response() res,
     @Request() req,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10
   ) {
     limit = limit > 100 ? 100 : limit;
     try {

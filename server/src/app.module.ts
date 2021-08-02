@@ -13,6 +13,8 @@ import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
 import { ChatGateway } from './chat.gateway';
 import { TagModule } from './tag/tag.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -20,6 +22,9 @@ import { TagModule } from './tag/tag.module';
     AuthModule,
     UserModule,
 
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client')
+    }),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,

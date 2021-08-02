@@ -5,5 +5,10 @@ export class CreateRoomDto {
   @IsDefined()
   name: string;
 
+  @IsDefined()
+  level: number;
+
   timeUp?: number;
+
+  questions: any[];
 }

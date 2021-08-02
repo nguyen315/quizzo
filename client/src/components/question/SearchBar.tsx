@@ -3,6 +3,8 @@ import { Form, FormControl, Button } from 'react-bootstrap';
 import '../../css/questions/searchBar.css';
 import { BsSearch, BsX } from 'react-icons/bs';
 
+import '../../css/room/searchbar.css';
+
 const SearchBar = () => {
   return (
     <Form className="d-flex search-bar-form">

@@ -102,7 +102,7 @@ const Question = (props: { question: any }) => {
           </div>
 
           <div className="smaller-font date">
-           {moment(props.question.updatedAt).format("DD-MM-YYYY HH:mm:ss")}
+            {moment(props.question.updatedAt).format('DD-MM-YYYY HH:mm:ss')}
           </div>
         </div>
       </Card.Body>

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&display=swap');
+
+.room-list-search-bar {
+  /* background: palegreen; */
+  width: 80%;
+  margin-left: 10%;
+  position: relative;
+}
+
+#room-list {
+  margin-bottom: 32px;
+  height: 42px;
+  width: 147px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.search-bar {
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  color: black;
+  margin-bottom: 57px;
+  border-radius: 20px;
+  border: none;
+  padding-left: 50px;
+}
+
+.search-bar::placeholder {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.iconInput {
+  position: absolute;
+  margin-left: -110px;
+  margin-top: 5px;
+}
+
+.groupInput {
+  position: relative;
+}

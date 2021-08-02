@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlusCircle,
-  faEdit,
-  faImage
-} from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faImage } from '@fortawesome/free-solid-svg-icons';
 import '../../css/questions/addQuestion.css';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { AiOutlinePlus } from 'react-icons/ai';
 import {
   createQuestion,
   uploadImage
@@ -122,8 +117,8 @@ const AddQuestionModal: React.FC = () => {
           isSubmitting
         }) => (
           <Form onSubmit={handleSubmit}>
-            <Form.Label onClick={clickCreate} className="form-title">
-              Create new question <FontAwesomeIcon icon={faPlusCircle} />{' '}
+            <Form.Label onClick={clickCreate} className="form-title clickable">
+              Create new question <AiOutlinePlus className="plus-icon" />
             </Form.Label>
             {showForm && (
               <>

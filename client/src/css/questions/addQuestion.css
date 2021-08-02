@@ -1,9 +1,12 @@
 .form-title {
   background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051) red;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 1rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem;
+  color: white;
 }
 
 .title-side {
@@ -92,4 +95,14 @@
 
 .errorText {
   color: red;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.plus-icon {
+  fill: white;
+  font-size: 1.5rem;
 }

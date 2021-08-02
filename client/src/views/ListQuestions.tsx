@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Question from '../components/question/Question';
 import { Container } from 'react-bootstrap';
-import MyNavbar from '../components/layouts/MyNavbar';
 import SearchBar from '../components/question/SearchBar';
+import FilterBar from '../components/question/FilterBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import {
@@ -13,6 +13,7 @@ import {
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import AddQuestionModal from '../components/question/AddQuestionModal';
 import '../css/questions/question.css';
+import '../css/questions/listQuestion.css';
 import * as ReactPaginate from 'react-paginate';
 
 const ListQuestions: React.FC = () => {
@@ -62,16 +63,21 @@ const ListQuestions: React.FC = () => {
   };
 
   return (
-    <>
-      <Container fluid>
-        <LoggedInNavBar />
+    <Container fluid="lg">
+      <LoggedInNavBar />
+      <div className="btn-create">
+        <AddQuestionModal />
+      </div>
+      <div>
+        <span className="title question-list-title">Question List</span>
+      </div>
+      <div className="mt-3 search-filter-bar">
         <SearchBar />
-        <div className="btn-create">
-          <AddQuestionModal />
-        </div>
-        {content}
-      </Container>
-    </>
+        <FilterBar />
+      </div>
+
+      {content}
+    </Container>
   );
 };
 

@@ -9,7 +9,7 @@ const SearchBar = () => {
     <div className="room-list-search-bar">
       <div id="room-list">Rooms list</div>
       <Form.Group className="groupInput">
-        <Form.Label className="iconInput">
+        <Form.Label className="iconInput-1">
           <FontAwesomeIcon icon={faSearch} />
         </Form.Label>
         <Form.Control

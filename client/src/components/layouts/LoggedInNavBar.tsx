@@ -4,6 +4,10 @@ import { RootState } from '../../store/store';
 import { logOut, showUpdateModal } from '../../store/slices/auth.slice';
 import { setAuthToken } from '../../utils/setAuthToken';
 import { Link } from 'react-router-dom';
+import LoginForm from '../auth/LoginForm';
+import RegisterForm from '../auth/RegisterForm';
+import UpdateForm from '../auth/UpdateForm';
+import '../../css/landing/quizzo-title.css';
 
 const LoggedInNavbar: React.FC = (props: any) => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -22,6 +26,9 @@ const LoggedInNavbar: React.FC = (props: any) => {
   return (
     <>
       <br />
+      <LoginForm />
+      <RegisterForm />
+      <UpdateForm />
       <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand className="NavbarQuizzo" as={Link} to="/">

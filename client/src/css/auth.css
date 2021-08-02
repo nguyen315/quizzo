@@ -11,6 +11,15 @@
   margin-left: 43%;
 }
 
+.Auth-Modal_title-2 {
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051) red;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 600;
+  font-weight: 800;
+  margin-left: 32%;
+}
+
 .Auth-Modal_input {
   border-radius: 30px;
   width: 85%;
@@ -24,8 +33,8 @@
 
 .iconInput {
   position: absolute;
-  top: 20%;
-  left: 10%;
+  top: 15%;
+  left: 9%;
 }
 
 .forgot-pass {

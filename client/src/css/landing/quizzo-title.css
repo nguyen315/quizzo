@@ -15,10 +15,17 @@
   font-size: 2.25em;
   font-weight: 600;
   color: #fd8927f0;
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: -250px;
 }
 
 .NavbarQuizzo:hover {
   color: #fd8927f0;
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   opacity: 75%;
 }
 
@@ -63,4 +70,8 @@
   to {
     stroke-dashoffset: 0;
   }
+}
+
+.me-auto {
+  margin-right: -250px;
 }

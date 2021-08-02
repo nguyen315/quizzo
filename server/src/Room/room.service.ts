@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -34,7 +30,7 @@ export class RoomService {
     };
     const createdRoom = await this.roomRepository.create(newRoom);
     const responseRoom = await this.roomRepository.save(createdRoom);
-    
+
     await this.roomRepository
       .createQueryBuilder()
       .relation(Room, 'questions')
@@ -43,18 +39,13 @@ export class RoomService {
     return responseRoom;
   }
 
-  async findAll() {
-    const users = await this.userRepository.find();
+  async findAll(id: number) {
     const response = [];
-    for (const user of users) {
-      let user_id = user.id;
-      let rooms = await this.roomRepository.find({
-        user_id: user_id
-      });
-      let { password, ...responseUser } = user;
-      response.push({ ...responseUser, rooms: rooms });
-    }
-    return response;
+    let rooms = await this.roomRepository.find({
+      user_id: id
+    });
+
+    return rooms;
   }
 
   async findAllWithPagination(
@@ -66,6 +57,10 @@ export class RoomService {
       .where('rooms.user_id = :userId', { userId });
 
     return paginate<Room>(queryBuilder, options);
+  }
+
+  async findAll2() {
+    return await this.roomRepository.find();
   }
 
   async findOne(id: number) {

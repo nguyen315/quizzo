@@ -44,7 +44,7 @@ export class RoomController {
   @Get()
   async findAll(@Request() req, @Response() res) {
     try {
-      const rooms = await this.roomService.findAll();
+      const rooms = await this.roomService.findAll(req.user.id);
       res.json({ success: true, rooms: rooms });
     } catch (error) {
       res

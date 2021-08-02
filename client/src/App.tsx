@@ -10,6 +10,8 @@ import Dashboard from './views/Dashboard';
 import ListQuestions from './views/ListQuestions';
 import Socket from './views/Socket';
 
+import ListRooms from './views/ListRooms';
+
 const App: React.FC = () => {
   return (
     <Provider store={store}>
@@ -23,6 +25,8 @@ const App: React.FC = () => {
             path="/list-questions"
             component={ListQuestions}
           />
+          <ProtectedRoute exact path="/list-rooms" component={ListRooms} />
+
           <ProtectedRoute exact path="/socket" component={Socket} />
         </Switch>
       </Router>

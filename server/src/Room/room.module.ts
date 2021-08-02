@@ -8,7 +8,7 @@ import { Question } from 'src/Question/entities/question.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Room]), 
+    TypeOrmModule.forFeature([Room]),
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Question])
   ],

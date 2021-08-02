@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400&display=swap');
+
+.list-room {
+  padding-left: 1%;
+  padding-right: 3%;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.room {
+  border: 1px solid transparent;
+  box-shadow: none;
+  padding-top: 2%;
+  padding-left: 2%;
+  margin: auto;
+  height: 346px;
+  width: 290px;
+  border-radius: 5px;
+  margin-bottom: 23px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.room:hover {
+  background: #e1e1e1;
+  border: 3px solid #d0d0d0;
+  margin: -1px;
+}
+
+.room-title {
+  overflow: auto;
+  display: block;
+  height: 80px;
+  width: 170px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  float: left;
+}
+
+.info {
+  width: 110%;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+}
+
+.room-info-answer {
+  font-weight: 400;
+  float: right;
+  margin-top: 5px;
+}
+
+#room-pin {
+  font-weight: bold;
+}
+
+#level {
+  color: #ed4867;
+}
+
+.room-info div {
+  height: 21px;
+  margin-bottom: 5px;
+}
+
+.play-button {
+  background: #f4f1f1;
+  font-family: 'Poppins', sans-serif;
+  color: #5f5f5f;
+  display: flex;
+  justify-content: center;
+  height: 35px;
+  width: 240px;
+  border-radius: 7px;
+  border: none;
+  font-size: 17px;
+}
+
+.play-button:hover {
+  background: linear-gradient(
+    96.49deg,
+    #f06051 24.76%,
+    rgba(253, 137, 39, 0.95) 73.9%
+  );
+  color: white;
+}
+
+.drop-down {
+  display: block;
+  width: fit-content;
+  height: 100px;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 200px;
+}
+
+#dropdown-basic {
+  background: darkgray;
+}
+
+#delete {
+  color: #ed4867;
+}

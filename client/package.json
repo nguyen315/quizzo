@@ -25,6 +25,7 @@
     "axios": "^0.21.1",
     "customize-cra": "^1.0.0",
     "formik": "^2.2.9",
+    "moment": "^2.29.1",
     "proxy": "^1.0.2",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",

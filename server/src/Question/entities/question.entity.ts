@@ -1,3 +1,4 @@
+import { Room } from 'src/Room/room.entity';
 import { Tag } from 'src/tag/entities/tag.entity';
 import {
   Column,
@@ -7,7 +8,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinTable
+  JoinTable,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
 import { Answer } from '../../answer/entities/answer.entity';
 
@@ -46,4 +49,8 @@ export class Question {
     onUpdate: 'CASCADE'
   })
   tags: Tag[];
+
+  @ManyToMany(() => Room, (room) => room.questions, { cascade: true })
+  @JoinTable()
+  rooms: Room[];
 }

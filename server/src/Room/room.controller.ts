@@ -34,6 +34,7 @@ export class RoomController {
       const createdRoom = await this.roomService.create(createRoomDto, user.id);
       res.json({ success: true, room: createdRoom });
     } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ success: false, message: 'Internal server error' });

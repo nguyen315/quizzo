@@ -11,6 +11,7 @@ import ListQuestions from './views/ListQuestions';
 import Socket from './views/Socket';
 
 import ListRooms from './views/ListRooms';
+import CreateRoom from './views/CreateRoom';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
             component={ListQuestions}
           />
           <ProtectedRoute exact path="/list-rooms" component={ListRooms} />
+          <ProtectedRoute exact path="/create-room" component={CreateRoom} />
 
           <ProtectedRoute exact path="/socket" component={Socket} />
         </Switch>

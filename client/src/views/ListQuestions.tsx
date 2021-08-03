@@ -5,11 +5,7 @@ import SearchBar from '../components/question/SearchBar';
 import FilterBar from '../components/question/FilterBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import {
-  fetchQuestions,
-  getQuestionFirstPage,
-  getQuestionByPage
-} from '../store/slices/questions.slice';
+import { getQuestionByPage } from '../store/slices/questions.slice';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import AddQuestionModal from '../components/question/AddQuestionModal';
 import '../css/questions/question.css';
@@ -55,7 +51,7 @@ const ListQuestions: React.FC = () => {
   }
 
   useEffect(() => {
-    dispatch(getQuestionFirstPage());
+    dispatch(getQuestionByPage(1));
   }, [dispatch]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -129,6 +125,56 @@ const ListQuestions: React.FC = () => {
     );
   }
 
+  let paginatePage = null;
+  if (totalPage === 1) {
+    paginatePage = (
+      <Pagination.Item
+        active={1 === currentPage}
+        onClick={() => handleClickPage(1)}
+      >
+        1
+      </Pagination.Item>
+    );
+  } else if (totalPage === 2) {
+    paginatePage = (
+      <>
+        {' '}
+        <Pagination.Item
+          active={1 === currentPage}
+          onClick={() => handleClickPage(1)}
+        >
+          1
+        </Pagination.Item>
+        <Pagination.Item
+          active={2 === currentPage}
+          onClick={() => handleClickPage(2)}
+        >
+          2
+        </Pagination.Item>
+      </>
+    );
+  } else {
+    paginatePage = (
+      <>
+        {currentPage > 2 && totalPage > 3 && (
+          <>
+            {' '}
+            <Pagination.Item onClick={goFirstPage}>{1}</Pagination.Item>{' '}
+            <Pagination.Ellipsis />
+          </>
+        )}
+        {paginationPage}
+        {currentPage < totalPage - 1 && totalPage > 3 && (
+          <>
+            {' '}
+            <Pagination.Ellipsis />
+            <Pagination.Item onClick={goLastPage}>{totalPage}</Pagination.Item>
+          </>
+        )}{' '}
+      </>
+    );
+  }
+
   return (
     <>
       <CountDown timeUp={5} />
@@ -149,21 +195,7 @@ const ListQuestions: React.FC = () => {
       </Container>
       <Pagination className="item">
         <Pagination.Prev onClick={goPrePage} />
-        {currentPage > 2 && totalPage > 3 && (
-          <>
-            {' '}
-            <Pagination.Item onClick={goFirstPage}>{1}</Pagination.Item>{' '}
-            <Pagination.Ellipsis />
-          </>
-        )}
-        {paginationPage}
-        {currentPage < totalPage - 1 && totalPage > 3 && (
-          <>
-            {' '}
-            <Pagination.Ellipsis />
-            <Pagination.Item onClick={goLastPage}>{totalPage}</Pagination.Item>
-          </>
-        )}
+        {paginatePage}
         <Pagination.Next onClick={goNextPage} />
       </Pagination>
     </>

@@ -9,7 +9,7 @@ import {
   Form
 } from 'react-bootstrap';
 import * as Yup from 'yup';
-import InputRange from 'react-input-range';
+// import InputRange from 'react-input-range';
 import '../css/room/createrooms.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -17,6 +17,7 @@ import { fetchQuestions } from '../store/slices/questions.slice';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import Question from '../components/question/Question';
 import { createRoom } from '../store/slices/rooms.slice';
+import { Link, Redirect } from 'react-router-dom';
 
 const CreateRoom: React.FC = () => {
   const questions = useSelector(
@@ -156,6 +157,14 @@ const CreateRoom: React.FC = () => {
                   ))}{' '}
                   <br />
                 </div>
+                <Button
+                  to="/list-rooms"
+                  as={Link}
+                  className="btn-save"
+                  variant="primary"
+                >
+                  Go To Room List
+                </Button>
                 <Button className="btn-save" variant="primary" type="submit">
                   Save
                 </Button>

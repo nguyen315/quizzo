@@ -16,6 +16,7 @@ import '../css/questions/question.css';
 import '../css/questions/listQuestion.css';
 import Pagination from 'react-bootstrap/Pagination';
 import '../css/pagination.css';
+import CountDown from '../components/layouts/CountDown';
 
 const ListQuestions: React.FC = () => {
   const questions = useSelector(
@@ -130,6 +131,7 @@ const ListQuestions: React.FC = () => {
 
   return (
     <>
+      <CountDown timeUp={5} />
       <Container fluid="lg">
         <LoggedInNavBar />
         <div className="btn-create">

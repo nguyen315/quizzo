@@ -8,12 +8,16 @@ interface State {
   rooms: any[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  totalPage: any;
+  totalRoom: any;
 }
 
 const initialState: State = {
   rooms: [],
   status: 'idle',
-  error: null
+  error: null,
+  totalPage: null,
+  totalRoom: null
 };
 
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
@@ -22,41 +26,57 @@ export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
   return respone.data;
 });
 
-const roomsSlice = createSlice({
-  name: 'rooms',
-  initialState,
-  reducers: {},
-  extraReducers: {
-    [fetchRooms.pending.toString()]: (state, action) => {
-      state.status = 'loading';
-    },
-    [fetchRooms.fulfilled.toString()]: (state, action) => {
-      state.status = 'succeeded';
-      state.rooms = state.rooms.concat(action.payload.rooms);
-    },
-    [fetchRooms.rejected.toString()]: (state, action) => {
-      state.status = 'failed';
-      state.error = action.error.message;
-    }
-  }
-});
-
 export const createRoom = createAsyncThunk(
   '/rooms/createRoom',
   async (createRoomRequest: any) => {
     try {
       const response = await axios.post(`${apiUrl}/rooms`, createRoomRequest);
       if (response.data.success) {
-        alert(
-          'Create room success fully\nPlease go back to Room to see the result!'
-        );
-        window.location.reload();
+        alert(`Create ${response.data.room.title} successfully`);
+        return response.data.room;
       }
     } catch (error) {
       console.log(error);
     }
   }
 );
+export const getRoomByPage = createAsyncThunk(
+  'rooms/paginate/page',
+  async (page: any) => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/rooms/paginate?page=${page}&limit=11`
+      );
+      const totalPage = response.data.meta.totalPages;
+      return {
+        rooms: response.data.items,
+        lengthRooms: response.data.items.length,
+        totalPage: totalPage
+      };
+    } catch (error) {}
+  }
+);
+
+const roomsSlice = createSlice({
+  name: 'rooms',
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [createRoom.fulfilled.toString()]: (state, action) => {
+      state.status = 'succeeded';
+      if (state.totalRoom < 11) state.rooms = [...state.rooms, action.payload];
+      // state.totalRoom = state.totalRoom + 1;
+    },
+
+    [getRoomByPage.fulfilled.toString()]: (state, action) => {
+      console.log(action.payload);
+      state.status = 'succeeded';
+      state.rooms = action.payload.rooms;
+      state.totalRoom = action.payload.lengthRooms;
+      state.totalPage = action.payload.totalPage;
+    }
+  }
+});
 
 export default roomsSlice.reducer;
 export const {} = roomsSlice.actions;

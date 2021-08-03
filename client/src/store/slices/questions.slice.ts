@@ -5,15 +5,19 @@ import { apiUrl } from '../types';
 interface State {
   paginateQuestion: any[];
   questions: any[];
+  totalQuestion: any;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  totalPage: any;
 }
 
 const initialState: State = {
   paginateQuestion: [],
   questions: [],
+  totalQuestion: null,
   status: 'idle',
-  error: null
+  error: null,
+  totalPage: null
 };
 
 export const fetchQuestions = createAsyncThunk(
@@ -46,13 +50,27 @@ export const uploadImage = createAsyncThunk(
 );
 
 export const getQuestionByPage = createAsyncThunk(
-  'questions/paginate',
+  'questions/paginate/page',
   async (page: any) => {
     try {
       const response = await axios.get(
-        `${apiUrl}/questions/paginate?page=${page}&limit=5`
+        `${apiUrl}/questions/paginate?page=${page}&limit=10`
       );
-      return response.data;
+      let questions_res = [];
+      let lengthQuestions = 0;
+      for (let idx in response.data.content) {
+        try {
+          if (response.data.content[idx] !== null)
+            questions_res[parseInt(idx)] = response.data.content[idx];
+          else {
+            lengthQuestions = response.data.content['total'];
+          }
+        } catch (error) {
+          console.log(error);
+          break;
+        }
+      }
+      return { questions_res, lengthQuestions };
     } catch (error) {}
   }
 );
@@ -63,16 +81,16 @@ export const getQuestionFirstPage = createAsyncThunk(
     try {
       const response = await axios.get(`${apiUrl}/questions/paginate`);
       let questions_res = [];
-      let i = 0;
-      for (const idx in response.data.content) {
-        try {
-          questions_res[i] = response.data.content[i];
-          i += 1;
-        } catch (error) {
-          break;
+      let lengthQuestions = 0;
+      for (let idx in response.data.content) {
+        if (response.data.content[idx] !== null)
+          questions_res[parseInt(idx)] = response.data.content[idx];
+        else {
+          lengthQuestions = response.data.content['total'];
         }
       }
-      return questions_res;
+      const totalPage = response.data.totalPage;
+      return { questions_res, totalPage, lengthQuestions };
     } catch (error) {}
   }
 );
@@ -103,15 +121,14 @@ const questionsSlice = createSlice({
     // Pagination question
     [getQuestionByPage.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      state.paginateQuestion = [
-        ...state.paginateQuestion,
-        action.payload.content
-      ];
+      state.paginateQuestion = action.payload.questions_res;
+      state.totalQuestion = action.payload.lengthQuestions;
     },
     [getQuestionFirstPage.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      console.log(typeof action.payload);
-      state.paginateQuestion = action.payload;
+      state.paginateQuestion = action.payload.questions_res;
+      state.totalQuestion = action.payload.lengthQuestions;
+      state.totalPage = action.payload.totalPage;
     }
   }
 });

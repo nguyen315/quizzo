@@ -1,0 +1,25 @@
+.item {
+  background-color: transparent;
+  border-radius: 0;
+  color: black;
+  float: right;
+  margin-right: 250px;
+  margin-bottom: 100px;
+}
+
+.page-link {
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  border-radius: 0;
+}
+
+.page-link:hover {
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051) red;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-item {
+  padding: 5px;
+}

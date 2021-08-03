@@ -60,9 +60,11 @@ const ListQuestions: React.FC = () => {
 
   const goFirstPage = () => {
     dispatch(getQuestionByPage(1));
+    setCurrentPage(1);
   };
   const goLastPage = () => {
     dispatch(getQuestionByPage(totalPage));
+    setCurrentPage(totalPage);
   };
 
   const goPrePage = () => {
@@ -144,11 +146,23 @@ const ListQuestions: React.FC = () => {
         {content}
       </Container>
       <Pagination className="item">
-        <Pagination.First onClick={goFirstPage} />
         <Pagination.Prev onClick={goPrePage} />
+        {currentPage > 2 && totalPage > 3 && (
+          <>
+            {' '}
+            <Pagination.Item onClick={goFirstPage}>{1}</Pagination.Item>{' '}
+            <Pagination.Ellipsis />
+          </>
+        )}
         {paginationPage}
+        {currentPage < totalPage - 1 && totalPage > 3 && (
+          <>
+            {' '}
+            <Pagination.Ellipsis />
+            <Pagination.Item onClick={goLastPage}>{totalPage}</Pagination.Item>
+          </>
+        )}
         <Pagination.Next onClick={goNextPage} />
-        <Pagination.Last onClick={goLastPage} />
       </Pagination>
     </>
   );

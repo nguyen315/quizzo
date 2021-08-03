@@ -105,7 +105,7 @@ const ListRooms: React.FC = () => {
     );
   }
   let paginatePage = null;
-  if (totalPage === 1) {
+  if (totalPage === 1 || totalPage === 0) {
     paginatePage = (
       <Pagination.Item
         active={1 === currentPage}

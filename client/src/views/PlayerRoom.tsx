@@ -72,11 +72,11 @@ const PlayerRoom = () => {
                 onClick={playerSubmit}
                 value={answer.id}
                 id={
-                  answer.id % 4 == 0
+                  answer.id % 4 === 0
                     ? 'blue'
-                    : answer.id % 4 == 1
+                    : answer.id % 4 === 1
                     ? 'orange'
-                    : answer.id % 4 == 2
+                    : answer.id % 4 === 2
                     ? 'red'
                     : 'green'
                 }

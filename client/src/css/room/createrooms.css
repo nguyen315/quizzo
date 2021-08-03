@@ -16,7 +16,8 @@
 .questions-container {
   height: 33.3333vh;
   overflow: auto;
-  border: 1px solid black;
+  border: 1px solid #5a5a5a75;
+  border-radius: 5px;
   padding: 5px 10px;
   margin-bottom: 16px;
 }

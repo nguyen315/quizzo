@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { apiUrl } from '../types';
 
 interface State {
@@ -38,6 +40,23 @@ const roomsSlice = createSlice({
     }
   }
 });
+
+export const createRoom = createAsyncThunk(
+  '/rooms/createRoom',
+  async (createRoomRequest: any) => {
+    try {
+      const response = await axios.post(`${apiUrl}/rooms`, createRoomRequest);
+      if (response.data.success) {
+        alert(
+          'Create room success fully\nPlease go back to Room to see the result!'
+        );
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export default roomsSlice.reducer;
 export const {} = roomsSlice.actions;

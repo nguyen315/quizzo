@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import CountDown from '../components/layouts/CountDown';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import { RootState } from '../store/store';
 import { socket } from './LandingPage';
@@ -95,6 +96,7 @@ const HostRoom = () => {
 
   return (
     <>
+      <CountDown timeUp={5} />
       <LoggedInNavBar />
       <div>
         {game.players?.map((player) => (

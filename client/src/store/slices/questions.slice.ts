@@ -70,27 +70,8 @@ export const getQuestionByPage = createAsyncThunk(
           break;
         }
       }
-      return { questions_res, lengthQuestions };
-    } catch (error) {}
-  }
-);
-
-export const getQuestionFirstPage = createAsyncThunk(
-  'questions/paginate',
-  async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/questions/paginate`);
-      let questions_res = [];
-      let lengthQuestions = 0;
-      for (let idx in response.data.content) {
-        if (response.data.content[idx] !== null)
-          questions_res[parseInt(idx)] = response.data.content[idx];
-        else {
-          lengthQuestions = response.data.content['total'];
-        }
-      }
       const totalPage = response.data.totalPage;
-      return { questions_res, totalPage, lengthQuestions };
+      return { questions_res, lengthQuestions, totalPage };
     } catch (error) {}
   }
 );
@@ -115,16 +96,11 @@ const questionsSlice = createSlice({
     // Create question
     [createQuestion.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
-      state.questions = [...state.questions, action.payload];
+      state.paginateQuestion = [...state.paginateQuestion, action.payload];
     },
 
     // Pagination question
     [getQuestionByPage.fulfilled.toString()]: (state, action) => {
-      state.status = 'succeeded';
-      state.paginateQuestion = action.payload.questions_res;
-      state.totalQuestion = action.payload.lengthQuestions;
-    },
-    [getQuestionFirstPage.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
       state.paginateQuestion = action.payload.questions_res;
       state.totalQuestion = action.payload.lengthQuestions;

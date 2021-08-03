@@ -44,9 +44,9 @@ const Room = (props: { room: any }) => {
           <div>
             <label className="room-info">Level:</label>
             <span className="room-info-answer" id="level">
-              {props.room.level <= 10
+              {props.room.level <= 30
                 ? 'Easy'
-                : props.room.level <= 20
+                : props.room.level <= 50
                 ? 'Medium'
                 : 'Hard'}
             </span>

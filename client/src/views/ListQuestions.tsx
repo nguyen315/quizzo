@@ -63,7 +63,7 @@ const ListQuestions: React.FC = () => {
   };
 
   return (
-    <Container fluid="lg">
+    <>
       <LoggedInNavBar />
       <div className="btn-create">
         <AddQuestionModal />
@@ -77,7 +77,7 @@ const ListQuestions: React.FC = () => {
       </div>
 
       {content}
-    </Container>
+    </>
   );
 };
 

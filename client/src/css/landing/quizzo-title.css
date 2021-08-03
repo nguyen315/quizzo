@@ -18,7 +18,7 @@
   background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-left: -250px;
+  margin-left: -50px;
 }
 
 .NavbarQuizzo:hover {
@@ -73,5 +73,5 @@
 }
 
 .me-auto {
-  margin-right: -250px;
+  margin-right: -50px;
 }

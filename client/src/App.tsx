@@ -11,6 +11,8 @@ import ListQuestions from './views/ListQuestions';
 import HostRoom from './views/HostRoom';
 import { Container } from 'react-bootstrap';
 import PlayerRoom from './views/PlayerRoom';
+//import Socket from './views/Socket';
+import CountDown from './components/layouts/CountDown';
 
 import ListRooms from './views/ListRooms';
 

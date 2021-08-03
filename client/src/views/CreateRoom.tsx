@@ -9,7 +9,6 @@ import {
   Form
 } from 'react-bootstrap';
 import * as Yup from 'yup';
-// import InputRange from 'react-input-range';
 import '../css/room/createrooms.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';

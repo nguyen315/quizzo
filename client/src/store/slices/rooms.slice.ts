@@ -22,7 +22,6 @@ const initialState: State = {
 
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
   const respone = await axios.get(`${apiUrl}/rooms`);
-  console.log('DEBUG', respone.data);
   return respone.data;
 });
 

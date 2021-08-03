@@ -65,7 +65,6 @@ const roomsSlice = createSlice({
     [createRoom.fulfilled.toString()]: (state, action) => {
       state.status = 'succeeded';
       if (state.totalRoom < 11) state.rooms = [...state.rooms, action.payload];
-      // state.totalRoom = state.totalRoom + 1;
     },
 
     [getRoomByPage.fulfilled.toString()]: (state, action) => {

@@ -46,7 +46,9 @@ const UpdateForm = () => {
         onHide={resetUpdateForm}
       >
         <Modal.Header className="Auth-Modal_header" closeButton>
-          <Modal.Title className="Auth-Modal_title">Update profile</Modal.Title>
+          <Modal.Title className="Auth-Modal_title-2">
+            Update profile
+          </Modal.Title>
         </Modal.Header>
         <Form onSubmit={update}>
           <Modal.Body>

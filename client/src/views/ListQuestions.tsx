@@ -131,7 +131,6 @@ const ListQuestions: React.FC = () => {
 
   return (
     <>
-      <CountDown timeUp={5} />
       <Container fluid="lg">
         <LoggedInNavBar />
         <div className="btn-create">

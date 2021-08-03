@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import CountDown from '../components/layouts/CountDown';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import { RootState } from '../store/store';
 import { socket } from './LandingPage';
@@ -31,6 +32,7 @@ const HostRoom = () => {
     const question = game.question;
     return (
       <>
+        <CountDown timeUp={15} />
         <div>
           <h1>{question.title}</h1>
         </div>

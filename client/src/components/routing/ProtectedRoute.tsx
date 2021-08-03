@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch, connect, useSelector } from 'react-redux';
 import { loadUser } from '../../store/slices/auth.slice';
-import store from '../../store/store';
+import store, { RootState } from '../../store/store';
 
 interface IProps {
   exact?: boolean;
@@ -12,6 +12,7 @@ interface IProps {
 }
 
 const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
     fetchData();
   }, []);
 
-  if (store.getState().auth.authLoading) {
+  if (auth.authLoading) {
     return (
       <div className="spinner-container">
         <Spinner animation="border" variant="info" />
@@ -31,7 +32,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
       <Route
         {...rest}
         render={(prop) =>
-          store.getState().auth.isAuthenticated === true ? (
+          auth.isAuthenticated === true ? (
             <>
               {/* <NavbarMenu /> */}
               <Component {...rest} {...prop} />
@@ -45,8 +46,4 @@ const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
   }
 };
 
-const mapStatetoProps = (state: any) => {
-  return { auth: state.auth };
-};
-
-export default connect(mapStatetoProps)(ProtectedRoute);
+export default ProtectedRoute;

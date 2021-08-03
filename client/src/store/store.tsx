@@ -3,12 +3,14 @@ import logger from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/auth.slice';
 import questionsSlice from './slices/questions.slice';
+import gameSlice from './slices/game.slice';
 import roomsSlice from './slices/rooms.slice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     questions: questionsSlice,
+    game: gameSlice,
     rooms: roomsSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()

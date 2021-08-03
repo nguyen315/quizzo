@@ -1,4 +1,4 @@
-import { Formik, Field } from 'formik';
+import { Formik, Field, validateYupSchema } from 'formik';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -9,12 +9,14 @@ import {
   Form
 } from 'react-bootstrap';
 import * as Yup from 'yup';
-import RangeSlider from 'react-bootstrap-range-slider';
+import InputRange from 'react-input-range';
 import '../css/room/createrooms.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { fetchQuestions } from '../store/slices/questions.slice';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
+import Question from '../components/question/Question';
+import { createRoom } from '../store/slices/rooms.slice';
 
 const CreateRoom: React.FC = () => {
   const questions = useSelector(
@@ -27,14 +29,20 @@ const CreateRoom: React.FC = () => {
   }, [dispatch]);
 
   const handlerSubmit = (values: any) => {
-    console.log(values);
+    let questionsList: number[] = [];
+    for (const question of values.questions) {
+      questionsList.push(parseInt(question));
+    }
+    const createRoomRequest = {
+      name: values.name,
+      timeUp: values.timeUp,
+      level: values.level,
+      questions: questionsList
+    };
+    dispatch(createRoom(createRoomRequest));
   };
 
   const [checked, setChecked] = useState(false);
-
-  const handleChecked = () => {
-    setChecked(!checked);
-  };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -57,13 +65,13 @@ const CreateRoom: React.FC = () => {
             name: '',
             timeUp: '',
             level: 0,
-            toggle: false,
             questions: []
           }}
           validationSchema={validationSchema}
           onSubmit={handlerSubmit}
         >
           {({
+            values,
             errors,
             touched,
             handleSubmit,
@@ -84,6 +92,7 @@ const CreateRoom: React.FC = () => {
                         name="name"
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        value={values.name}
                         required
                       />
                       {touched['name'] && errors['name'] && (
@@ -99,6 +108,9 @@ const CreateRoom: React.FC = () => {
                         type="number"
                         placeholder="15"
                         name="timeUp"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.timeUp}
                         required
                       />
                     </Form.Group>
@@ -109,16 +121,23 @@ const CreateRoom: React.FC = () => {
                     <Col xs="2">
                       <Form.Label>Level</Form.Label>
                     </Col>
-                    <RangeSlider
-                      value={value}
-                      onChange={(e: any) => {
-                        setValue(e.target.value);
-                      }}
-                      step={10}
-                    />
                   </Row>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={10}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="level"
+                    value={values.level}
+                  />
+                  {JSON.stringify(values.level)}
                   <Form.Text>0-30: Easy, 31-50: Medium, 51-100: Hard</Form.Text>
                 </Form.Group>
+                <Form.Label>
+                  Choose one or more question for your room!
+                </Form.Label>
                 <div className="questions-container">
                   {questions.map((question) => (
                     <div role="group" aria-labelledby="checkbox-group">
@@ -126,6 +145,8 @@ const CreateRoom: React.FC = () => {
                         <Field
                           type="checkbox"
                           name="questions"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           key={question.id}
                           value={question.id.toString()}
                         />

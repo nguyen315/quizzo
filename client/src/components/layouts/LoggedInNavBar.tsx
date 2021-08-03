@@ -25,10 +25,10 @@ const LoggedInNavbar: React.FC = (props: any) => {
 
   return (
     <>
-      <br />
       <LoginForm />
       <RegisterForm />
       <UpdateForm />
+
       <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand className="NavbarQuizzo" as={Link} to="/">
@@ -37,6 +37,9 @@ const LoggedInNavbar: React.FC = (props: any) => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">
               Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/dashboard">
+              Dashboard
             </Nav.Link>
             <Nav.Link as={Link} to="/list-questions">
               Questions

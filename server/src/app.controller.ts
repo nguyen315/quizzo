@@ -42,7 +42,6 @@ export class AppController {
   @Get('api/login')
   async loadUser(@Request() req, @Response() res) {
     const user = await this.userService.findOne(req.user.id);
-    console.log(user);
     // extract password before return
     const { password, ...result } = user;
     res.send(result);

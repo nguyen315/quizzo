@@ -12,6 +12,7 @@ import '../css/room/room.css';
 import '../css/room/searchbar.css';
 import { fetchRooms } from '../store/slices/rooms.slice';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
+import { Link } from 'react-router-dom';
 
 const ListRooms: React.FC = () => {
   const rooms = useSelector((state: RootState) => state.rooms.rooms);
@@ -44,7 +45,9 @@ const ListRooms: React.FC = () => {
       <Row xs={1} md={2} lg={4} className="list-room">
         {Array.from({ length: 1 }).map((_, idx) => (
           <Col>
-            <AddRoom />
+            <Link to="/create-room">
+              <AddRoom />
+            </Link>
           </Col>
         ))}
         {content}

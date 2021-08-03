@@ -32,6 +32,7 @@ const HostRoom = () => {
     const question = game.question;
     return (
       <>
+        <CountDown timeUp={5} />
         <div>
           <h1>{question.title}</h1>
         </div>
@@ -96,7 +97,6 @@ const HostRoom = () => {
 
   return (
     <>
-      <CountDown timeUp={5} />
       <LoggedInNavBar />
       <div>
         {game.players?.map((player) => (

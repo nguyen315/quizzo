@@ -85,6 +85,7 @@ export class ChatGateway {
 
   @SubscribeMessage('player-submit')
   async handlePlayerSubmit(@MessageBody() data, @ConnectedSocket() client) {
+
     // calculate the answering time of the player.
     const questionStartTime = new Date(questions[data.roomId].timeStamp);
     const answerTime = new Date(data.timeStamp);
@@ -99,10 +100,8 @@ export class ChatGateway {
     // add point of the questions to total score of the player
     const currentPlayer= players[data.roomId].find(i=> i.id===client.id);
     currentPlayer.point+= point;
+    
   }
-
-  @SubscribeMessage('calculate-point')
-  calculatePoint(@MessageBody() data, @ConnectedSocket() client): void {}
 
   @SubscribeMessage('host-end-question')
   handleHostEndQuestion(@MessageBody() data): void {

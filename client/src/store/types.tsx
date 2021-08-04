@@ -10,6 +10,7 @@ export type User = {
   email: string;
   firstName: string;
   lastName: string;
+  avartar: string | null;
 };
 
 export type LoginForm = {
@@ -27,6 +28,7 @@ export type registerForm = {
 export type updateProfileForm = {
   firstName: string | undefined;
   lastName: string | undefined;
+  avartar: string | undefined;
 };
 
 export type changePasswordForm = {

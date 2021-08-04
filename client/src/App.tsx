@@ -13,6 +13,7 @@ import { Container } from 'react-bootstrap';
 import PlayerRoom from './views/PlayerRoom';
 import CountDown from './components/layouts/CountDown';
 import ListRooms from './views/ListRooms';
+import HostLobby from './components/game/HostLobby';
 import CreateRoom from './views/CreateRoom';
 
 const App: React.FC = () => {
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <ProtectedRoute exact path="/play-room" component={HostRoom} />
             <ProtectedRoute exact path="/create-room" component={CreateRoom} />
             <Route exact path="/play-room-guest" component={PlayerRoom} />
+            <Route exact path="/lobby" component={HostLobby} />
           </Switch>
         </Router>
       </Container>

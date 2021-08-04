@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import '../../css/game/lobby.css';
+import { RootState } from '../../store/store';
 
 const data = {
   roomName: 'Quizzo test room name',
@@ -26,17 +28,43 @@ const data = {
     {
       userId: 5,
       username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
+    },
+    {
+      userId: 5,
+      username: 'lctoan'
     }
   ]
 };
 
-const HostLobby = () => {
+const HostLobby = (props: any) => {
+  const game = useSelector((state: RootState) => state.game);
+
   const handleStart = () => {
-    console.log('start game');
+    props.handleStartQuestion();
   };
 
   return (
-    <Container fluid className="lobby">
+    <div className="lobby">
       {/* header */}
       <div className="pin-section">
         <div className="left-section">
@@ -44,7 +72,7 @@ const HostLobby = () => {
           <span>QR Code</span>
         </div>
         <div className="right-section">
-          <span className="pin-code">{data.pinCode}</span>
+          <span className="pin-code">{game.roomId}</span>
           <div className="qr-image">
             <img src="#" />
           </div>
@@ -56,16 +84,16 @@ const HostLobby = () => {
         {/* player */}
         <div className="user-panel">
           <div className="players-count">
-            <span className="count">{data.players.length}</span>
+            <span className="count">{game.players.length}</span>
             <span>Players</span>
           </div>
           <div className="lobby-room">
             {/* room name */}
             <div>
-              <span className="lobby-room-name">{data.roomName}</span>
+              <span className="lobby-room-name">{game.roomName}</span>
             </div>
             <div className="player-name-section">
-              {data.players.map((player: any) => (
+              {game.players.map((player: any) => (
                 <div className="player-name">{player.username}</div>
               ))}
             </div>
@@ -78,7 +106,7 @@ const HostLobby = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

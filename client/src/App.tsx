@@ -8,11 +8,10 @@ import ProtectedRoute from './components/routing/ProtectedRoute';
 import About from './views/About';
 import Dashboard from './views/Dashboard';
 import ListQuestions from './views/ListQuestions';
-import CountDown from './components/layouts/CountDown';
 import HostRoom from './views/HostRoom';
 import { Container } from 'react-bootstrap';
 import PlayerRoom from './views/PlayerRoom';
-
+import CountDown from './components/layouts/CountDown';
 import ListRooms from './views/ListRooms';
 import CreateRoom from './views/CreateRoom';
 

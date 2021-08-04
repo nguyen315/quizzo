@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Countdown from 'react-countdown';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../css/countDown.css';
+import { RootState } from '../../store/store';
+import { socket } from '../../views/LandingPage';
 
 const RenderTime = ({ remainingTime }: any) => {
   const currentTime = useRef(remainingTime);
@@ -49,20 +52,22 @@ const RenderTime = ({ remainingTime }: any) => {
 const CountDown: React.FC<any> = (props: any) => {
   const [count, setCount] = useState(0);
 
+  const game = useSelector((state: RootState) => state.game);
+
+  const handleEndQuestion = () => {
+    socket.emit('host-end-question', { roomId: game.roomId });
+  };
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setCount(1);
     }, props.timeUp * 1000);
   }, []);
-  const onClick = () => {
-    console.log('Do something here');
-  };
+
   const time = props.timeUp;
-  const buttonNext = (
-    <Button onClick={onClick} className="btn-next">
-      Next
-    </Button>
-  );
+
   return (
     <>
       <CountdownCircleTimer
@@ -76,7 +81,7 @@ const CountDown: React.FC<any> = (props: any) => {
       >
         {RenderTime}
       </CountdownCircleTimer>
-      {count === 1 && buttonNext}
+      {count === 1 && dispatch(handleEndQuestion)}
     </>
   );
 };

@@ -91,18 +91,17 @@ export class ChatGateway {
     const thinkingTime = answerTime.getTime() - questionStartTime.getTime();
     // check if the player choose the right answer.
     const questionDetais = await this.questionService.findOne(data.questionId);
-    const correctAnswer= (questionDetais.answers.find(i => i.isCorrect===true)).id;
-    const coeff= Number(data.answerId)===correctAnswer? 1:0;
+    const correctAnswer = questionDetais.answers.find(
+      (i) => i.isCorrect === true
+    ).id;
+    const coeff = Number(data.answerId) === correctAnswer ? 1 : 0;
 
-    let point = coeff*(questions[data.roomId].timeUp * 1000 - thinkingTime);
+    let point = coeff * (questions[data.roomId].timeUp * 1000 - thinkingTime);
     point = point < 0 ? 0 : point;
     // add point of the questions to total score of the player
-    const currentPlayer= players[data.roomId].find(i=> i.id===client.id);
-    currentPlayer.point+= point;
+    const currentPlayer = players[data.roomId].find((i) => i.id === client.id);
+    currentPlayer.point += point;
   }
-
-  @SubscribeMessage('calculate-point')
-  calculatePoint(@MessageBody() data, @ConnectedSocket() client): void {}
 
   @SubscribeMessage('host-end-question')
   handleHostEndQuestion(@MessageBody() data): void {

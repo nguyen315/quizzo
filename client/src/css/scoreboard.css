@@ -34,9 +34,6 @@ Container {
   margin-top: 40px;
   margin-bottom: 50px;
   background: palevioletred;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 #next-button {
@@ -50,7 +47,6 @@ Container {
 }
 
 .score-container {
-  /* background: palegreen; */
   height: 50vh;
   width: 100vw;
 }

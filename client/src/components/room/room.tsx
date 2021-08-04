@@ -7,6 +7,7 @@ import '../../css/room/room.css';
 import { Dropdown } from 'react-bootstrap';
 import { RootState } from '../../store/store';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const Room = (props: { room: any }) => {
   return (

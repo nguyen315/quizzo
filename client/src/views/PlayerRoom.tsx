@@ -6,6 +6,7 @@ import { socket } from './LandingPage';
 
 import { updateAnswerStatus } from '../store/slices/game.slice';
 import { Redirect } from 'react-router-dom';
+import '../css/playerRoom.css';
 
 const PlayerRoom = () => {
   const game = useSelector((state: RootState) => state.game);
@@ -63,15 +64,25 @@ const PlayerRoom = () => {
   if (game.question && game.answerStatus === 'not done') {
     return (
       <>
+        <h2 className="question-title">{game.question.title}</h2>
         <Row>
           {game.question.answers.map((answer: any) => (
             <Col xs={6}>
               <Button
                 onClick={playerSubmit}
                 value={answer.id}
-                style={{ width: '100%' }}
+                id={
+                  answer.id % 4 === 0
+                    ? 'blue'
+                    : answer.id % 4 === 1
+                    ? 'orange'
+                    : answer.id % 4 === 2
+                    ? 'red'
+                    : 'green'
+                }
+                className="answer-option"
               >
-                {answer.id}
+                {answer.content}
               </Button>
             </Col>
           ))}
@@ -83,7 +94,14 @@ const PlayerRoom = () => {
   if (game.question && game.answerStatus === 'done') {
     return (
       <>
-        <div>you answered</div>
+        <div className="bg"></div>
+        <div className="bg bg2"></div>
+        <div className="bg bg3"></div>
+
+        <div className="result-page">
+          <div className="answered">You answered!</div>
+          <div className="text">Waiting for the result \( ﾟヮﾟ)/</div>
+        </div>
       </>
     );
   }

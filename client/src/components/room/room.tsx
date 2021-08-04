@@ -16,7 +16,9 @@ const Room = (props: { room: any }) => {
 
   const handlePlay = () => {
     socket.emit('host-create-room', { roomId: props.room.pinCode });
-    dispatch(updateGame({ roomName: props.room.name }));
+    dispatch(
+      updateGame({ roomName: props.room.name, timeUp: props.room.timeUp })
+    );
   };
 
   if (game.roomId && game.role == 'host') {
@@ -72,7 +74,6 @@ const Room = (props: { room: any }) => {
           <div>
             <label className="room-info">Created at:</label>
             <span className="room-info-answer">
-              {/* {props.room.createdAt.toLocaleString('en-SG')} */}
               {moment(props.room.createdAt).format('DD-MM-YYYY HH:mm:ss')}
             </span>
           </div>

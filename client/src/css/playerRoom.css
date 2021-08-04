@@ -1,0 +1,94 @@
+.question-title {
+  font-family: 'Helvetica Neue' !important;
+  text-align: center;
+  padding: 1.3333rem 0;
+  color: #262626;
+}
+
+.col-6 {
+  height: 40vh;
+  margin-bottom: 1rem;
+}
+
+.answer-option {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: none;
+}
+
+#blue {
+  background-color: #46adfb;
+  box-shadow: 1px 2px 7px rgba(70, 173, 251, 0.1);
+}
+
+#red {
+  background: #ef6253;
+  box-shadow: 1px 2px 7px rgba(239, 98, 83, 0.2);
+}
+
+#orange {
+  background: #fc8e31;
+  box-shadow: 1px 2px 7px rgba(252, 142, 49, 0.2);
+}
+
+#green {
+  background: #99be29;
+  box-shadow: 1px 2px 7px rgba(153, 190, 41, 0.1);
+}
+
+.result-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.answered {
+  font-size: 3.3333rem;
+  font-weight: 500;
+  color: #fbf8ff;
+  text-shadow: 0px 2px 1px rgba(38, 38, 38, 0.2);
+}
+
+.text {
+  font-size: 1.3333rem;
+  color: #fbf8ff;
+}
+
+/* 
+Effect from SLIDING DIAGONALS BACKGROUND EFFECT
+Author: Chris Smith
+CopePen: https://codepen.io/chris22smith/pen/RZogMa
+*/
+
+.bg {
+  animation: slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #fc8e31 50%, #f06051 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.5;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.bg2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.bg3 {
+  animation-duration: 5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}

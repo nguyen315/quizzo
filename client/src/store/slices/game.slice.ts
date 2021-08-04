@@ -4,6 +4,7 @@ import { apiUrl } from '../types';
 
 interface State {
   roomId: string | undefined;
+  roomName: string | undefined;
   role: 'host' | 'player' | undefined;
   userId: string | undefined;
   username: string | undefined;
@@ -14,6 +15,7 @@ interface State {
 
 const initialState: State = {
   roomId: undefined,
+  roomName: undefined,
   role: undefined,
   userId: undefined,
   username: undefined,

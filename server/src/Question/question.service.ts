@@ -46,6 +46,14 @@ export class QuestionService {
     let foundTags = [];
     for (const idx in tags) {
       foundTags[idx] = await this.tagRepository.find({ title: tags[idx] });
+      if (!foundTags[idx][0]) {
+        let newTag = await this.tagRepository.create({
+          title: tags[idx],
+          color: 'blue'
+        });
+        let resTag = await this.tagRepository.save(newTag);
+        foundTags[idx] = await this.tagRepository.find({ title: resTag.title });
+      }
     }
     if (foundTags[0].length > 0) {
       for (const idx in foundTags) {
@@ -59,7 +67,11 @@ export class QuestionService {
         .of(responseQuestion)
         .add(tagIds);
     }
-    return { ...responseQuestion, answers: createdAnswers };
+    const createdQuestionResspone = await this.questionRepository.findOne(
+      responseQuestion.id,
+      { relations: ['tags'] }
+    );
+    return { ...createdQuestionResspone, answers: createdAnswers };
   }
 
   async findAll(userId: number) {

@@ -11,13 +11,16 @@ import {
   Pagination
 } from 'nestjs-typeorm-paginate';
 import { Question } from 'src/Question/entities/question.entity';
+import { Answer } from 'src/answer/entities/answer.entity';
 
 @Injectable()
 export class RoomService {
   constructor(
     @InjectRepository(Room) private roomRepository: Repository<Room>,
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Question) private questionRepository: Repository<Question>
+    @InjectRepository(Question)
+    private questionRepository: Repository<Question>,
+    @InjectRepository(Answer) private answerRepository: Repository<Answer>
   ) {}
 
   async create(createRoomDto: CreateRoomDto, user_id: number) {
@@ -64,7 +67,21 @@ export class RoomService {
   }
 
   async findOne(id: number) {
-    return this.roomRepository.findOne(id);
+    return await this.roomRepository.findOne(id);
+  }
+
+  async findByPinCode(pinCode: number) {
+    const room = await this.roomRepository.findOne(
+      { pinCode: pinCode },
+      { relations: ['questions'] }
+    );
+    for (let question of room.questions) {
+      const answers = await this.answerRepository.find({
+        question_id: question.id
+      });
+      question.answers = answers;
+    }
+    return room;
   }
 
   async update(id: number, updateRoomDto: UpdateRoomDto) {

@@ -74,7 +74,6 @@ export const loginUser = createAsyncThunk(
   async (loginForm: LoginForm, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
-      console.log(response);
       if (response.data.success) {
         localStorage.setItem('Authorization', response.data.accessToken);
         dispatch(loadUser());

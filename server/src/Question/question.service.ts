@@ -21,12 +21,18 @@ export class QuestionService {
     @InjectRepository(Tag) private tagRepository: Repository<Tag>
   ) {}
 
+  unique = (value, index, self) => {
+    return self.indexOf(value) === index;
+  };
+
   async create(createQuestionDto: CreateQuestionDto, userId: string) {
     const { answers, tags, ...createQuestion } = createQuestionDto;
     const newQuestion = {
       ...createQuestion,
       userId: userId
     };
+
+    const tagsUnique = tags.filter(this.unique);
 
     const createdQuestion = this.questionRepository.create(newQuestion);
     const responseQuestion = await this.questionRepository.save(
@@ -44,10 +50,19 @@ export class QuestionService {
 
     let tagIds = [];
     let foundTags = [];
-    for (const idx in tags) {
-      foundTags[idx] = await this.tagRepository.find({ title: tags[idx] });
+    for (const idx in tagsUnique) {
+      foundTags[idx] = await this.tagRepository.find({
+        title: tagsUnique[idx]
+      });
+      if (!foundTags[idx][0]) {
+        let newTag = await this.tagRepository.create({
+          title: tagsUnique[idx],
+          color: 'blue'
+        });
+        let resTag = await this.tagRepository.save(newTag);
+        foundTags[idx] = await this.tagRepository.find({ title: resTag.title });
+      }
     }
-    console.log(foundTags[0]);
     if (foundTags[0].length > 0) {
       for (const idx in foundTags) {
         tagIds[idx] = foundTags[idx][0].id;
@@ -60,7 +75,11 @@ export class QuestionService {
         .of(responseQuestion)
         .add(tagIds);
     }
-    return { ...responseQuestion, answers: createdAnswers };
+    const createdQuestionResspone = await this.questionRepository.findOne(
+      responseQuestion.id,
+      { relations: ['tags'] }
+    );
+    return { ...createdQuestionResspone, answers: createdAnswers };
   }
 
   async findAll(userId: number) {

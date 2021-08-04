@@ -33,7 +33,7 @@ const HostRoom = () => {
     const question = game.question;
     return (
       <>
-        <CountDown timeUp={15} />
+        <CountDown timeUp={game.timeUp} />
         <div>
           <h1>{question.title}</h1>
         </div>

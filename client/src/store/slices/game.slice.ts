@@ -4,6 +4,7 @@ import { apiUrl } from '../types';
 
 interface State {
   roomId: string | undefined;
+  timeUp: number;
   roomName: string | undefined;
   role: 'host' | 'player' | undefined;
   userId: string | undefined;
@@ -15,6 +16,7 @@ interface State {
 
 const initialState: State = {
   roomId: undefined,
+  timeUp: 0,
   roomName: undefined,
   role: undefined,
   userId: undefined,
@@ -43,6 +45,7 @@ const gameSlice = createSlice({
     },
     endGame: (state) => {
       state.roomId = undefined;
+      state.timeUp = 0;
       state.role = undefined;
       state.userId = undefined;
       state.username = undefined;

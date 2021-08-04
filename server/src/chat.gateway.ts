@@ -3,39 +3,63 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  ConnectedSocket
+  ConnectedSocket,
+  OnGatewayInit,
+  OnGatewayConnection,
+  OnGatewayDisconnect
 } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 import { QuestionService } from './Question/question.service';
 import { RoomService } from './Room/room.service';
 
 let players = {};
-let questions = {};
+let rooms = {};
 
 @WebSocketGateway({ path: '/api/socket' })
-export class ChatGateway {
+export class ChatGateway implements OnGatewayDisconnect {
   constructor(
     private roomService: RoomService,
     private questionService: QuestionService
   ) {}
 
   @WebSocketServer()
-  server;
+  server: Server;
 
-  @SubscribeMessage('send-message')
-  handleMessage(@MessageBody() message, @ConnectedSocket() client): void {
-    client.broadcast.emit('message', message);
+  handleDisconnect(client: Socket) {
+    // check if host disconnect, then remove the room
+
+    for (let roomId in rooms) {
+      if (rooms[roomId].hostId === client.id) {
+        // disconnect all players and host from socket
+        this.server.in(roomId.toString()).emit('leave');
+        const clients = this.server.sockets.adapter.rooms.get(
+          roomId.toString()
+        );
+        console.log(clients);
+
+        // if a room have only one clients is host, clients will return undefined
+        if (clients)
+          clients.forEach((clientId) => {
+            this.server.sockets.sockets.get(clientId).leave(roomId.toString());
+          });
+        break;
+      }
+    }
   }
 
   @SubscribeMessage('host-create-room')
   async handleCreateRoom(@MessageBody() data, @ConnectedSocket() client) {
+    // find room
+    // Look up the room ID in the Socket.IO manager object.
     client.emit('created-room', {
       roomId: data.roomId,
       id: client.id,
       role: 'host'
     });
     players[data.roomId] = [];
-    questions[data.roomId] = await this.roomService.findByPinCode(data.roomId);
-    questions[data.roomId].count = 0;
+    rooms[data.roomId] = await this.roomService.findByPinCode(data.roomId);
+    rooms[data.roomId].count = 0;
+    rooms[data.roomId].hostId = client.id;
 
     client.join(data.roomId.toString());
   }
@@ -69,24 +93,39 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('host-start-question')
-  handleHostPlayRoom(@MessageBody() data): void {
+  handleHostPlayRoom(@MessageBody() data, @ConnectedSocket() client): void {
     const timeStamp = new Date();
 
-    questions[data.roomId].timeStamp = timeStamp;
+    rooms[data.roomId].timeStamp = timeStamp;
 
-    const index = questions[data.roomId].count;
+    const index = rooms[data.roomId].count;
 
-    this.server.in(data.roomId.toString()).emit('next-question', {
-      question: questions[data.roomId].questions[index],
+    const questionToHost = rooms[data.roomId].questions[index];
+
+    // extract answer
+    const { answers, ...questionToPlayer } =
+      rooms[data.roomId].questions[index];
+    // extract isCorrect in answer then append to question
+    questionToPlayer.answers = answers.map((answer) => {
+      const { isCorrect, ...rest } = answer;
+      return rest;
+    });
+
+    client.emit('next-question', {
+      question: questionToHost,
       timeStamp: timeStamp
     });
-    questions[data.roomId].count++;
+    client.broadcast.in(data.roomId.toString()).emit('next-question', {
+      question: questionToPlayer,
+      timeStamp: timeStamp
+    });
+    rooms[data.roomId].count++;
   }
 
   @SubscribeMessage('player-submit')
   async handlePlayerSubmit(@MessageBody() data, @ConnectedSocket() client) {
     // calculate the answering time of the player.
-    const questionStartTime = new Date(questions[data.roomId].timeStamp);
+    const questionStartTime = new Date(rooms[data.roomId].timeStamp);
     const answerTime = new Date(data.timeStamp);
     const thinkingTime = answerTime.getTime() - questionStartTime.getTime();
     // check if the player choose the right answer.
@@ -96,7 +135,7 @@ export class ChatGateway {
     ).id;
     const coeff = Number(data.answerId) === correctAnswer ? 1 : 0;
 
-    let point = coeff * (questions[data.roomId].timeUp * 1000 - thinkingTime);
+    let point = coeff * (rooms[data.roomId].timeUp * 1000 - thinkingTime);
     point = point < 0 ? 0 : point;
     // add point of the questions to total score of the player
     const currentPlayer = players[data.roomId].find((i) => i.id === client.id);
@@ -105,8 +144,8 @@ export class ChatGateway {
 
   @SubscribeMessage('host-end-question')
   handleHostEndQuestion(@MessageBody() data): void {
-    const index = questions[data.roomId].count;
-    if (index == questions[data.roomId].questions.length) {
+    const index = rooms[data.roomId].count;
+    if (index == rooms[data.roomId].questions.length) {
       this.server
         .in(data.roomId.toString())
         .emit('last-question', players[data.roomId]);
@@ -120,5 +159,13 @@ export class ChatGateway {
   @SubscribeMessage('host-end-game')
   handleHostEndGame(@MessageBody() data): void {
     this.server.in(data.roomId.toString()).emit('game-ended');
+
+    // disconnect all players and host from socket
+    const clients = this.server.sockets.adapter.rooms.get(
+      data.roomId.toString()
+    );
+    clients.forEach((clientId) => {
+      this.server.sockets.sockets.get(clientId).leave(data.roomId.toString());
+    });
   }
 }

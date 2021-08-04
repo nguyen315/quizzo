@@ -5,11 +5,13 @@ import {
   updateAnswerStatus,
   endGame
 } from '../../store/slices/game.slice';
+import { socket } from '../../views/LandingPage';
 
 export const initListeners = (dispatch: any, socker: any) => {
   socker.on('connect', () => {
     console.log('connected');
   });
+
   socker.on('created-room', (data: any) => {
     // data have roomId, role='host', id of socket client
     const { roomId, role, id } = data;
@@ -35,6 +37,7 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('next-question', (data: any) => {
+    console.log('NEXT', data);
     dispatch(updateQuestion(data));
     dispatch(updateAnswerStatus({ status: 'not done' }));
   });
@@ -50,6 +53,11 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('game-ended', (data: any) => {
+    dispatch(endGame());
+  });
+
+  socker.on('leave', () => {
+    alert('host leave');
     dispatch(endGame());
   });
 };

@@ -11,6 +11,7 @@ import ListQuestions from './views/ListQuestions';
 import Socket from './views/Socket';
 
 import ListRooms from './views/ListRooms';
+import HostLobby from './components/game/HostLobby';
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <ProtectedRoute exact path="/list-rooms" component={ListRooms} />
 
           <ProtectedRoute exact path="/socket" component={Socket} />
+          <Route exact path="/lobby" component={HostLobby} />
         </Switch>
       </Router>
     </Provider>

@@ -1,0 +1,107 @@
+.pin-section {
+  margin: auto;
+  display: flex;
+  background-color: #fff;
+  width: 100%;
+}
+
+.lobby .left-section {
+  display: inline-block;
+  width: 50%;
+  line-height: 60px;
+}
+
+.lobby .left-section span {
+  text-align: right;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.25rem;
+  display: block;
+  padding-right: 20px;
+}
+
+.lobby .right-section {
+  display: inline-block;
+  width: 50%;
+}
+
+.lobby .pin-code {
+  font-size: 2rem;
+  height: 60px;
+  line-height: 60px;
+  display: block;
+  padding-left: 20px;
+}
+
+.lobby .qr-image {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+}
+
+.lobby {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.lobby-content {
+  background-color: #f8f8f8;
+}
+
+.lobby-room-name {
+  font-size: 1.75rem;
+  display: block;
+  margin: 30px auto;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.lobby .user-panel {
+  display: flex;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.lobby .players-count {
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.lobby .players-count .count {
+  display: block;
+  font-size: 1.5rem;
+}
+
+.lobby .start-button,
+.lobby .start-button:hover {
+  background-color: #fc8e31;
+  border-color: #fc8e31;
+}
+
+.lobby .start-button-section {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.lobby .player-name {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 20px;
+  background-color: #e3e3e3;
+  font-size: 1.25rem;
+}
+
+.lobby .player-name-section {
+  margin: 20px;
+}
+
+.lobby-room {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}

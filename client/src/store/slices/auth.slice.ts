@@ -93,13 +93,23 @@ export const updateProfile = createAsyncThunk(
     try {
       const state: any = getState();
       const userID = state.auth.user.id;
-      const response = await axios.post(
+      const response = await axios.put(
         `${apiUrl}/users/${userID}/update-user`,
         updateForm
       );
       if (response.data.success) {
         dispatch(showUpdateModal());
+        return response.data.user;
       }
+    } catch (error) {}
+  }
+);
+
+export const uploadAvartar = createAsyncThunk(
+  'users/upload',
+  async (formData: any) => {
+    try {
+      await axios.post(`${apiUrl}/users/upload`, formData);
     } catch (error) {}
   }
 );
@@ -142,6 +152,9 @@ const authSlices = createSlice({
     [registerUser.rejected.toString()]: (state, action) => {
       console.log(action);
       state.registerError = action.payload.message;
+    },
+    [updateProfile.fulfilled.toString()]: (state, action) => {
+      state.user = action.payload;
     }
   }
 });

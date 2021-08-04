@@ -13,7 +13,9 @@ import {
   Body,
   ParseIntPipe,
   Res,
-  Put
+  Put,
+  UseInterceptors,
+  UploadedFile
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
@@ -75,7 +77,7 @@ export class UserController {
         id,
         firstname,
         lastname,
-        avartar
+        imageID + avartar
       );
       res.json({
         success: true,
@@ -99,7 +101,7 @@ export class UserController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('image', storage))
+  @UseInterceptors(FileInterceptor('avartar', storage))
   uploadFile(@UploadedFile() file) {
     return { imagePath: file.filename };
   }

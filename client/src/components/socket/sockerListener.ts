@@ -37,6 +37,7 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('next-question', (data: any) => {
+    console.log('NEXT', data);
     dispatch(updateQuestion(data));
     dispatch(updateAnswerStatus({ status: 'not done' }));
   });

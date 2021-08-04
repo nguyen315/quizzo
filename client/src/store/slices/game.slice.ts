@@ -11,7 +11,7 @@ interface State {
   username: string | undefined;
   players: any[];
   question: any | null;
-  answerStatus: 'done' | 'not done' | 'rank' | 'end';
+  answerStatus: 'done' | 'not done' | 'result' | 'rank' | 'end';
 }
 
 const initialState: State = {

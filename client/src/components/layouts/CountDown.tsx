@@ -4,6 +4,7 @@ import Countdown from 'react-countdown';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../css/countDown.css';
+import { updateAnswerStatus } from '../../store/slices/game.slice';
 import { RootState } from '../../store/store';
 import { socket } from '../../views/LandingPage';
 
@@ -54,11 +55,10 @@ const CountDown: React.FC<any> = (props: any) => {
 
   const game = useSelector((state: RootState) => state.game);
 
-  const handleEndQuestion = () => {
-    socket.emit('host-end-question', { roomId: game.roomId });
-  };
-
   const dispatch = useDispatch();
+  const handleSkipQuestion = () => {
+    dispatch(updateAnswerStatus({ status: 'result' }));
+  };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -81,7 +81,7 @@ const CountDown: React.FC<any> = (props: any) => {
       >
         {RenderTime}
       </CountdownCircleTimer>
-      {count === 1 && dispatch(handleEndQuestion)}
+      {count === 1 && handleSkipQuestion()}
     </>
   );
 };

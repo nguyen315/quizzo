@@ -5,6 +5,11 @@
   width: 100%;
 }
 
+.lobby {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .lobby .left-section {
   display: inline-block;
   width: 50%;
@@ -39,11 +44,6 @@
   margin: 20px;
 }
 
-.lobby {
-  padding-left: 0;
-  padding-right: 0;
-}
-
 .lobby-content {
   background-color: #f8f8f8;
 }
@@ -69,6 +69,7 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
+  width: 150px;
 }
 
 .lobby .players-count .count {
@@ -80,6 +81,7 @@
 .lobby .start-button:hover {
   background-color: #fc8e31;
   border-color: #fc8e31;
+  width: 150px;
 }
 
 .lobby .start-button-section {
@@ -98,6 +100,8 @@
 
 .lobby .player-name-section {
   margin: 20px;
+  height: 400px;
+  overflow: hidden;
 }
 
 .lobby-room {

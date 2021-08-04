@@ -47,7 +47,6 @@ export class QuestionService {
     for (const idx in tags) {
       foundTags[idx] = await this.tagRepository.find({ title: tags[idx] });
     }
-    console.log(foundTags[0]);
     if (foundTags[0].length > 0) {
       for (const idx in foundTags) {
         tagIds[idx] = foundTags[idx][0].id;

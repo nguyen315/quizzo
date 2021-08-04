@@ -31,7 +31,7 @@ export const createRoom = createAsyncThunk(
     try {
       const response = await axios.post(`${apiUrl}/rooms`, createRoomRequest);
       if (response.data.success) {
-        alert(`Create ${response.data.room.title} successfully`);
+        alert(`Create room successfully`);
         return response.data.room;
       }
     } catch (error) {

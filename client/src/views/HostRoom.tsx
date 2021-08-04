@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import HostLobby from '../components/game/HostLobby';
 import CountDown from '../components/layouts/CountDown';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import { RootState } from '../store/store';
@@ -95,16 +96,10 @@ const HostRoom = () => {
     );
   }
 
+  // render lobby
   return (
     <>
-      <LoggedInNavBar />
-      <div>
-        {game.players?.map((player) => (
-          <div>{player.username}</div>
-        ))}
-      </div>
-      <div>PIN CODE: {game.roomId}</div>
-      <Button onClick={handleStartQuestion}>Play Game</Button>
+      <HostLobby handleStartQuestion={handleStartQuestion} />
     </>
   );
 };

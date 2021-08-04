@@ -45,7 +45,6 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('last-question', (data: any) => {
-    console.log('DEBUG');
     dispatch(updatePlayers(data));
     dispatch(updateAnswerStatus({ status: 'end' }));
   });

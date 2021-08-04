@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import '../../css/room/room.css';
@@ -9,13 +8,15 @@ import { RootState } from '../../store/store';
 import moment from 'moment';
 import { socket } from '../../views/LandingPage';
 import { Redirect, useHistory } from 'react-router-dom';
+import { updateGame } from '../../store/slices/game.slice';
 
 const Room = (props: { room: any }) => {
   const game = useSelector((state: RootState) => state.game);
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handlePlay = () => {
     socket.emit('host-create-room', { roomId: props.room.pinCode });
+    dispatch(updateGame({ roomName: props.room.name }));
   };
 
   if (game.roomId && game.role == 'host') {

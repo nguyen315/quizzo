@@ -4,58 +4,6 @@ import { useSelector } from 'react-redux';
 import '../../css/game/lobby.css';
 import { RootState } from '../../store/store';
 
-const data = {
-  roomName: 'Quizzo test room name',
-  roomId: 1,
-  pinCode: '123066',
-  players: [
-    {
-      userId: 1,
-      username: 'nvtnhan'
-    },
-    {
-      userId: 2,
-      username: 'ttloc'
-    },
-    {
-      userId: 3,
-      username: 'hmnguyen'
-    },
-    {
-      userId: 4,
-      username: 'phphuong'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    },
-    {
-      userId: 5,
-      username: 'lctoan'
-    }
-  ]
-};
-
 const HostLobby = (props: any) => {
   const game = useSelector((state: RootState) => state.game);
 

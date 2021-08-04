@@ -99,14 +99,6 @@ const HostRoom = () => {
   // render lobby
   return (
     <>
-      {/* <LoggedInNavBar />
-      <div>
-        {game.players?.map((player) => (
-          <div>{player.username}</div>
-        ))}
-      </div>
-      <div>PIN CODE: {game.roomId}</div>
-      <Button onClick={handleStartQuestion}>Play Game</Button> */}
       <HostLobby handleStartQuestion={handleStartQuestion} />
     </>
   );

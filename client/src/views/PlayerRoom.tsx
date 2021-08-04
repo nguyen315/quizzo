@@ -124,7 +124,7 @@ const PlayerRoom = () => {
   }
 
   return (
-    <div>
+    <>
       {!game.username ? (
         <>
           <Form onSubmit={handleJoin}>
@@ -142,9 +142,24 @@ const PlayerRoom = () => {
           </Form>
         </>
       ) : (
-        <>Wait for host start the game </>
+        <>
+          <div className="hero">
+            <div className="result-page">
+              <div className="answered">You are in!</div>
+              <div className="text">
+                Waiting for the host to start! \( ﾟヮﾟ)/
+              </div>
+            </div>
+            <div className="cube"></div>
+            <div className="cube"></div>
+            <div className="cube"></div>
+            <div className="cube"></div>
+            <div className="cube"></div>
+            <div className="cube"></div>
+          </div>
+        </>
       )}
-    </div>
+    </>
   );
 };
 

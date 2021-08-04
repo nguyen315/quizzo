@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import HostLobby from '../components/game/HostLobby';
 import CountDown from '../components/layouts/CountDown';
@@ -8,14 +8,21 @@ import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import { RootState } from '../store/store';
 import { socket } from './LandingPage';
 import '../css/roomPlaying.css';
+import { updateAnswerStatus } from '../store/slices/game.slice';
 
 const HostRoom = () => {
   const game = useSelector((state: RootState) => state.game);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleStartQuestion = () => {
     socket.emit('host-start-question', { roomId: game.roomId });
   };
+
+  const handleSkipQuestion = () => {
+    dispatch(updateAnswerStatus({ status: 'result' }));
+  };
+
   const handleEndQuestion = () => {
     socket.emit('host-end-question', { roomId: game.roomId });
   };
@@ -42,8 +49,11 @@ const HostRoom = () => {
           <Col xs={6}>Image</Col>
           <Col>
             <div>
-              <Button className="next-question-btn" onClick={handleEndQuestion}>
-                Next
+              <Button
+                className="next-question-btn"
+                onClick={handleSkipQuestion}
+              >
+                Skip
               </Button>
             </div>
           </Col>
@@ -62,6 +72,40 @@ const HostRoom = () => {
                     ? 'red'
                     : 'green'
                 }
+                className="answer-option"
+              >
+                {answer.content}
+              </Button>
+            </Col>
+          ))}
+        </Row>
+      </>
+    );
+  }
+
+  // Result display
+  if (game.question && game.answerStatus === 'result') {
+    const question = game.question;
+    return (
+      <>
+        <h2 className="question-title">{question.title}</h2>
+        <Row className="host-answer-row">
+          <Col></Col>
+          <Col xs={6}>Image</Col>
+          <Col>
+            <div>
+              <Button className="next-question-btn" onClick={handleEndQuestion}>
+                Next
+              </Button>
+            </div>
+          </Col>
+        </Row>
+
+        <Row>
+          {game.question.answers.map((answer: any) => (
+            <Col xs={6} className="host-answer">
+              <Button
+                id={answer.isCorrect === true ? 'correct' : 'incorrect'}
                 className="answer-option"
               >
                 {answer.content}

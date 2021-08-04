@@ -31,8 +31,6 @@ export class ChatGateway implements OnGatewayDisconnect {
     for (let roomId in rooms) {
       if (rooms[roomId].hostId === client.id) {
         // disconnect all players and host from socket
-        console.log(rooms);
-        console.log(client.id);
         this.server.in(roomId.toString()).emit('leave');
         const clients = this.server.sockets.adapter.rooms.get(
           roomId.toString()
@@ -53,7 +51,6 @@ export class ChatGateway implements OnGatewayDisconnect {
   async handleCreateRoom(@MessageBody() data, @ConnectedSocket() client) {
     // find room
     // Look up the room ID in the Socket.IO manager object.
-    let room = this.server.sockets.adapter.rooms.get(data.roomId);
     client.emit('created-room', {
       roomId: data.roomId,
       id: client.id,
@@ -96,24 +93,30 @@ export class ChatGateway implements OnGatewayDisconnect {
   }
 
   @SubscribeMessage('host-start-question')
-  handleHostPlayRoom(@MessageBody() data): void {
+  handleHostPlayRoom(@MessageBody() data, @ConnectedSocket() client): void {
     const timeStamp = new Date();
 
     rooms[data.roomId].timeStamp = timeStamp;
 
     const index = rooms[data.roomId].count;
 
-    // extract answer
-    const { answers, ...question } = rooms[data.roomId].questions[index];
+    const questionToHost = rooms[data.roomId].questions[index];
 
+    // extract answer
+    const { answers, ...questionToPlayer } =
+      rooms[data.roomId].questions[index];
     // extract isCorrect in answer then append to question
-    question.answers = answers.map((answer) => {
+    questionToPlayer.answers = answers.map((answer) => {
       const { isCorrect, ...rest } = answer;
       return rest;
     });
 
-    this.server.in(data.roomId.toString()).emit('next-question', {
-      question: question,
+    client.emit('next-question', {
+      question: questionToHost,
+      timeStamp: timeStamp
+    });
+    client.broadcast.in(data.roomId.toString()).emit('next-question', {
+      question: questionToPlayer,
       timeStamp: timeStamp
     });
     rooms[data.roomId].count++;

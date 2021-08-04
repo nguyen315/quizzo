@@ -103,8 +103,17 @@ export class ChatGateway implements OnGatewayDisconnect {
 
     const index = rooms[data.roomId].count;
 
+    // extract answer
+    const { answers, ...question } = rooms[data.roomId].questions[index];
+
+    // extract isCorrect in answer then append to question
+    question.answers = answers.map((answer) => {
+      const { isCorrect, ...rest } = answer;
+      return rest;
+    });
+
     this.server.in(data.roomId.toString()).emit('next-question', {
-      question: rooms[data.roomId].questions[index],
+      question: question,
       timeStamp: timeStamp
     });
     rooms[data.roomId].count++;

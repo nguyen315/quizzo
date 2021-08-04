@@ -28,6 +28,9 @@ export class ChatGateway {
 
   @SubscribeMessage('host-create-room')
   async handleCreateRoom(@MessageBody() data, @ConnectedSocket() client) {
+    // find room
+    // Look up the room ID in the Socket.IO manager object.
+    let room = this.server.sockets.adapter.rooms.get(data.roomId);
     client.emit('created-room', {
       roomId: data.roomId,
       id: client.id,
@@ -120,5 +123,13 @@ export class ChatGateway {
   @SubscribeMessage('host-end-game')
   handleHostEndGame(@MessageBody() data): void {
     this.server.in(data.roomId.toString()).emit('game-ended');
+
+    // disconnect all players and host from socket
+    const clients = this.server.sockets.adapter.rooms.get(
+      data.roomId.toString()
+    );
+    clients.forEach((clientId) => {
+      this.server.sockets.sockets.get(clientId).leave(data.roomId.toString());
+    });
   }
 }

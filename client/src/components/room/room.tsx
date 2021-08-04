@@ -69,16 +69,30 @@
 // export default Room;
 
 import React from 'react';
-import { Card } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import '../../css/room/room.css';
 import { Dropdown } from 'react-bootstrap';
 import { RootState } from '../../store/store';
 import moment from 'moment';
+import { socket } from '../../views/LandingPage';
+import { Redirect, useHistory } from 'react-router-dom';
+import { updateGame } from '../../store/slices/game.slice';
 
 const Room = (props: { room: any }) => {
+  const game = useSelector((state: RootState) => state.game);
+  const dispatch = useDispatch();
+
+  const handlePlay = () => {
+    socket.emit('host-create-room', { roomId: props.room.pinCode });
+    dispatch(updateGame({ roomName: props.room.name }));
+  };
+
+  if (game.roomId && game.role == 'host') {
+    return <Redirect to="/play-room" />;
+  }
+
   return (
     <Card className="room">
       <Card.Body>
@@ -114,9 +128,9 @@ const Room = (props: { room: any }) => {
           <div>
             <label className="room-info">Level:</label>
             <span className="room-info-answer" id="level">
-              {props.room.level <= 10
+              {props.room.level <= 30
                 ? 'Easy'
-                : props.room.level <= 20
+                : props.room.level <= 50
                 ? 'Medium'
                 : 'Hard'}
             </span>
@@ -133,7 +147,9 @@ const Room = (props: { room: any }) => {
             </span>
           </div>
         </Card.Text>
-        <Button className="play-button">Play</Button>
+        <Button className="play-button" onClick={handlePlay}>
+          Play
+        </Button>
       </Card.Body>
     </Card>
   );

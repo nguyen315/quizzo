@@ -8,7 +8,8 @@ const PINField: React.FC = () => {
   const history = useHistory();
   const [pin, setPin] = useState('');
 
-  const handleClick = () => {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
     socket.emit('player-join-room', { roomId: pin });
     socket.subcribe(() => {
       history.push('/play-room-guest');
@@ -21,7 +22,7 @@ const PINField: React.FC = () => {
 
   return (
     <div id="pin-field">
-      <form className="enter-pin-field">
+      <form id="pin-form" className="enter-pin-field" onSubmit={handleSubmit}>
         <input
           id="pin"
           type="type"
@@ -30,7 +31,7 @@ const PINField: React.FC = () => {
           onChange={handleChange}
         />
       </form>
-      <button className="enter-arrow-btn" type="button" onClick={handleClick}>
+      <button className="enter-arrow-btn" type="submit" form="pin-form">
         <img src={rightArrow} className="right-arrow" />
       </button>
     </div>

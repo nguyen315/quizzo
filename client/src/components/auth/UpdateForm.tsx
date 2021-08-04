@@ -32,7 +32,6 @@ const UpdateForm = () => {
             ? values.avartar.files[0].name
             : auth.user?.avartar
       };
-      console.log(updatedForm);
       if (values.avartar.files[0]) {
         const formData = new FormData();
         formData.append('avartar', values.avartar.files[0]);

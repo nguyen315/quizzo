@@ -2,7 +2,11 @@ import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { showUpdateModal, updateProfile } from '../../store/slices/auth.slice';
+import {
+  showUpdateModal,
+  updateProfile,
+  uploadAvartar
+} from '../../store/slices/auth.slice';
 import { RootState } from '../../store/store';
 import defaultImage from '../../assets/download.png';
 
@@ -29,11 +33,17 @@ const UpdateForm = () => {
             : auth.user?.avartar
       };
       console.log(updatedForm);
-      // dispatch(updateProfile(updatedForm));
+      if (values.avartar.files[0]) {
+        const formData = new FormData();
+        formData.append('avartar', values.avartar.files[0]);
+        dispatch(uploadAvartar(formData));
+      }
+      dispatch(updateProfile(updatedForm));
     } catch (error) {
       console.log(error);
     }
   };
+  const baseUrl = 'http://localhost:5000/uploads/avartar/';
   return (
     <>
       <Modal
@@ -50,7 +60,7 @@ const UpdateForm = () => {
           initialValues={{
             firstName: auth.user?.firstName,
             lastName: auth.user?.lastName,
-            avartar: ''
+            avartar: auth.user?.avartar
           }}
           onSubmit={update}
         >
@@ -68,7 +78,16 @@ const UpdateForm = () => {
                 <Row>
                   <Col lg={3}>
                     <Form.Group controlId="formFile">
-                      <img src={defaultImage} alt="" width="150" height="150" />
+                      <img
+                        src={
+                          values.avartar !== ''
+                            ? baseUrl + values.avartar
+                            : defaultImage
+                        }
+                        alt=""
+                        width="150"
+                        height="150"
+                      />
                       <Form.Control
                         type="file"
                         className="custom-file-input"

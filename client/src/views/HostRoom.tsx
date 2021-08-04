@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import HostLobby from '../components/game/HostLobby';
@@ -7,6 +7,7 @@ import CountDown from '../components/layouts/CountDown';
 import LoggedInNavBar from '../components/layouts/LoggedInNavBar';
 import { RootState } from '../store/store';
 import { socket } from './LandingPage';
+import '../css/roomPlaying.css';
 
 const HostRoom = () => {
   const game = useSelector((state: RootState) => state.game);
@@ -33,19 +34,41 @@ const HostRoom = () => {
     const question = game.question;
     return (
       <>
-        <CountDown timeUp={game.timeUp} />
-        <div>
-          <h1>{question.title}</h1>
-        </div>
-        {question.answers.map((answer: any) => (
-          <>
-            <Button>{answer.content}</Button>
-          </>
-        ))}
+        <h2 className="question-title">{question.title}</h2>
+        <Row className="host-answer-row">
+          <Col>
+            <CountDown timeUp={game.timeUp} />
+          </Col>
+          <Col xs={6}>Image</Col>
+          <Col>
+            <div>
+              <Button className="next-question-btn" onClick={handleEndQuestion}>
+                Next
+              </Button>
+            </div>
+          </Col>
+        </Row>
 
-        <div>
-          <Button onClick={handleEndQuestion}>End Question</Button>
-        </div>
+        <Row>
+          {game.question.answers.map((answer: any) => (
+            <Col xs={6} className="host-answer">
+              <Button
+                id={
+                  answer.id % 4 === 0
+                    ? 'blue'
+                    : answer.id % 4 === 1
+                    ? 'orange'
+                    : answer.id % 4 === 2
+                    ? 'red'
+                    : 'green'
+                }
+                className="answer-option"
+              >
+                {answer.content}
+              </Button>
+            </Col>
+          ))}
+        </Row>
       </>
     );
   }

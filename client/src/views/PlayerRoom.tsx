@@ -6,7 +6,7 @@ import { socket } from './LandingPage';
 
 import { updateAnswerStatus } from '../store/slices/game.slice';
 import { Redirect } from 'react-router-dom';
-import '../css/playerRoom.css';
+import '../css/roomPlaying.css';
 
 const PlayerRoom = () => {
   const game = useSelector((state: RootState) => state.game);

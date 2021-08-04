@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600&display=swap');
+
 .question-title {
-  font-family: 'Helvetica Neue' !important;
+  font-family: 'Mulish', sans-serif !important;
   text-align: center;
   padding: 1.3333rem 0;
   color: #262626;
+  font-weight: 600;
 }
 
 .col-6 {
@@ -91,4 +94,30 @@ CopePen: https://codepen.io/chris22smith/pen/RZogMa
   100% {
     transform: translateX(25%);
   }
+}
+
+/* Host page */
+.next-question-btn {
+  background: #fc8e31;
+  box-shadow: 0px 2px 1px rgba(253, 137, 39, 0.2);
+  border-radius: 7px;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.next-question-btn:hover,
+.next-question-btn:focus,
+.next-question-btn:active {
+  background: #fc811c;
+  border: none;
+}
+
+.host-answer {
+  height: 21vh;
+}
+
+.host-answer-row {
+  display: flex;
+  align-items: center;
+  text-align: center;
 }

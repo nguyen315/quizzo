@@ -1,0 +1,20 @@
+.create-question-title {
+  font-size: 26px;
+}
+
+.center-label {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+}
+
+.fill-icon {
+  margin-left: 10px;
+  fill: #f06051;
+  font-size: 30px;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}

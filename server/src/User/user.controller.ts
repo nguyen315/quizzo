@@ -12,11 +12,34 @@ import {
   Post,
   Body,
   ParseIntPipe,
-  Res
+  Res,
+  Put,
+  UseInterceptors,
+  UploadedFile
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import path = require('path');
+import { join } from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+
+const imageID = uuidv4();
+
+const storage = {
+  storage: diskStorage({
+    destination: './uploads/avartar',
+    filename: (req, file, cb) => {
+      const filename: string =
+        imageID + path.parse(file.originalname).name.replace(/\s/g, '');
+      const extention: string = path.parse(file.originalname).ext;
+
+      cb(null, `${filename}${extention}`);
+    }
+  })
+};
 
 @Controller('api/users')
 export class UserController {
@@ -26,6 +49,7 @@ export class UserController {
   getAll(): Promise<User[]> {
     return this.userService.findAll();
   }
+
   @Get(':id')
   async getOne(@Param('id') id: number): Promise<Omit<User, 'password'>> {
     // Check userId from request token match with userId you want to get info
@@ -40,18 +64,31 @@ export class UserController {
     return await this.userService.remove(id);
   }
 
-  @Post(':id/update-user')
-  updateUser(
+  @Put(':id/update-user')
+  async updateUser(
     @Param('id') id: number,
     @Body('firstName') firstname: string,
     @Body('lastName') lastname: string,
+    @Body('avartar') avartar: string,
     @Res() res: Response
   ) {
-    this.userService.updateFirstName(id, firstname);
-    this.userService.updateLastName(id, lastname);
-    res.json({
-      success: true
-    });
+    try {
+      const updatedUser = await this.userService.updateProfile(
+        id,
+        firstname,
+        lastname,
+        imageID + avartar
+      );
+      res.json({
+        success: true,
+        user: updatedUser
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
   @Post()
   addUser(@Body() user: User): Promise<User> {
@@ -61,6 +98,12 @@ export class UserController {
   @Get('activate/confirm?')
   async activateUser(@Query('token') token: string): Promise<any> {
     return await this.userService.setActive(token);
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('avartar', storage))
+  uploadFile(@UploadedFile() file) {
+    return { imagePath: file.filename };
   }
 
   @Post(':id/change-password')

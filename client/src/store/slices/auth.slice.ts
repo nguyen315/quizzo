@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { users } from '../../data/users';
 import { setAuthToken } from '../../utils/setAuthToken';
 import { User } from '../types';
 import {
@@ -12,6 +11,7 @@ import {
   apiUrl,
   updateProfileForm
 } from '../types';
+import { AppDispatch } from '../store';
 
 interface State {
   user?: User | null;
@@ -20,6 +20,8 @@ interface State {
   showModal?: boolean;
   showRegisterModal?: boolean;
   showUpdateModal?: boolean;
+  loginError?: string | null;
+  registerError?: string | null;
 }
 
 const initialState: State = {
@@ -28,7 +30,9 @@ const initialState: State = {
   authLoading: false,
   showModal: false,
   showRegisterModal: false,
-  showUpdateModal: false
+  showUpdateModal: false,
+  loginError: null,
+  registerError: null
 };
 
 export const loadUser =
@@ -47,7 +51,7 @@ export const loadUser =
 
 export const registerUser = createAsyncThunk(
   'api/users/register',
-  async (registerForm: registerForm, { dispatch, getState }) => {
+  async (registerForm: registerForm, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiUrl}/sign-up`, registerForm);
       if (response.data) {
@@ -59,15 +63,15 @@ export const registerUser = createAsyncThunk(
         dispatch(showRegisterModal());
       }
       return response.data;
-    } catch (error) {
-      dispatch(showRegisterModal());
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
 export const loginUser = createAsyncThunk(
   'api/users/login',
-  async (loginForm: LoginForm, { dispatch, getState }) => {
+  async (loginForm: LoginForm, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, loginForm);
       if (response.data.success) {
@@ -75,8 +79,11 @@ export const loginUser = createAsyncThunk(
         dispatch(loadUser());
       }
       dispatch(showModal());
+
       return response.data;
-    } catch (error) {}
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -86,13 +93,23 @@ export const updateProfile = createAsyncThunk(
     try {
       const state: any = getState();
       const userID = state.auth.user.id;
-      const response = await axios.post(
+      const response = await axios.put(
         `${apiUrl}/users/${userID}/update-user`,
         updateForm
       );
       if (response.data.success) {
         dispatch(showUpdateModal());
+        return response.data.user;
       }
+    } catch (error) {}
+  }
+);
+
+export const uploadAvartar = createAsyncThunk(
+  'users/upload',
+  async (formData: any) => {
+    try {
+      await axios.post(`${apiUrl}/users/upload`, formData);
     } catch (error) {}
   }
 );
@@ -103,9 +120,11 @@ const authSlices = createSlice({
   reducers: {
     showModal(state) {
       state.showModal = !state.showModal;
+      state.loginError = null;
     },
     showRegisterModal(state) {
       state.showRegisterModal = !state.showRegisterModal;
+      state.registerError = null;
     },
     showUpdateModal(state) {
       state.showUpdateModal = !state.showUpdateModal;
@@ -117,6 +136,25 @@ const authSlices = createSlice({
     logOut(state) {
       state.isAuthenticated = false;
       state.user = null;
+    }
+  },
+  extraReducers: {
+    [loginUser.fulfilled.toString()]: (state, actino) => {
+      state.loginError = null;
+    },
+    [loginUser.rejected.toString()]: (state, action) => {
+      console.log(action);
+      state.loginError = action.payload.message;
+    },
+    [registerUser.fulfilled.toString()]: (state, actino) => {
+      state.registerError = null;
+    },
+    [registerUser.rejected.toString()]: (state, action) => {
+      console.log(action);
+      state.registerError = action.payload.message;
+    },
+    [updateProfile.fulfilled.toString()]: (state, action) => {
+      state.user = action.payload;
     }
   }
 });

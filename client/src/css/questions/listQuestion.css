@@ -1,0 +1,11 @@
+.list-questions {
+  padding-left: 1%;
+  padding-right: 3%;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.search-filter-bar {
+  display: flex;
+  justify-content: space-between;
+}

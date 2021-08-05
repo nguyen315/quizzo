@@ -1,10 +1,16 @@
+import { Room } from 'src/Room/room.entity';
+import { Tag } from 'src/tag/entities/tag.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinTable,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
 import { Answer } from '../../answer/entities/answer.entity';
 
@@ -15,11 +21,6 @@ export class Question {
 
   @Column()
   userId: string;
-
-  @Column({
-    default: ''
-  })
-  tagId: string;
 
   @Column()
   title: string;
@@ -38,6 +39,18 @@ export class Question {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Answer, (answer) => answer.question)
+  @OneToMany(() => Answer, (answer) => answer.question, {
+    cascade: true
+  })
   answers: Answer[];
+
+  @ManyToMany(() => Tag, (tag) => tag.questions, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  tags: Tag[];
+
+  @ManyToMany(() => Room, (room) => room.questions, { cascade: true })
+  @JoinTable()
+  rooms: Room[];
 }

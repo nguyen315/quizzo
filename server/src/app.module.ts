@@ -8,11 +8,13 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
 import { QuestionModule } from './Question/question.module';
-import { TagQuestionModule } from './tag-question/tag-question.module';
 import { AnswerModule } from './answer/answer.module';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
 import { ChatGateway } from './chat.gateway';
+import { TagModule } from './tag/tag.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -20,6 +22,9 @@ import { ChatGateway } from './chat.gateway';
     AuthModule,
     UserModule,
 
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client')
+    }),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -33,8 +38,8 @@ import { ChatGateway } from './chat.gateway';
     }),
     MailModule,
     QuestionModule,
-    TagQuestionModule,
-    AnswerModule
+    AnswerModule,
+    TagModule
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway]

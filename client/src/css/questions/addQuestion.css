@@ -1,0 +1,108 @@
+.form-title {
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051) red;
+  font-size: 1rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+}
+
+.title-side {
+  position: relative;
+}
+
+.title-icon {
+  position: absolute;
+  top: 13%;
+  left: 2%;
+}
+
+.title-input {
+  padding-left: 40px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.radio-input {
+  margin-top: 8px;
+}
+
+.custom-file-input {
+  content: 'Image';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.image-side {
+  position: relative;
+}
+
+.image-icon {
+  position: absolute;
+  top: 15%;
+}
+
+.image-input {
+  position: absolute;
+  top: 15%;
+  left: 40%;
+}
+
+.answer-input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.btn-save {
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid black;
+  color: black;
+  background-color: transparent;
+}
+
+.btn-type {
+  background-color: transparent;
+  color: black;
+  border: 1px solid transparent;
+}
+
+.btn-type:hover {
+  background-color: transparent;
+  border: 1px solid black;
+  color: black;
+}
+
+.errorText {
+  color: red;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.plus-icon {
+  fill: white;
+  font-size: 1.5rem;
+}

@@ -28,7 +28,7 @@ const LandingPage: React.FC = (props: any) => {
       dispatch(loadUser());
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

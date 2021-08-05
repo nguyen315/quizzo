@@ -129,12 +129,12 @@ CopePen: https://codepen.io/chris22smith/pen/RZogMa
 }
 
 #correct {
-  background: #eb5757;
+  background: #27ae60;
   box-shadow: 1px 2px 7px rgba(235, 87, 87, 0.1);
 }
 
 #incorrect {
-  background: #27ae60;
+  background: #eb5757;
   box-shadow: 1px 2px 7px rgba(39, 174, 96, 0.2);
 }
 

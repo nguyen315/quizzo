@@ -44,19 +44,27 @@ const PlayerRoom = () => {
   if (!game.username) {
     return (
       <>
-        <Form onSubmit={handleJoin}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Control
-              type="text"
-              placeholder="Enter username to join"
-              value={username}
-              onChange={handleChangeName}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+        <div className="bg"></div>
+        <div className="bg bg2"></div>
+        <div className="bg bg3"></div>
+
+        <div className="result-page">
+          <div className="wellcome-line">Wellcome to room {game.roomId}</div>
+          <Form onSubmit={handleJoin}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control
+                className="submit-form"
+                type="text"
+                placeholder="Enter name to join !!!"
+                value={username}
+                onChange={handleChangeName}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </div>
       </>
     );
   }
@@ -127,19 +135,27 @@ const PlayerRoom = () => {
     <>
       {!game.username ? (
         <>
-          <Form onSubmit={handleJoin}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control
-                type="text"
-                placeholder="Enter username to join"
-                value={username}
-                onChange={handleChangeName}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
+          <div className="bg"></div>
+          <div className="bg bg2"></div>
+          <div className="bg bg3"></div>
+
+          <div className="result-page">
+            <div className="wellcome-line">Wellcome to room {game.roomId}</div>
+            <Form onSubmit={handleJoin}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Control
+                  className="submit-form"
+                  type="text"
+                  placeholder="Enter name to join !!!"
+                  value={username}
+                  onChange={handleChangeName}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </div>
         </>
       ) : (
         <>
@@ -149,6 +165,7 @@ const PlayerRoom = () => {
               <div className="text">
                 Waiting for the host to start! \( ﾟヮﾟ)/
               </div>
+              <div className="text">see your name on screen?</div>
             </div>
             <div className="cube"></div>
             <div className="cube"></div>

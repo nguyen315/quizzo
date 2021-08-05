@@ -177,8 +177,8 @@ const ListQuestions: React.FC = () => {
 
   return (
     <>
-      <Container fluid="lg">
-        <LoggedInNavBar />
+      <LoggedInNavBar />
+      <Container fluid className="list-questions">
         <div className="btn-create">
           <AddQuestionModal />
         </div>

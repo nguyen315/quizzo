@@ -10,10 +10,9 @@
 #room-list {
   margin-bottom: 32px;
   height: 42px;
-  width: 147px;
+  width: 300px;
   font-family: 'Poppins', sans-serif;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 2em;
 }
 
 .search-bar {

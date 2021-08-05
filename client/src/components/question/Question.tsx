@@ -37,7 +37,11 @@ const Question = (props: { question: any; currentPage: any }) => {
     dispatch(getQuestionByPage(props.currentPage));
   };
 
-  const baseUrl = 'http://localhost:5000/uploads/image/';
+  const baseUrl =
+    process.env.NODE_ENV === 'production'
+      ? 'https://quizzo-service.herokuapp.com/uploads/image/'
+      : 'http://localhost:5000/uploads/image/';
+
   return (
     <Card className="question">
       <Card.Body className="content">

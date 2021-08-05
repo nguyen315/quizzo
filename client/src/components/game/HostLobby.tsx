@@ -42,7 +42,9 @@ const HostLobby = (props: any) => {
             </div>
             <div className="player-name-section">
               {game.players.map((player: any) => (
-                <div className="player-name">{player.username}</div>
+                <div key={player.id} className="player-name">
+                  {player.username}
+                </div>
               ))}
             </div>
           </div>

@@ -35,13 +35,15 @@ export class ChatGateway implements OnGatewayDisconnect {
         const clients = this.server.sockets.adapter.rooms.get(
           roomId.toString()
         );
-        console.log(clients);
 
         // if a room have only one clients is host, clients will return undefined
         if (clients)
           clients.forEach((clientId) => {
             this.server.sockets.sockets.get(clientId).leave(roomId.toString());
           });
+
+        // delete room id property from rooms object
+        delete rooms[roomId.toString()];
         break;
       }
     }
@@ -69,7 +71,6 @@ export class ChatGateway implements OnGatewayDisconnect {
     // find room
     // Look up the room ID in the Socket.IO manager object.
     let room = this.server.sockets.adapter.rooms.get(data.roomId);
-
     // If the room exists...
     if (room != undefined) {
       client.join(data.roomId.toString());
@@ -84,7 +85,9 @@ export class ChatGateway implements OnGatewayDisconnect {
   handlePlayerEnterName(@MessageBody() data, @ConnectedSocket() client): void {
     const player = { ...data };
     player.id = client.id;
+    data.id = client.id;
     player.point = 0;
+    player.isCorrect = false;
     players[data.roomId].push(player);
     this.server
       .in(data.roomId.toString())
@@ -140,10 +143,17 @@ export class ChatGateway implements OnGatewayDisconnect {
     // add point of the questions to total score of the player
     const currentPlayer = players[data.roomId].find((i) => i.id === client.id);
     currentPlayer.point += point;
+
+    // if player is correct, then change isCorrect to true, else false
+    if (coeff === 1) {
+      currentPlayer.isCorrect = true;
+    } else {
+      currentPlayer.isCorrect = false;
+    }
   }
 
   @SubscribeMessage('host-end-question')
-  handleHostEndQuestion(@MessageBody() data): void {
+  handleHostEndQuestion(@MessageBody() data, @ConnectedSocket() client): void {
     const index = rooms[data.roomId].count;
     if (index == rooms[data.roomId].questions.length) {
       this.server

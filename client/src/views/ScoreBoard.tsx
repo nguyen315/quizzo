@@ -8,7 +8,7 @@ import '../css/scoreboard.css';
 
 const ScoreBoard = (props: any) => {
   const players = props.players;
-  console.log(players);
+
   const ranking = players.slice().sort((a: any, b: any) => {
     return parseInt(b.point) - parseInt(a.point);
   });

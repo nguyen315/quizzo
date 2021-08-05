@@ -49,7 +49,9 @@ const PlayerRoom = () => {
         <div className="bg bg3"></div>
 
         <div className="result-page">
-          <div className="wellcome-line">Wellcome to room {game.roomId}</div>
+          <div className="wellcome-line answered">
+            Welcome to room {game.roomId}
+          </div>
           <Form onSubmit={handleJoin}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
@@ -74,17 +76,17 @@ const PlayerRoom = () => {
       <>
         <h2 className="question-title">{game.question.title}</h2>
         <Row>
-          {game.question.answers.map((answer: any) => (
+          {game.question.answers.map((answer: any, index: any) => (
             <Col xs={6}>
               <Button
                 onClick={playerSubmit}
                 value={answer.id}
                 id={
-                  answer.id % 4 === 0
+                  index % 4 === 0
                     ? 'blue'
-                    : answer.id % 4 === 1
+                    : index % 4 === 1
                     ? 'orange'
-                    : answer.id % 4 === 2
+                    : index % 4 === 2
                     ? 'red'
                     : 'green'
                 }
@@ -140,7 +142,9 @@ const PlayerRoom = () => {
           <div className="bg bg3"></div>
 
           <div className="result-page">
-            <div className="wellcome-line">Wellcome to room {game.roomId}</div>
+            <div className="wellcome-line answered">
+              Welcome to room {game.roomId}
+            </div>
             <Form onSubmit={handleJoin}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Control

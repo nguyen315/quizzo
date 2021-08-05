@@ -9,11 +9,17 @@ import { RootState } from '../store/store';
 import { socket } from './LandingPage';
 import '../css/roomPlaying.css';
 import { updateAnswerStatus } from '../store/slices/game.slice';
+import ScoreBoard from './ScoreBoard';
 
 const HostRoom = () => {
   const game = useSelector((state: RootState) => state.game);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const url =
+    process.env.NODE_ENV === 'production'
+      ? 'https://quizzo-service.herokuapp.com/uploads/image/'
+      : 'http://localhost:5000/uploads/image/';
 
   const handleStartQuestion = () => {
     socket.emit('host-start-question', { roomId: game.roomId });
@@ -46,7 +52,9 @@ const HostRoom = () => {
           <Col>
             <CountDown timeUp={game.timeUp} />
           </Col>
-          <Col xs={6}>Image</Col>
+          <Col xs={6}>
+            <img src={url + question.image} width="200" height="200" />
+          </Col>
           <Col>
             <div>
               <Button
@@ -60,15 +68,15 @@ const HostRoom = () => {
         </Row>
 
         <Row>
-          {game.question.answers.map((answer: any) => (
+          {game.question.answers.map((answer: any, index: any) => (
             <Col xs={6} className="host-answer">
               <Button
                 id={
-                  answer.id % 4 === 0
+                  index % 4 === 0
                     ? 'blue'
-                    : answer.id % 4 === 1
+                    : index % 4 === 1
                     ? 'orange'
-                    : answer.id % 4 === 2
+                    : index % 4 === 2
                     ? 'red'
                     : 'green'
                 }
@@ -91,7 +99,9 @@ const HostRoom = () => {
         <h2 className="question-title">{question.title}</h2>
         <Row className="host-answer-row">
           <Col></Col>
-          <Col xs={6}>Image</Col>
+          <Col xs={6}>
+            <img src={url + question.image} width="200" height="200" />
+          </Col>
           <Col>
             <div>
               <Button className="next-question-btn" onClick={handleEndQuestion}>
@@ -119,47 +129,25 @@ const HostRoom = () => {
 
   // display leaderboard
   if (game.question && game.answerStatus === 'rank') {
-    const question = game.question;
     return (
-      <>
-        {game.players.map((player: any) => (
-          <>
-            <div>
-              <div>
-                <span>
-                  {player.username}: {player.point}
-                </span>
-              </div>
-            </div>
-          </>
-        ))}
-        <div>
-          <Button onClick={handleStartQuestion}>Next Question</Button>
-        </div>
-      </>
+      <ScoreBoard
+        players={game.players}
+        isLastQuestion={false}
+        handleStartQuestion={handleStartQuestion}
+        handleEndGame={handleEndGame}
+      />
     );
   }
 
   // display leaderboard & endgame
   if (game.question && game.answerStatus === 'end') {
-    const question = game.question;
     return (
-      <>
-        {game.players.map((player: any) => (
-          <>
-            <div>
-              <div>
-                <span>
-                  {player.username}: {player.point}
-                </span>
-              </div>
-            </div>
-          </>
-        ))}
-        <div>
-          <Button onClick={handleEndGame}>End Game</Button>
-        </div>
-      </>
+      <ScoreBoard
+        players={game.players}
+        isLastQuestion={true}
+        handleStartQuestion={handleStartQuestion}
+        handleEndGame={handleEndGame}
+      />
     );
   }
 

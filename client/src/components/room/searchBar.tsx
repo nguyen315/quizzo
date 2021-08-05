@@ -7,7 +7,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 const SearchBar = () => {
   return (
     <div className="room-list-search-bar">
-      <div id="room-list">Rooms list</div>
+      <div id="room-list" className="title">
+        Rooms list
+      </div>
       <Form.Group className="groupInput">
         <Form.Label className="iconInput-1">
           <FontAwesomeIcon icon={faSearch} />

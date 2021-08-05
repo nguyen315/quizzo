@@ -41,22 +41,44 @@ export class UserService {
     return false;
   }
 
-  updateLastName(id: number, lastname: string) {
+  async updateLastName(id: number, lastname: string) {
     if (this.checkLength(lastname, 1, 20)) {
       throw new BadRequestException(
         'last name length must be between 1 character and 20 characters'
       );
     }
-    return this.userRepository.update({ id: id }, { lastName: lastname });
+    return await this.userRepository.update({ id: id }, { lastName: lastname });
   }
 
-  updateFirstName(id: number, firstname: string) {
+  async updateFirstName(id: number, firstname: string) {
     if (this.checkLength(firstname, 1, 20)) {
       throw new BadRequestException(
         'First name length must be between 1 character and 20 characters'
       );
     }
-    return this.userRepository.update({ id: id }, { firstName: firstname });
+    return await this.userRepository.update(
+      { id: id },
+      { firstName: firstname }
+    );
+  }
+
+  async updatedAvartar(id: number, avartar: string) {
+    return await this.userRepository.update({ id: id }, { avartar: avartar });
+  }
+
+  async updateProfile(
+    id: number,
+    firstName: string,
+    lastName: string,
+    avartar: string
+  ) {
+    await this.updateFirstName(id, firstName);
+    await this.updateLastName(id, lastName);
+    await this.updatedAvartar(id, avartar);
+    const { password, ...foundUser } = await this.userRepository.findOne({
+      id: id
+    });
+    return foundUser;
   }
 
   findByEmail(email: string): Promise<User | undefined> {

@@ -1,12 +1,14 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Form, Row, Col } from 'react-bootstrap';
 import '../../css/questions/answer.css';
 
-const Answer = (props: { answer: any }) => {
+const Answer = (props: any) => {
   return (
-    <Card className="answerItem">
-      <Card.Body>{props.answer.content}</Card.Body>
-    </Card>
+    <Col xs="12" md="6" className="p-0">
+      <div className={`answer border-color-index-${props.index}`}>
+        {props.answer.content}
+      </div>
+    </Col>
   );
 };
 

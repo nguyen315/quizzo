@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import {
   Controller,
   Get,
@@ -12,12 +8,15 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
 import { RoomService } from './room.service';
-import { CreateRoomDto } from '../Dto/Room/create-room.dto';
-import { UpdateRoomDto } from 'src/Dto/Room/update-room.dto';
+import { CreateRoomDto } from './dto/create-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('api/rooms')
@@ -35,6 +34,7 @@ export class RoomController {
       const createdRoom = await this.roomService.create(createRoomDto, user.id);
       res.json({ success: true, room: createdRoom });
     } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ success: false, message: 'Internal server error' });
@@ -44,12 +44,39 @@ export class RoomController {
   @Get()
   async findAll(@Request() req, @Response() res) {
     try {
-      const rooms = await this.roomService.findAll();
+      const rooms = await this.roomService.findAll(req.user.id);
       res.json({ success: true, rooms: rooms });
     } catch (error) {
       res
         .status(500)
         .json({ success: false, message: 'Internal server error' });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('paginate')
+  async PaginativeFindAll(
+    @Response() res,
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    try {
+      const content = await this.roomService.findAllWithPagination(
+        {
+          page,
+          limit,
+          route: '/api/rooms/paginate'
+        },
+        req.user.id
+      );
+      res.json({ success: true, ...content });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
     }
   }
 

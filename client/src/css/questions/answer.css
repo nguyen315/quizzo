@@ -1,6 +1,34 @@
-.answerItem {
+.answer {
   width: auto;
-  height: auto;
-  padding: 0;
-  margin: 1em 0;
+  height: 150px;
+  color: #000;
+  border-radius: 15px;
+  border-style: solid;
+  margin: 1em;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label {
+  color: #000 !important;
+}
+
+.correct-answer {
+  background-color: #f1f1f1;
+}
+.border-color-index-0 {
+  border-color: #99be29;
+}
+
+.border-color-index-1 {
+  border-color: #ef6253;
+}
+
+.border-color-index-2 {
+  border-color: #fc8e31;
+}
+
+.border-color-index-3 {
+  border-color: #46adfb;
 }

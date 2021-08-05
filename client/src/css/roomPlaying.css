@@ -47,6 +47,7 @@
 
 .result-page {
   height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,6 +64,42 @@
 .text {
   font-size: 1.3333rem;
   color: #fbf8ff;
+}
+
+.footer-player-result {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  height: 50px;
+}
+
+.footer-player-result .username {
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.footer-player-result .point {
+  background-color: #000;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  padding: 10px;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 /* 
@@ -147,6 +184,13 @@ CopePen: https://codepen.io/BjornRombaut/pen/mOLGgX
 
 .hero {
   background-color: #f06051;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.correct-answer {
+  background-color: #51f059;
   position: relative;
   height: 100vh;
   overflow: hidden;

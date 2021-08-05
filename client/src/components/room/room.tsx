@@ -9,8 +9,9 @@ import moment from 'moment';
 import { socket } from '../../views/LandingPage';
 import { Redirect, useHistory } from 'react-router-dom';
 import { updateGame } from '../../store/slices/game.slice';
+import { deleteRoom, getRoomByPage } from '../../store/slices/rooms.slice';
 
-const Room = (props: { room: any }) => {
+const Room = (props: any) => {
   const game = useSelector((state: RootState) => state.game);
   const dispatch = useDispatch();
 
@@ -19,6 +20,11 @@ const Room = (props: { room: any }) => {
     dispatch(
       updateGame({ roomName: props.room.name, timeUp: props.room.timeUp })
     );
+  };
+
+  const handleDelete = async (id: any) => {
+    await dispatch(deleteRoom(id));
+    await dispatch(getRoomByPage(props.currentPage));
   };
 
   if (game.roomId && game.role == 'host') {
@@ -41,11 +47,17 @@ const Room = (props: { room: any }) => {
           ></Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Preview</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Edit</Dropdown.Item>
             <Dropdown.Item href="#/action-3">Report</Dropdown.Item>
-            <Dropdown.Item href="#/action-3" id="delete">
-              Delete
+            <Dropdown.Item>
+              <Button
+                id="delete"
+                type="submit"
+                onClick={() => {
+                  handleDelete(props.room.id);
+                }}
+              >
+                Delete
+              </Button>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

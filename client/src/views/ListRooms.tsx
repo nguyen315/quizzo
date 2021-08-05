@@ -23,17 +23,17 @@ const ListRooms: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   let content = rooms.map((room) => (
     <Col>
-      <Room key={room.id} room={room} />
+      <Room key={room.id} room={room} currentPage={currentPage} />
     </Col>
   ));
 
   useEffect(() => {
     dispatch(getRoomByPage(1));
   }, [dispatch]);
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   const goFirstPage = () => {
     dispatch(getRoomByPage(1));

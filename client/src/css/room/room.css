@@ -101,4 +101,7 @@
 
 #delete {
   color: #ed4867;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0;
 }

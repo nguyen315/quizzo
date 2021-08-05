@@ -83,9 +83,11 @@ const CreateRoom: React.FC = () => {
               <h1 className="title">Create a new room</h1>
               <Form onSubmit={handleSubmit}>
                 <Row className="align-items-center">
-                  <Col xs="9">
+                  <Col xs="8">
                     <Form.Group>
-                      <Form.Label>Room name</Form.Label>
+                      <Form.Label>
+                        <strong>Room name</strong>
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter room name"
@@ -103,7 +105,9 @@ const CreateRoom: React.FC = () => {
 
                   <Col xs="auto">
                     <Form.Group>
-                      <Form.Label>Time per question</Form.Label>
+                      <Form.Label>
+                        <strong>Time per question</strong>
+                      </Form.Label>
                       <Form.Control
                         type="number"
                         placeholder="15"
@@ -119,24 +123,30 @@ const CreateRoom: React.FC = () => {
                 <Form.Group>
                   <Row className="align-items-center">
                     <Col xs="2">
-                      <Form.Label>Level</Form.Label>
+                      <Form.Label>
+                        <strong>Level</strong>
+                      </Form.Label>
+                    </Col>
+                    <Col xs="auto">
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={10}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="level"
+                        value={values.level}
+                      />
+                      {JSON.stringify(values.level)}
+                      <Form.Text>
+                        0-30: Easy, 31-50: Medium, 51-100: Hard
+                      </Form.Text>
                     </Col>
                   </Row>
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    step={10}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="level"
-                    value={values.level}
-                  />
-                  {JSON.stringify(values.level)}
-                  <Form.Text>0-30: Easy, 31-50: Medium, 51-100: Hard</Form.Text>
                 </Form.Group>
                 <Form.Label>
-                  Choose one or more question for your room!
+                  <strong>Choose one or more question for your room!</strong>
                 </Form.Label>
                 <div className="questions-container">
                   {questions.map((question) => (

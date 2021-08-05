@@ -32,9 +32,9 @@ const Question = (props: { question: any; currentPage: any }) => {
     });
   };
 
-  const onClickdeleteQuestion = (id: any) => {
-    dispatch(deleteQuestion(id));
-    dispatch(getQuestionByPage(props.currentPage));
+  const onClickdeleteQuestion = async (id: any) => {
+    await dispatch(deleteQuestion(id));
+    await dispatch(getQuestionByPage(props.currentPage));
   };
 
   const baseUrl =

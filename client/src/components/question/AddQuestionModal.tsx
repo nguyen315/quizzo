@@ -84,7 +84,9 @@ const AddQuestionModal = (props: { currentPage: number }) => {
       dispatch(uploadImage(formData));
     }
     dispatch(createQuestion(questionForm));
-
+    if (questionPageinate.length > 10 && createStatus === true) {
+      dispatch(getQuestionByPage(props.currentPage));
+    }
     setShowForm(false);
   };
 

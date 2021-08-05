@@ -38,9 +38,6 @@ const LoggedInNavbar: React.FC = (props: any) => {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/dashboard">
-              Dashboard
-            </Nav.Link>
             <Nav.Link as={Link} to="/list-questions">
               Questions
             </Nav.Link>

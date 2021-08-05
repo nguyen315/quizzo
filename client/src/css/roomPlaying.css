@@ -25,7 +25,7 @@
   border: none;
 }
 
-.wellcome-line{
+.wellcome-line {
   margin-bottom: 2em;
   font-size: 3rem;
   display: block;
@@ -34,7 +34,7 @@
   font-weight: 500;
 }
 
-.submit-form{
+.submit-form {
   box-sizing: content-box;
 }
 
@@ -60,6 +60,7 @@
 
 .result-page {
   height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -76,6 +77,42 @@
 .text {
   font-size: 1.3333rem;
   color: #fbf8ff;
+}
+
+.footer-player-result {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  height: 50px;
+}
+
+.footer-player-result .username {
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.footer-player-result .point {
+  background-color: #000;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  padding: 10px;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 /* 
@@ -160,6 +197,13 @@ CopePen: https://codepen.io/BjornRombaut/pen/mOLGgX
 
 .hero {
   background-color: #f06051;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.correct-answer {
+  background-color: #27ae60;
   position: relative;
   height: 100vh;
   overflow: hidden;
@@ -251,4 +295,56 @@ CopePen: https://codepen.io/BjornRombaut/pen/mOLGgX
 
 .container-fluid {
   padding: 0;
+}
+
+.cube-correct {
+  position: absolute;
+  top: 80vh;
+  left: 45vw;
+  width: 10px;
+  height: 10px;
+  border: solid 1px #48ed9a;
+  transform-origin: top left;
+  transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  -webkit-animation: cube 7s ease-in forwards infinite;
+  animation: cube 7s ease-in forwards infinite;
+}
+
+.cube-correct:nth-child(2n) {
+  border-color: #3b700f;
+}
+
+.cube-correct:nth-child(2) {
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+  left: 25vw;
+  top: 40vh;
+}
+
+.cube-correct:nth-child(3) {
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+  left: 75vw;
+  top: 50vh;
+}
+
+.cube-correct:nth-child(4) {
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+  left: 90vw;
+  top: 10vh;
+}
+
+.cube-correct:nth-child(5) {
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s;
+  left: 10vw;
+  top: 85vh;
+}
+
+.cube-correct:nth-child(6) {
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s;
+  left: 50vw;
+  top: 10vh;
 }

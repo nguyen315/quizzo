@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { idText } from 'typescript';
 import { apiUrl } from '../types';
 
 interface State {
@@ -39,6 +40,18 @@ export const createRoom = createAsyncThunk(
     }
   }
 );
+
+export const deleteRoom = createAsyncThunk('rooms/:id', async (id: any) => {
+  try {
+    const response = await axios.delete(`${apiUrl}/rooms/${id}`);
+    if (response.data.success) {
+      return id;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const getRoomByPage = createAsyncThunk(
   'rooms/paginate/page',
   async (page: any) => {
@@ -72,6 +85,13 @@ const roomsSlice = createSlice({
       state.rooms = action.payload.rooms;
       state.totalRoom = action.payload.lengthRooms;
       state.totalPage = action.payload.totalPage;
+    },
+
+    [deleteRoom.fulfilled.toString()]: (state, action) => {
+      console.log(action.payload);
+      state.rooms = state.rooms.filter(
+        (room: any) => room.id !== action.payload
+      );
     }
   }
 });

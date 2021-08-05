@@ -39,12 +39,17 @@ const ListQuestions: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
   let content;
   if (questionsStatus === 'loading') {
     content = <div>Loading...</div>;
   } else if (questionsStatus === 'succeeded') {
     content = questionPageinate.map((question) => (
-      <Question key={question.id} question={question} />
+      <Question
+        key={question.id}
+        question={question}
+        currentPage={currentPage}
+      />
     ));
   } else if (questionsStatus === 'failed') {
     content = <div>{questionsError}</div>;
@@ -53,7 +58,6 @@ const ListQuestions: React.FC = () => {
   useEffect(() => {
     dispatch(getQuestionByPage(1));
   }, [dispatch]);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const goFirstPage = () => {
     dispatch(getQuestionByPage(1));
@@ -126,7 +130,7 @@ const ListQuestions: React.FC = () => {
   }
 
   let paginatePage = null;
-  if (totalPage === 1) {
+  if (totalPage === 1 || totalPage === 0) {
     paginatePage = (
       <Pagination.Item
         active={1 === currentPage}
@@ -180,7 +184,7 @@ const ListQuestions: React.FC = () => {
       <Container fluid="lg">
         <LoggedInNavBar />
         <div className="btn-create">
-          <AddQuestionModal />
+          <AddQuestionModal currentPage={currentPage} />
         </div>
         <div>
           <span className="title question-list-title">Question List</span>

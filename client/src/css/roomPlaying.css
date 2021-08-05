@@ -25,6 +25,19 @@
   border: none;
 }
 
+.wellcome-line{
+  margin-bottom: 2em;
+  font-size: 3rem;
+  display: block;
+  margin: 30px auto;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.submit-form{
+  box-sizing: content-box;
+}
+
 #blue {
   background-color: #46adfb;
   box-shadow: 1px 2px 7px rgba(70, 173, 251, 0.1);

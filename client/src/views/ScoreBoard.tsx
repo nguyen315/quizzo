@@ -32,6 +32,17 @@ const ScoreBoard: React.FC = () => {
     ]
   };
 
+  let content = ranking.top5.map((element, index) => (
+    <>
+      <Row className="score">
+        <Col>
+          {index + 1} &nbsp; &nbsp; {String(element.username)}
+        </Col>
+        <Col>{String(element.score)}</Col>
+      </Row>
+    </>
+  ));
+
   return (
     <>
       <Container fluid>
@@ -41,28 +52,7 @@ const ScoreBoard: React.FC = () => {
         <Row className="next-button">
           <Button id="next-button">Next</Button>
         </Row>
-        <Container className="score-container">
-          <Row className="score">
-            <Col>1 &nbsp; &nbsp; {String(ranking.top5[0].username)}</Col>
-            <Col>{String(ranking.top5[0].score)}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[1].username}</Col>
-            <Col>{ranking.top5[1].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[2].username}</Col>
-            <Col>{ranking.top5[2].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[3].username}</Col>
-            <Col>{ranking.top5[3].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[4].username}</Col>
-            <Col>{ranking.top5[4].score}</Col>
-          </Row>
-        </Container>
+        <Container className="score-container">{content}</Container>
       </Container>
     </>
   );

@@ -13,17 +13,26 @@ import * as Yup from 'yup';
 import { AiOutlinePlus } from 'react-icons/ai';
 import {
   createQuestion,
-  uploadImage
+  uploadImage,
+  getQuestionByPage
 } from '../../store/slices/questions.slice';
 import { RootState } from '../../store/store';
 
-const AddQuestionModal: React.FC = () => {
+const AddQuestionModal = (props: { currentPage: number }) => {
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [checkedA, setCheckedA] = useState(false);
   const [checkedB, setCheckedB] = useState(false);
   const [checkedC, setCheckedC] = useState(false);
   const [checkedD, setCheckedD] = useState(false);
+
+  const questionPageinate = useSelector(
+    (state: RootState) => state.questions.paginateQuestion
+  );
+
+  const createStatus = useSelector(
+    (state: RootState) => state.questions.createStatus
+  );
 
   const clickCreate = () => {
     setShowForm(!showForm);
@@ -75,6 +84,7 @@ const AddQuestionModal: React.FC = () => {
       dispatch(uploadImage(formData));
     }
     dispatch(createQuestion(questionForm));
+
     setShowForm(false);
   };
 

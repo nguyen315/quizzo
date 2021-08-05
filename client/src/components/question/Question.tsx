@@ -8,8 +8,13 @@ import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai';
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
 import defaultImage from '../../assets/download.png';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import {
+  deleteQuestion,
+  getQuestionByPage
+} from '../../store/slices/questions.slice';
 
-const Question = (props: { question: any }) => {
+const Question = (props: { question: any; currentPage: any }) => {
   const [isExpand, setIsExpand] = useState(false);
   const [isShowImage, setIsShowImage] = useState(false);
 
@@ -19,10 +24,17 @@ const Question = (props: { question: any }) => {
     });
   };
 
+  const dispatch = useDispatch();
+
   const toggleImage = () => {
     setIsShowImage((prevState) => {
       return !prevState;
     });
+  };
+
+  const onClickdeleteQuestion = (id: any) => {
+    dispatch(deleteQuestion(id));
+    dispatch(getQuestionByPage(props.currentPage));
   };
 
   const baseUrl = 'http://localhost:5000/uploads/image/';
@@ -97,7 +109,11 @@ const Question = (props: { question: any }) => {
               <AiOutlineEdit className="icon" />
             </span>
             <span className="clickable">
-              <BiTrashAlt className="icon" fill="#ED4867" />
+              <BiTrashAlt
+                onClick={() => onClickdeleteQuestion(props.question.id)}
+                className="icon"
+                fill="#ED4867"
+              />
             </span>
           </div>
 

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { apiUrl } from '../types';
 
 interface State {
@@ -9,6 +10,7 @@ interface State {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
   totalPage: any;
+  createStatus: boolean;
 }
 
 const initialState: State = {
@@ -17,7 +19,8 @@ const initialState: State = {
   totalQuestion: null,
   status: 'idle',
   error: null,
-  totalPage: null
+  totalPage: null,
+  createStatus: false
 };
 
 export const fetchQuestions = createAsyncThunk(
@@ -76,6 +79,16 @@ export const getQuestionByPage = createAsyncThunk(
   }
 );
 
+export const deleteQuestion = createAsyncThunk(
+  'questions/delete',
+  async (id: any) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/questions/${id}`);
+      return id;
+    } catch (error) {}
+  }
+);
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState,
@@ -95,8 +108,16 @@ const questionsSlice = createSlice({
 
     // Create question
     [createQuestion.fulfilled.toString()]: (state, action) => {
-      state.status = 'succeeded';
+      state.createStatus = false;
       state.paginateQuestion = [...state.paginateQuestion, action.payload];
+    },
+    [createQuestion.fulfilled.toString()]: (state, action) => {
+      state.createStatus = true;
+      if (state.paginateQuestion.length < 10)
+        state.paginateQuestion = [...state.paginateQuestion, action.payload];
+      else {
+        state.totalPage = state.totalPage + 1;
+      }
     },
 
     // Pagination question
@@ -105,6 +126,17 @@ const questionsSlice = createSlice({
       state.paginateQuestion = action.payload.questions_res;
       state.totalQuestion = action.payload.lengthQuestions;
       state.totalPage = action.payload.totalPage;
+      state.createStatus = false;
+    },
+
+    // Delete question
+    [deleteQuestion.fulfilled.toString()]: (state, action) => {
+      if (state.paginateQuestion.length === 1) {
+        state.totalPage = state.totalPage - 1;
+      }
+      state.paginateQuestion = state.paginateQuestion.filter(
+        (question) => question.id !== action.payload
+      );
     }
   }
 });

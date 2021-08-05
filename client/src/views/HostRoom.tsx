@@ -53,7 +53,11 @@ const HostRoom = () => {
             <CountDown timeUp={game.timeUp} />
           </Col>
           <Col xs={6}>
-            <img src={url + question.image} width="200" height="200" />
+            {question.image === '' ? (
+              ''
+            ) : (
+              <img src={url + question.image} width="200" height="200" />
+            )}
           </Col>
           <Col>
             <div>
@@ -100,7 +104,11 @@ const HostRoom = () => {
         <Row className="host-answer-row">
           <Col></Col>
           <Col xs={6}>
-            <img src={url + question.image} width="200" height="200" />
+            {question.image === '' ? (
+              ''
+            ) : (
+              <img src={url + question.image} width="200" height="200" />
+            )}
           </Col>
           <Col>
             <div>

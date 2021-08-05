@@ -32,12 +32,11 @@ export const initListeners = (dispatch: any, socker: any) => {
   };
 
   socker.on('player-joined-with-name', (data: any) => {
-    const { username } = data;
-    dispatch(updateGame({ username: username }));
+    const { username, id } = data;
+    dispatch(updateGame({ username: username, userId: id }));
   });
 
   socker.on('next-question', (data: any) => {
-    console.log('NEXT', data);
     dispatch(updateQuestion(data));
     dispatch(updateAnswerStatus({ status: 'not done' }));
   });
@@ -57,6 +56,7 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('leave', () => {
+    console.log('leave');
     alert('host leave');
     dispatch(endGame());
   });

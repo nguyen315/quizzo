@@ -120,15 +120,46 @@ const PlayerRoom = () => {
     game.question &&
     (game.answerStatus === 'rank' || game.answerStatus === 'end')
   ) {
+    const players = game.players;
+    const ranking = players.slice().sort((a: any, b: any) => {
+      return parseInt(b.point) - parseInt(a.point);
+    });
+    const player = ranking.findIndex((e) => e.id === game.userId);
     return (
       <>
-        {game.players.map((player: any) => (
-          <div>
-            <span>
-              {player.username}: {player.point}
-            </span>
+        <div className={ranking[player].isCorrect ? 'correct-answer' : 'hero'}>
+          <div className="result-page">
+            <div className="result-content">
+              <div className="answered">
+                {ranking[player].isCorrect ? 'Correct' : 'Wrong'}
+              </div>
+              <div className="text">You are in {player + 1} place</div>
+            </div>
+            <div className="footer-player-result">
+              <div className="username">{players[player].username}</div>
+              <div className="point">{players[player].point}</div>
+            </div>
           </div>
-        ))}
+
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+          <div
+            className={ranking[player].isCorrect ? 'cube-correct' : 'cube'}
+          ></div>
+        </div>
       </>
     );
   }

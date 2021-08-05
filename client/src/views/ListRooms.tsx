@@ -156,8 +156,9 @@ const ListRooms: React.FC = () => {
 
   return (
     <>
+      <LoggedInNavBar />
+
       <Container fluid>
-        <LoggedInNavBar />
         <SearchBar />
 
         <Row xs={1} md={2} lg={4} className="list-room">

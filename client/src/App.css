@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #FBF8F8;
+  background-color: #fbf8f8;
 }
 
 .App {
@@ -74,8 +74,7 @@ body {
 
 .custom-btn:hover {
   background-color: transparent;
-  color: #262626;
-  opacity: 75%;
+  color: #6d6b6a;
 }
 
 .custom-btn:focus {
@@ -104,7 +103,7 @@ body {
 }
 
 .title {
-  background: -webkit-linear-gradient(80deg,#fd8927f0, #f06051);
+  background: -webkit-linear-gradient(80deg, #fd8927f0, #f06051);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -169,7 +168,10 @@ body {
   width: 90%;
 }
 
-input, input:focus, textarea:focus, select:focus {
+input,
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   border: none;
   background-color: transparent;
@@ -178,7 +180,7 @@ input, input:focus, textarea:focus, select:focus {
 }
 
 ::placeholder {
-  opacity: 30%;
+  color: #6d6b6a;
 }
 
 .enter-arrow-btn {

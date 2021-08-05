@@ -42,7 +42,10 @@ const UpdateForm = () => {
       console.log(error);
     }
   };
-  const baseUrl = 'http://localhost:5000/uploads/avartar/';
+  const baseUrl =
+    process.env.NODE_ENV === 'production'
+      ? 'https://quizzo-service.herokuapp.com/uploads/avartar/'
+      : 'http://localhost:5000/uploads/avartar/';
   return (
     <>
       <Modal

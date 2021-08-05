@@ -6,31 +6,31 @@ import { Row, Col, Card, Pagination } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import '../css/scoreboard.css';
 
-const ScoreBoard: React.FC = () => {
-  const ranking = {
-    top5: [
-      {
-        username: 'user1',
-        score: 10000
-      },
-      {
-        username: 'user2',
-        score: 9000
-      },
-      {
-        username: 'user3',
-        score: 8000
-      },
-      {
-        username: 'user4',
-        score: 7000
-      },
-      {
-        username: 'user5',
-        score: 6000
-      }
-    ]
+const ScoreBoard = (props: any) => {
+  const players = props.players;
+  console.log(players);
+  const ranking = players.slice().sort((a: any, b: any) => {
+    return parseInt(b.point) - parseInt(a.point);
+  });
+
+  const handleClick = () => {
+    if (props.isLastQuestion) {
+      props.handleEndGame();
+    } else {
+      props.handleStartQuestion();
+    }
   };
+
+  let content = ranking.slice(0, 5).map((element: any, index: any) => (
+    <>
+      <Row className="score">
+        <Col>
+          {index + 1} &nbsp; &nbsp; {String(element.username)}
+        </Col>
+        <Col>{String(element.point)}</Col>
+      </Row>
+    </>
+  ));
 
   return (
     <>
@@ -39,30 +39,11 @@ const ScoreBoard: React.FC = () => {
           <p>ScoreBoard</p>
         </Row>
         <Row className="next-button">
-          <Button id="next-button">Next</Button>
+          <Button id="next-button" onClick={handleClick}>
+            {props.isLastQuestion ? 'End Game' : 'Next'}
+          </Button>
         </Row>
-        <Container className="score-container">
-          <Row className="score">
-            <Col>1 &nbsp; &nbsp; {String(ranking.top5[0].username)}</Col>
-            <Col>{String(ranking.top5[0].score)}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[1].username}</Col>
-            <Col>{ranking.top5[1].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[2].username}</Col>
-            <Col>{ranking.top5[2].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[3].username}</Col>
-            <Col>{ranking.top5[3].score}</Col>
-          </Row>
-          <Row className="score">
-            <Col> 1 &nbsp; &nbsp; {ranking.top5[4].username}</Col>
-            <Col>{ranking.top5[4].score}</Col>
-          </Row>
-        </Container>
+        <Container className="score-container">{content}</Container>
       </Container>
     </>
   );

@@ -15,9 +15,9 @@
   width: 90%;
 }
 
-input#pin, 
-input:focus#pin, 
-textarea:focus#pin, 
+input#pin,
+input:focus#pin,
+textarea:focus#pin,
 select:focus#pin {
   outline: none;
   border: none;
@@ -29,12 +29,12 @@ select:focus#pin {
   text-align: center;
 }
 
-input[type="text"]#pin {
+input[type='text']#pin {
   text-align: center;
 }
 
 ::placeholder {
-  opacity: 30%;
+  color: #6d6b6a;
 }
 
 .enter-arrow-btn {
@@ -48,7 +48,7 @@ input[type="text"]#pin {
 }
 
 .enter-arrow-btn:hover {
-  opacity: 50%;
+  color: #6d6b6a;
 }
 
 .right-arrow {
@@ -60,9 +60,9 @@ input[type="text"]#pin {
     padding: 10px 15px 10px 20px;
   }
 
-  input#pin, 
-  input:focus#pin, 
-  textarea:focus#pin, 
+  input#pin,
+  input:focus#pin,
+  textarea:focus#pin,
   select:focus#pin {
     font-size: 1.35em;
   }

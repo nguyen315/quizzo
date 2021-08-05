@@ -68,15 +68,15 @@ const HostRoom = () => {
         </Row>
 
         <Row>
-          {game.question.answers.map((answer: any) => (
+          {game.question.answers.map((answer: any, index: any) => (
             <Col xs={6} className="host-answer">
               <Button
                 id={
-                  answer.id % 4 === 0
+                  index % 4 === 0
                     ? 'blue'
-                    : answer.id % 4 === 1
+                    : index % 4 === 1
                     ? 'orange'
-                    : answer.id % 4 === 2
+                    : index % 4 === 2
                     ? 'red'
                     : 'green'
                 }

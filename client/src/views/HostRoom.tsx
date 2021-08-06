@@ -16,6 +16,8 @@ const HostRoom = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const isLastQuestion = game.questionsLength - 1 === game.questionsCount;
+
   const url =
     process.env.NODE_ENV === 'production'
       ? 'https://quizzo-service.herokuapp.com/uploads/image/'
@@ -140,19 +142,7 @@ const HostRoom = () => {
     return (
       <ScoreBoard
         players={game.players}
-        isLastQuestion={false}
-        handleStartQuestion={handleStartQuestion}
-        handleEndGame={handleEndGame}
-      />
-    );
-  }
-
-  // display leaderboard & endgame
-  if (game.question && game.answerStatus === 'end') {
-    return (
-      <ScoreBoard
-        players={game.players}
-        isLastQuestion={true}
+        isLastQuestion={isLastQuestion}
         handleStartQuestion={handleStartQuestion}
         handleEndGame={handleEndGame}
       />

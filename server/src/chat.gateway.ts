@@ -42,8 +42,9 @@ export class ChatGateway implements OnGatewayDisconnect {
             this.server.sockets.sockets.get(clientId).leave(roomId.toString());
           });
 
-        // delete room id property from rooms object
+        // delete room & player
         delete rooms[roomId.toString()];
+        delete players[roomId.toString()];
         break;
       }
     }
@@ -51,17 +52,17 @@ export class ChatGateway implements OnGatewayDisconnect {
 
   @SubscribeMessage('host-create-room')
   async handleCreateRoom(@MessageBody() data, @ConnectedSocket() client) {
-    // find room
-    // Look up the room ID in the Socket.IO manager object.
-    client.emit('created-room', {
-      roomId: data.roomId,
-      id: client.id,
-      role: 'host'
-    });
     players[data.roomId] = [];
     rooms[data.roomId] = await this.roomService.findByPinCode(data.roomId);
     rooms[data.roomId].count = 0;
     rooms[data.roomId].hostId = client.id;
+
+    client.emit('created-room', {
+      roomId: data.roomId,
+      id: client.id,
+      role: 'host',
+      questionsLength: rooms[data.roomId].questions.length
+    });
 
     client.join(data.roomId.toString());
   }
@@ -88,6 +89,7 @@ export class ChatGateway implements OnGatewayDisconnect {
     data.id = client.id;
     player.point = 0;
     player.isCorrect = false;
+    player.count = 0;
     players[data.roomId].push(player);
     this.server
       .in(data.roomId.toString())
@@ -116,7 +118,8 @@ export class ChatGateway implements OnGatewayDisconnect {
 
     client.emit('next-question', {
       question: questionToHost,
-      timeStamp: timeStamp
+      timeStamp: timeStamp,
+      count: rooms[data.roomId].count
     });
     client.broadcast.in(data.roomId.toString()).emit('next-question', {
       question: questionToPlayer,
@@ -150,20 +153,22 @@ export class ChatGateway implements OnGatewayDisconnect {
     } else {
       currentPlayer.isCorrect = false;
     }
+
+    currentPlayer.count = rooms[data.roomId].count;
   }
 
   @SubscribeMessage('host-end-question')
   handleHostEndQuestion(@MessageBody() data, @ConnectedSocket() client): void {
     const index = rooms[data.roomId].count;
-    if (index == rooms[data.roomId].questions.length) {
-      this.server
-        .in(data.roomId.toString())
-        .emit('last-question', players[data.roomId]);
-    } else {
-      this.server
-        .in(data.roomId.toString())
-        .emit('question-ended', players[data.roomId]);
-    }
+
+    // check if player not submit answer, then assign false to property isCorrect of answer
+    players[data.roomId].forEach((player) => {
+      if (player.count != rooms[data.roomId].count) player.isCorrect = false;
+    });
+
+    this.server
+      .in(data.roomId.toString())
+      .emit('question-ended', players[data.roomId]);
   }
 
   @SubscribeMessage('host-end-game')

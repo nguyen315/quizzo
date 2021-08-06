@@ -11,7 +11,9 @@ interface State {
   username: string | undefined;
   players: any[];
   question: any | null;
-  answerStatus: 'done' | 'not done' | 'result' | 'rank' | 'end';
+  questionsLength: number;
+  questionsCount: number;
+  answerStatus: 'done' | 'not done' | 'result' | 'rank';
 }
 
 const initialState: State = {
@@ -23,6 +25,8 @@ const initialState: State = {
   username: undefined,
   players: [],
   question: null,
+  questionsLength: 0,
+  questionsCount: 0,
   answerStatus: 'not done'
 };
 
@@ -51,7 +55,9 @@ const gameSlice = createSlice({
       state.username = undefined;
       state.players = [];
       state.question = null;
-      state.answerStatus = 'end';
+      state.questionsLength = 0;
+      state.questionsCount = 0;
+      state.answerStatus = 'not done';
     }
   },
   extraReducers: {}

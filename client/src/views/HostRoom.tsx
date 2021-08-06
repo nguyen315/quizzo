@@ -16,6 +16,8 @@ const HostRoom = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const isLastQuestion = game.questionsLength - 1 === game.questionsCount;
+
   const url =
     process.env.NODE_ENV === 'production'
       ? 'https://quizzo-service.herokuapp.com/uploads/image/'
@@ -26,11 +28,11 @@ const HostRoom = () => {
   };
 
   const handleSkipQuestion = () => {
-    dispatch(updateAnswerStatus({ status: 'result' }));
+    socket.emit('host-end-question', { roomId: game.roomId });
   };
 
-  const handleEndQuestion = () => {
-    socket.emit('host-end-question', { roomId: game.roomId });
+  const handleDisplayRank = () => {
+    dispatch(updateAnswerStatus({ status: 'rank' }));
   };
 
   const handleEndGame = () => {
@@ -95,7 +97,7 @@ const HostRoom = () => {
     );
   }
 
-  // Result display
+  // Display result
   if (game.question && game.answerStatus === 'result') {
     const question = game.question;
     return (
@@ -112,7 +114,7 @@ const HostRoom = () => {
           </Col>
           <Col>
             <div>
-              <Button className="next-question-btn" onClick={handleEndQuestion}>
+              <Button className="next-question-btn" onClick={handleDisplayRank}>
                 Next
               </Button>
             </div>
@@ -140,19 +142,7 @@ const HostRoom = () => {
     return (
       <ScoreBoard
         players={game.players}
-        isLastQuestion={false}
-        handleStartQuestion={handleStartQuestion}
-        handleEndGame={handleEndGame}
-      />
-    );
-  }
-
-  // display leaderboard & endgame
-  if (game.question && game.answerStatus === 'end') {
-    return (
-      <ScoreBoard
-        players={game.players}
-        isLastQuestion={true}
+        isLastQuestion={isLastQuestion}
         handleStartQuestion={handleStartQuestion}
         handleEndGame={handleEndGame}
       />

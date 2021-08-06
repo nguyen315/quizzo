@@ -5,7 +5,6 @@ import {
   updateAnswerStatus,
   endGame
 } from '../../store/slices/game.slice';
-import { socket } from '../../views/LandingPage';
 
 export const initListeners = (dispatch: any, socker: any) => {
   socker.on('connect', () => {
@@ -43,7 +42,7 @@ export const initListeners = (dispatch: any, socker: any) => {
 
   socker.on('question-ended', (data: any) => {
     dispatch(updatePlayers(data));
-    dispatch(updateAnswerStatus({ status: 'rank' }));
+    dispatch(updateAnswerStatus({ status: 'result' }));
   });
 
   socker.on('last-question', (data: any) => {
@@ -56,7 +55,6 @@ export const initListeners = (dispatch: any, socker: any) => {
   });
 
   socker.on('leave', () => {
-    console.log('leave');
     alert('host leave');
     dispatch(endGame());
   });

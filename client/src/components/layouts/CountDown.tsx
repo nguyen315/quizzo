@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Countdown from 'react-countdown';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import '../../css/countDown.css';
-import { updateAnswerStatus } from '../../store/slices/game.slice';
 import { RootState } from '../../store/store';
 import { socket } from '../../views/LandingPage';
 
@@ -55,9 +54,8 @@ const CountDown: React.FC<any> = (props: any) => {
 
   const game = useSelector((state: RootState) => state.game);
 
-  const dispatch = useDispatch();
   const handleSkipQuestion = () => {
-    dispatch(updateAnswerStatus({ status: 'result' }));
+    socket.emit('host-end-question', { roomId: game.roomId });
   };
 
   useEffect(() => {

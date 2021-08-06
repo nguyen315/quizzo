@@ -118,7 +118,9 @@ const PlayerRoom = () => {
 
   if (
     game.question &&
-    (game.answerStatus === 'rank' || game.answerStatus === 'end')
+    (game.answerStatus === 'rank' ||
+      game.answerStatus === 'end' ||
+      game.answerStatus === 'result')
   ) {
     const players = game.players;
     const ranking = players.slice().sort((a: any, b: any) => {

@@ -42,8 +42,9 @@ export class ChatGateway implements OnGatewayDisconnect {
             this.server.sockets.sockets.get(clientId).leave(roomId.toString());
           });
 
-        // delete room id property from rooms object
+        // delete room & player
         delete rooms[roomId.toString()];
+        delete players[roomId.toString()];
         break;
       }
     }
@@ -88,6 +89,7 @@ export class ChatGateway implements OnGatewayDisconnect {
     data.id = client.id;
     player.point = 0;
     player.isCorrect = false;
+    player.count = 0;
     players[data.roomId].push(player);
     this.server
       .in(data.roomId.toString())
@@ -150,11 +152,19 @@ export class ChatGateway implements OnGatewayDisconnect {
     } else {
       currentPlayer.isCorrect = false;
     }
+
+    currentPlayer.count = rooms[data.roomId].count;
   }
 
   @SubscribeMessage('host-end-question')
   handleHostEndQuestion(@MessageBody() data, @ConnectedSocket() client): void {
     const index = rooms[data.roomId].count;
+
+    // check if player not submit answer, then assign false to property isCorrect of answer
+    players[data.roomId].forEach((player) => {
+      if (player.count != rooms[data.roomId].count) player.isCorrect = false;
+    });
+
     if (index == rooms[data.roomId].questions.length) {
       this.server
         .in(data.roomId.toString())

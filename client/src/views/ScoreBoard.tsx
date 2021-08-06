@@ -24,10 +24,9 @@ const ScoreBoard = (props: any) => {
   let content = ranking.slice(0, 5).map((element: any, index: any) => (
     <>
       <Row className="score">
-        <Col>
-          {index + 1} &nbsp; &nbsp; {String(element.username)}
-        </Col>
-        <Col>{String(element.point)}</Col>
+        <Col lg={2}>{index + 1}</Col>
+        <Col lg={6}>{String(element.username)}</Col>
+        <Col lg={4}>{String(element.point)}</Col>
       </Row>
     </>
   ));

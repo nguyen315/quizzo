@@ -26,11 +26,11 @@ const HostRoom = () => {
   };
 
   const handleSkipQuestion = () => {
-    dispatch(updateAnswerStatus({ status: 'result' }));
+    socket.emit('host-end-question', { roomId: game.roomId });
   };
 
-  const handleEndQuestion = () => {
-    socket.emit('host-end-question', { roomId: game.roomId });
+  const handleDisplayRank = () => {
+    dispatch(updateAnswerStatus({ status: 'rank' }));
   };
 
   const handleEndGame = () => {
@@ -95,7 +95,7 @@ const HostRoom = () => {
     );
   }
 
-  // Result display
+  // Display result
   if (game.question && game.answerStatus === 'result') {
     const question = game.question;
     return (
@@ -112,7 +112,7 @@ const HostRoom = () => {
           </Col>
           <Col>
             <div>
-              <Button className="next-question-btn" onClick={handleEndQuestion}>
+              <Button className="next-question-btn" onClick={handleDisplayRank}>
                 Next
               </Button>
             </div>

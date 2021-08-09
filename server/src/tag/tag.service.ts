@@ -25,11 +25,11 @@ export class TagService {
     return await this.tagRepository.find();
   }
 
-  async findTagByQuestionId(question_id: number) {
+  async findTagByQuestionId(questionId: number) {
     return await this.tagRepository
       .createQueryBuilder('tag')
       .select('tag')
-      .where('question_id = :QID', { QID: question_id })
+      .where('questionId = :QID', { QID: questionId })
       .getMany();
   }
 

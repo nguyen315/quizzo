@@ -110,8 +110,8 @@ export class AuthService {
       lastName: user.lastName,
       avatar: user.avartar,
       isAdmin: user.isAdmin,
-      created_at: user.created_at,
-      updated_at: user.updated_at
+      created_at: user.createdAt,
+      updated_at: user.updatedAt
     };
     return {
       access_token: this.jwtService.sign(payload)

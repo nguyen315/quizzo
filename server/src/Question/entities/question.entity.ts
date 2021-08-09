@@ -8,9 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinTable,
-  ManyToOne,
-  JoinColumn
+  JoinTable
 } from 'typeorm';
 import { Answer } from '../../answer/entities/answer.entity';
 

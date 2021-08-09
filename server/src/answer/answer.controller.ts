@@ -56,10 +56,9 @@ export class AnswerController {
   @UseGuards(JwtAuthGuard)
   @Get(':questionId/:answerId')
   async findOne(@Request() req, @Response() res) {
-    const question_id = req.params.questionId;
-    const answer_id = req.params.answerId;
+    const answerId = req.params.answerId;
     try {
-      const answer = await this.answerService.findOne(answer_id);
+      const answer = await this.answerService.findOne(answerId);
       res.json({ success: true, answer: answer });
     } catch (error) {
       console.log(error);
@@ -76,13 +75,13 @@ export class AnswerController {
     @Response() res,
     @Body() updateAnswerQuestionDto: UpdateAnswerDto
   ) {
-    const question_id = req.params.questionId;
-    const answer_id = req.params.answerId;
+    const questionId = req.params.questionId;
+    const answerId = req.params.answerId;
     try {
       const updatedAnswer = await this.answerService.update(
-        answer_id,
+        answerId,
         updateAnswerQuestionDto,
-        question_id
+        questionId
       );
       res.json({ success: true, updatedAnswer: updatedAnswer });
     } catch (error) {
@@ -96,10 +95,9 @@ export class AnswerController {
   @UseGuards(JwtAuthGuard)
   @Delete(':questionId/:answerId')
   async remove(@Request() req, @Response() res) {
-    const question_id = req.params.questionId;
-    const answer_id = req.params.answerId;
+    const answerId = req.params.answerId;
     try {
-      await this.answerService.remove(answer_id);
+      await this.answerService.remove(answerId);
       res.json({ success: true, message: 'Delete answer successfully' });
     } catch (error) {
       res

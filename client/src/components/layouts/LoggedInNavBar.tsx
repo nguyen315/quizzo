@@ -29,7 +29,7 @@ const LoggedInNavbar: React.FC = (props: any) => {
       <RegisterForm />
       <UpdateForm />
 
-      <Navbar bg="light" variant="light">
+      <Navbar bg="light" variant="light" style={{ zIndex: 10 }}>
         <Container>
           <Navbar.Brand className="NavbarQuizzo" as={Link} to="/">
             Quizzo

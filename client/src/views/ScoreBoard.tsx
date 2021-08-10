@@ -31,8 +31,22 @@ const ScoreBoard = (props: any) => {
     </>
   ));
 
+  const finalScoreboard = (
+    <div className="container">
+      <div className="parallax">
+        <img src="https://returnpath.com/assets/images/backgrounds/background-confetti-xl-arcade.svg;" />
+        <img src="https://returnpath.com/assets/images/backgrounds/background-confetti-lg-arcade.svg;" />
+        <img src="https://returnpath.com/assets/images/backgrounds/background-confetti-md-arcade.svg;" />
+        <img src="https://returnpath.com/assets/images/backgrounds/background-confetti-sm-arcade.svg;" />
+        <img src="https://returnpath.com/assets/images/backgrounds/background-confetti-xs-arcade.svg" />
+      </div>
+    </div>
+  );
+
   return (
     <>
+      {/* {props.isLastQuestion ? finalScoreboard : ''} */}
+      {finalScoreboard}
       <Container fluid>
         <Row className="score-board">
           <p>ScoreBoard</p>

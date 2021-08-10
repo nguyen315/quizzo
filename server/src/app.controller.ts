@@ -5,7 +5,9 @@ import {
   Body,
   Request,
   UseGuards,
-  Response
+  Response,
+  Res,
+  Req
 } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/Auth/local.auth.guard';
 import { JwtAuthGuard } from './Auth/jwt-auth.guard';
@@ -14,6 +16,8 @@ import { UserService } from './User/user.service';
 import { AuthService } from './Auth/auth.service';
 import { SignUpDto } from './Dto/user.dto';
 import { CurrentUser } from './User/user.decorator';
+import { ExtractJwt } from 'passport-jwt';
+import * as express from 'express';
 
 @Controller()
 export class AppController {
@@ -30,7 +34,11 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('api/login')
-  async login(@CurrentUser() user, @Response() res) {
+  async login(
+    @CurrentUser() user,
+    @Res({ passthrough: true }) response: express.Response,
+    @Response() res
+  ) {
     const token = await this.authService.login(user);
     res.status(200).json({
       success: true,
@@ -40,11 +48,28 @@ export class AppController {
 
   @UseGuards(JwtAuthGuard)
   @Get('api/login')
-  async loadUser(@Request() req, @Response() res) {
-    const user = await this.userService.findOne(req.user.id);
-    // extract password before return
-    const { password, ...result } = user;
-    res.send(result);
+  async loadUser(
+    @Request() req,
+    @Response() res,
+    @Req() request: express.Request
+  ) {
+    try {
+      const user = await this.userService.findOne(req.user.id);
+      // extract password before return
+      const cookie =
+        request.rawHeaders[1].split(' ')[1] ||
+        request.headers['authorization'].split(' ')[1];
+      const { password, ...result } = user;
+      if (cookie === result.accessToken) {
+        res.json(result);
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: 'Access token is illegal' });
+      }
+    } catch (error) {
+      res.send(error);
+    }
   }
 
   @Post('api/sign-up')

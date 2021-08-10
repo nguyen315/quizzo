@@ -15,6 +15,8 @@ import { ChatGateway } from './chat.gateway';
 import { TagModule } from './tag/tag.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import * as redisStore from 'cache-manager-redis-store';
+import { CacheModule } from '@nestjs/common';
 
 @Module({
   imports: [
@@ -36,11 +38,17 @@ import { join } from 'path';
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd
     }),
+    CacheModule.register({
+      Store: redisStore,
+      host: 'localhost',
+      port: 6379
+    }),
     MailModule,
     QuestionModule,
     AnswerModule,
     TagModule
   ],
+
   controllers: [AppController],
   providers: [AppService, ChatGateway]
 })

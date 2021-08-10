@@ -138,4 +138,11 @@ export class UserService {
     const salt = await bcrypt.genSalt(SALTROUNDS);
     return salt;
   }
+
+  async logout(user: any) {
+    const foundUser = await this.userRepository.update(user.id, {
+      accessToken: ''
+    });
+    return foundUser;
+  }
 }

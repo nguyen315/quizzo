@@ -114,6 +114,12 @@ export const uploadAvartar = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk('users/logout', async () => {
+  try {
+    await axios.get(`${apiUrl}/users/logout`);
+  } catch (error) {}
+});
+
 const authSlices = createSlice({
   name: 'auth',
   initialState,
@@ -155,6 +161,10 @@ const authSlices = createSlice({
     },
     [updateProfile.fulfilled.toString()]: (state, action) => {
       state.user = action.payload;
+    },
+    [logoutUser.fulfilled.toString()]: (state, action) => {
+      state.user = null;
+      state.isAuthenticated = false;
     }
   }
 });

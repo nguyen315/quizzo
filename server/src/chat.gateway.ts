@@ -32,19 +32,8 @@ export class ChatGateway implements OnGatewayDisconnect {
       if (rooms[roomId].hostId === client.id) {
         // disconnect all players and host from socket
         this.server.in(roomId.toString()).emit('leave');
-        const clients = this.server.sockets.adapter.rooms.get(
-          roomId.toString()
-        );
 
-        // if a room have only one clients is host, clients will return undefined
-        if (clients)
-          clients.forEach((clientId) => {
-            this.server.sockets.sockets.get(clientId).leave(roomId.toString());
-          });
-
-        // delete room & player
-        delete rooms[roomId.toString()];
-        delete players[roomId.toString()];
+        this.endGame(roomId.toString());
         break;
       }
     }
@@ -175,12 +164,20 @@ export class ChatGateway implements OnGatewayDisconnect {
   handleHostEndGame(@MessageBody() data): void {
     this.server.in(data.roomId.toString()).emit('game-ended');
 
-    // disconnect all players and host from socket
-    const clients = this.server.sockets.adapter.rooms.get(
-      data.roomId.toString()
-    );
-    clients.forEach((clientId) => {
-      this.server.sockets.sockets.get(clientId).leave(data.roomId.toString());
-    });
+    this.endGame(data.roomId.toString());
   }
+
+  private endGame = (roomId: string) => {
+    const clients = this.server.sockets.adapter.rooms.get(roomId);
+
+    // if a room have only one clients is host, clients will return undefined
+    if (clients)
+      clients.forEach((clientId) => {
+        this.server.sockets.sockets.get(clientId).leave(roomId);
+      });
+
+    // delete room & player
+    delete rooms[roomId];
+    delete players[roomId];
+  };
 }

@@ -30,7 +30,6 @@ const UpdateForm = () => {
         avartar:
           values.avartar.files !== undefined ? values.avartar.files[0].name : ''
       };
-      console.log(updatedForm.avartar);
       if (values.avartar.files !== undefined) {
         const formData = new FormData();
         formData.append('avartar', values.avartar.files[0]);

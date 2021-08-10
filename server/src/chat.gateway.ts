@@ -32,19 +32,8 @@ export class ChatGateway implements OnGatewayDisconnect {
       if (rooms[roomId].hostId === client.id) {
         // disconnect all players and host from socket
         this.server.in(roomId.toString()).emit('leave');
-        const clients = this.server.sockets.adapter.rooms.get(
-          roomId.toString()
-        );
 
-        // if a room have only one clients is host, clients will return undefined
-        if (clients)
-          clients.forEach((clientId) => {
-            this.server.sockets.sockets.get(clientId).leave(roomId.toString());
-          });
-
-        // delete room & player
-        delete rooms[roomId.toString()];
-        delete players[roomId.toString()];
+        this.endGame(roomId.toString());
         break;
       }
     }
@@ -99,33 +88,39 @@ export class ChatGateway implements OnGatewayDisconnect {
 
   @SubscribeMessage('host-start-question')
   handleHostPlayRoom(@MessageBody() data, @ConnectedSocket() client): void {
-    const timeStamp = new Date();
+    // if room have no questions, then end game
+    if (rooms[data.roomId].questions.length <= 0) {
+      this.server.in(data.roomId.toString()).emit('game-ended');
+      this.endGame(data.roomId.toString());
+    } else {
+      const timeStamp = new Date();
 
-    rooms[data.roomId].timeStamp = timeStamp;
+      rooms[data.roomId].timeStamp = timeStamp;
 
-    const index = rooms[data.roomId].count;
+      const index = rooms[data.roomId].count;
 
-    const questionToHost = rooms[data.roomId].questions[index];
+      const questionToHost = rooms[data.roomId].questions[index];
 
-    // extract answer
-    const { answers, ...questionToPlayer } =
-      rooms[data.roomId].questions[index];
-    // extract isCorrect in answer then append to question
-    questionToPlayer.answers = answers.map((answer) => {
-      const { isCorrect, ...rest } = answer;
-      return rest;
-    });
+      // extract answer
+      const { answers, ...questionToPlayer } =
+        rooms[data.roomId].questions[index];
+      // extract isCorrect in answer then append to question
+      questionToPlayer.answers = answers.map((answer) => {
+        const { isCorrect, ...rest } = answer;
+        return rest;
+      });
 
-    client.emit('next-question', {
-      question: questionToHost,
-      timeStamp: timeStamp,
-      count: rooms[data.roomId].count
-    });
-    client.broadcast.in(data.roomId.toString()).emit('next-question', {
-      question: questionToPlayer,
-      timeStamp: timeStamp
-    });
-    rooms[data.roomId].count++;
+      client.emit('next-question', {
+        question: questionToHost,
+        timeStamp: timeStamp,
+        count: rooms[data.roomId].count
+      });
+      client.broadcast.in(data.roomId.toString()).emit('next-question', {
+        question: questionToPlayer,
+        timeStamp: timeStamp
+      });
+      rooms[data.roomId].count++;
+    }
   }
 
   @SubscribeMessage('player-submit')
@@ -175,12 +170,20 @@ export class ChatGateway implements OnGatewayDisconnect {
   handleHostEndGame(@MessageBody() data): void {
     this.server.in(data.roomId.toString()).emit('game-ended');
 
-    // disconnect all players and host from socket
-    const clients = this.server.sockets.adapter.rooms.get(
-      data.roomId.toString()
-    );
-    clients.forEach((clientId) => {
-      this.server.sockets.sockets.get(clientId).leave(data.roomId.toString());
-    });
+    this.endGame(data.roomId.toString());
   }
+
+  private endGame = (roomId: string) => {
+    const clients = this.server.sockets.adapter.rooms.get(roomId);
+
+    // if a room have only one clients is host, clients will return undefined
+    if (clients)
+      clients.forEach((clientId) => {
+        this.server.sockets.sockets.get(clientId).leave(roomId);
+      });
+
+    // delete room & player
+    delete rooms[roomId];
+    delete players[roomId];
+  };
 }

@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import {
   Request,
   UseGuards,
@@ -15,7 +14,8 @@ import {
   Res,
   Put,
   UseInterceptors,
-  UploadedFile
+  UploadedFile,
+  Response
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
@@ -41,13 +41,33 @@ const storage = {
   })
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAll(): Promise<User[]> {
-    return this.userService.findAll();
+  getAll(@Request() req, @Response() res) {
+    const user = req.user;
+    if (user.isAdmin)
+      return res.json({ success: true, users: this.userService.findAll() });
+    return res
+      .status(400)
+      .json({ success: false, message: 'Just admin can access' });
+  }
+
+  @Get('logout')
+  async logout(@Request() req, @Response() res) {
+    try {
+      console.log(req.user);
+      await this.userService.logout(req.user);
+      res.json({ success: true, message: 'logout successfully' });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Get(':id')
@@ -70,14 +90,16 @@ export class UserController {
     @Body('firstName') firstname: string,
     @Body('lastName') lastname: string,
     @Body('avartar') avartar: string,
-    @Res() res: Response
+    @Response() res
   ) {
     try {
+      console.log(avartar);
+      if (avartar !== '') avartar = imageID + avartar;
       const updatedUser = await this.userService.updateProfile(
         id,
         firstname,
         lastname,
-        imageID + avartar
+        avartar
       );
       res.json({
         success: true,

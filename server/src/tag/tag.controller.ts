@@ -56,8 +56,8 @@ export class TagController {
   @Get('findByQuestionId/:questionId')
   async findByQuestionId(@Request() req, @Response() res) {
     try {
-      const question_id = req.params.questionId;
-      const tags = await this.tagService.findTagByQuestionId(question_id);
+      const questionId = req.params.questionId;
+      const tags = await this.tagService.findTagByQuestionId(questionId);
       res.json({ success: true, tags: tags });
     } catch (error) {
       console.log(error);
@@ -74,8 +74,8 @@ export class TagController {
     @Body() updateTagDto: UpdateTagDto
   ) {
     try {
-      const tag_id = req.params.tagId;
-      const updatedTag = await this.tagService.update(tag_id, updateTagDto);
+      const tagId = req.params.tagId;
+      const updatedTag = await this.tagService.update(tagId, updateTagDto);
       res.json({ success: true, updatedTag: updatedTag });
     } catch (error) {
       console.log(error);
@@ -87,9 +87,9 @@ export class TagController {
 
   @Delete(':tagId')
   async remove(@Request() req, @Response() res) {
-    const tag_id = req.params.tagId;
+    const tagId = req.params.tagId;
     try {
-      await this.tagService.remove(tag_id);
+      await this.tagService.remove(tagId);
       res.json({ success: true, message: 'Delete tag successfully' });
     } catch (error) {
       res

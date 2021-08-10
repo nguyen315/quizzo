@@ -57,14 +57,18 @@ export class AuthService {
         email: signUpDto.email
       });
 
-      await this.userRepository.save({
-        ...newUser,
-        token: token
-      });
       // extract password before return
       const { password, ...result } = newUser;
-      const payload = { username: newUser.username, sub: newUser.id };
-      result['accessToken'] = this.jwtService.sign(payload);
+
+      const payload = { result };
+      const accessToken = this.jwtService.sign(payload);
+
+      await this.userRepository.save({
+        ...newUser,
+        token: token,
+        accessToken: accessToken
+      });
+      result['accessToken'] = accessToken;
       await this.mailService.sendUserConfirmation(signUpDto, token);
       return result;
     } catch (err) {
@@ -110,11 +114,15 @@ export class AuthService {
       lastName: user.lastName,
       avatar: user.avartar,
       isAdmin: user.isAdmin,
-      created_at: user.created_at,
-      updated_at: user.updated_at
+      created_at: user.createdAt,
+      updated_at: user.updatedAt
     };
+    const accessToken = this.jwtService.sign(payload);
+
+    await this.userRepository.update(user.id, { accessToken: accessToken });
+
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: accessToken
     };
   }
 }

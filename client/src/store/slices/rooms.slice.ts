@@ -80,7 +80,6 @@ const roomsSlice = createSlice({
     },
 
     [getRoomByPage.fulfilled.toString()]: (state, action) => {
-      console.log(action.payload);
       state.status = 'succeeded';
       state.rooms = action.payload.rooms;
       state.totalRoom = action.payload.lengthRooms;
@@ -88,7 +87,6 @@ const roomsSlice = createSlice({
     },
 
     [deleteRoom.fulfilled.toString()]: (state, action) => {
-      console.log(action.payload);
       state.rooms = state.rooms.filter(
         (room: any) => room.id !== action.payload
       );

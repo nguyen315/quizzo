@@ -21,6 +21,13 @@ services:
     depends_on:
       - mysql_container
 
+  redis:
+    image: redis
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - '6379'
+
   client:
     build:
       context: client

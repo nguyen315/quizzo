@@ -5,11 +5,6 @@ import { SignUpDto } from 'src/Dto/user.dto';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
-// import * as redis from 'redis';
-// import * as JWTRedis from 'jwt-redis';
-
-// let redisClient = redis.createClient();
-// let jwtr = new JWTRedis.default(redisClient);
 
 @Injectable()
 export class UserService {
@@ -145,7 +140,9 @@ export class UserService {
   }
 
   async logout(user: any) {
-    const foundUser = await this.userRepository.findOne({ id: user.id });
-    // jwtr.destroy(foundUser.accessToken);
+    const foundUser = await this.userRepository.update(user.id, {
+      accessToken: ''
+    });
+    return foundUser;
   }
 }

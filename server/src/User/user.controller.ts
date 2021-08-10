@@ -93,11 +93,13 @@ export class UserController {
     @Response() res
   ) {
     try {
+      console.log(avartar);
+      if (avartar !== '') avartar = imageID + avartar;
       const updatedUser = await this.userService.updateProfile(
         id,
         firstname,
         lastname,
-        imageID + avartar
+        avartar
       );
       res.json({
         success: true,

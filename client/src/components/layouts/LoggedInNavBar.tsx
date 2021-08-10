@@ -51,7 +51,7 @@ const LoggedInNavbar: React.FC = (props: any) => {
             </Nav.Link>
             <Dropdown>
               <Dropdown.Toggle variant="success">
-                Hello {auth.user?.username}
+                Hello {auth.user ? auth.user.username : 'user'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={update}>Update Profile</Dropdown.Item>

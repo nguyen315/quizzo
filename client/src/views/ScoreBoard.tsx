@@ -45,7 +45,8 @@ const ScoreBoard = (props: any) => {
 
   return (
     <>
-      {props.isLastQuestion ? finalScoreboard : ''}
+      {/* {props.isLastQuestion ? finalScoreboard : ''} */}
+      {finalScoreboard}
       <Container fluid>
         <Row className="score-board">
           <p>ScoreBoard</p>

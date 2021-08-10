@@ -17,13 +17,9 @@ const HostLobby = (props: any) => {
       <div className="pin-section">
         <div className="left-section">
           <span>PIN</span>
-          <span>QR Code</span>
         </div>
         <div className="right-section">
           <span className="pin-code">{game.roomId}</span>
-          <div className="qr-image">
-            <img src="#" />
-          </div>
         </div>
       </div>
 

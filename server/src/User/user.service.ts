@@ -63,7 +63,9 @@ export class UserService {
   }
 
   async updatedAvartar(id: number, avartar: string) {
-    return await this.userRepository.update({ id: id }, { avartar: avartar });
+    if (avartar !== '')
+      return await this.userRepository.update({ id: id }, { avartar: avartar });
+    return true;
   }
 
   async updateProfile(
@@ -137,5 +139,12 @@ export class UserService {
     const SALTROUNDS = parseInt(process.env.SALTROUNDS) || 10;
     const salt = await bcrypt.genSalt(SALTROUNDS);
     return salt;
+  }
+
+  async logout(user: any) {
+    const foundUser = await this.userRepository.update(user.id, {
+      accessToken: ''
+    });
+    return foundUser;
   }
 }

@@ -31,10 +31,12 @@ const PlayerRoom = () => {
 
   const handleJoin = (event: any) => {
     event.preventDefault();
-    socket.emit('player-enter-name', {
-      username: username,
-      roomId: game.roomId
-    });
+    if (username != '') {
+      socket.emit('player-enter-name', {
+        username: username,
+        roomId: game.roomId
+      });
+    }
   };
 
   if (!game.roomId) {

@@ -28,11 +28,9 @@ const UpdateForm = () => {
         firstName: values.firstName,
         lastName: values.lastName,
         avartar:
-          values.avartar.files !== undefined
-            ? values.avartar.files[0].name
-            : auth.user?.avartar
+          values.avartar.files !== undefined ? values.avartar.files[0].name : ''
       };
-      if (values.avartar.files[0]) {
+      if (values.avartar.files !== undefined) {
         const formData = new FormData();
         formData.append('avartar', values.avartar.files[0]);
         dispatch(uploadAvartar(formData));

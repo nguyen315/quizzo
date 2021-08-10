@@ -23,12 +23,12 @@ export class RoomService {
     @InjectRepository(Answer) private answerRepository: Repository<Answer>
   ) {}
 
-  async create(createRoomDto: CreateRoomDto, user_id: number) {
+  async create(createRoomDto: CreateRoomDto, userId: number) {
     const { questions, ...rest } = createRoomDto;
 
     const newRoom = {
       ...rest,
-      user_id: user_id,
+      userId: userId,
       pinCode: Math.floor(100000 + Math.random() * 900000)
     };
     const createdRoom = await this.roomRepository.create(newRoom);
@@ -45,7 +45,7 @@ export class RoomService {
   async findAll(id: number) {
     const response = [];
     let rooms = await this.roomRepository.find({
-      user_id: id
+      userId: id
     });
 
     return rooms;
@@ -57,7 +57,7 @@ export class RoomService {
   ): Promise<Pagination<Room>> {
     const queryBuilder = await this.roomRepository
       .createQueryBuilder('rooms')
-      .where('rooms.user_id = :userId', { userId });
+      .where('rooms.userId = :userId', { userId });
 
     return paginate<Room>(queryBuilder, options);
   }
@@ -77,7 +77,7 @@ export class RoomService {
     );
     for (let question of room.questions) {
       const answers = await this.answerRepository.find({
-        question_id: question.id
+        questionId: question.id
       });
       question.answers = answers;
     }

@@ -1,14 +1,12 @@
 import { Question } from 'src/Question/entities/question.entity';
 import { User } from 'src/User/user.entity';
 import {
-  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -19,7 +17,7 @@ export class Room {
   id: number;
 
   @Column()
-  user_id: number;
+  userId: number;
 
   @Column()
   name: string;
@@ -40,7 +38,7 @@ export class Room {
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.room, { eager: false })
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: User;
 
   @ManyToMany(() => Question, (question) => question.rooms, {

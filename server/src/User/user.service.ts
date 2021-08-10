@@ -63,7 +63,9 @@ export class UserService {
   }
 
   async updatedAvartar(id: number, avartar: string) {
-    return await this.userRepository.update({ id: id }, { avartar: avartar });
+    if (avartar !== '')
+      return await this.userRepository.update({ id: id }, { avartar: avartar });
+    return true;
   }
 
   async updateProfile(

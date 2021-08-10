@@ -21,10 +21,6 @@ import { RootState } from '../../store/store';
 const AddQuestionModal = (props: { currentPage: number }) => {
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [checkedA, setCheckedA] = useState(false);
-  const [checkedB, setCheckedB] = useState(false);
-  const [checkedC, setCheckedC] = useState(false);
-  const [checkedD, setCheckedD] = useState(false);
 
   const questionPageinate = useSelector(
     (state: RootState) => state.questions.paginateQuestion
@@ -38,39 +34,27 @@ const AddQuestionModal = (props: { currentPage: number }) => {
     setShowForm(!showForm);
   };
 
-  const clickA = () => {
-    setCheckedA(!checkedA);
-  };
-  const clickB = () => {
-    setCheckedB(!checkedB);
-  };
-  const clickC = () => {
-    setCheckedC(!checkedC);
-  };
-  const clickD = () => {
-    setCheckedD(!checkedD);
-  };
-
   // function handle connect to redux
   const handlerSubmit = (values: any) => {
     const answers = [
       {
         content: values.answerA,
-        isCorrect: checkedA
+        isCorrect: values.picked === 'A'
       },
       {
         content: values.answerB,
-        isCorrect: checkedB
+        isCorrect: values.picked === 'B'
       },
       {
         content: values.answerC,
-        isCorrect: checkedC
+        isCorrect: values.picked === 'C'
       },
       {
         content: values.answerD,
-        isCorrect: checkedD
+        isCorrect: values.picked === 'D'
       }
     ];
+
     const questionForm = {
       title: values.title,
       tags: values.tags.split(' '),
@@ -113,7 +97,8 @@ const AddQuestionModal = (props: { currentPage: number }) => {
           answerA: '',
           answerB: '',
           answerC: '',
-          answerD: ''
+          answerD: '',
+          picked: 'A'
         }}
         validationSchema={validationSchema}
         onSubmit={handlerSubmit}
@@ -212,11 +197,11 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                   <Col lg={1}>
                     <label className="radio-input">
                       <input
-                        onClick={clickA}
                         type="radio"
                         value="A"
-                        checked={checkedA}
                         onChange={handleChange}
+                        name="picked"
+                        checked={values.picked === 'A'}
                       />{' '}
                       A
                     </label>
@@ -244,11 +229,11 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                   <Col lg={1}>
                     <label className="radio-input">
                       <input
-                        onClick={clickB}
                         type="radio"
                         value="B"
-                        checked={checkedB}
                         onChange={handleChange}
+                        name="picked"
+                        checked={values.picked === 'B'}
                       />{' '}
                       B
                     </label>
@@ -276,11 +261,11 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                   <Col lg={1}>
                     <label className="radio-input">
                       <input
-                        onClick={clickC}
                         type="radio"
                         value="C"
-                        checked={checkedC}
                         onChange={handleChange}
+                        name="picked"
+                        checked={values.picked === 'C'}
                       />{' '}
                       C
                     </label>
@@ -308,11 +293,11 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                   <Col lg={1}>
                     <label className="radio-input">
                       <input
-                        onClick={clickD}
                         type="radio"
                         value="D"
-                        checked={checkedD}
                         onChange={handleChange}
+                        name="picked"
+                        checked={values.picked === 'D'}
                       />{' '}
                       D
                     </label>
@@ -341,6 +326,7 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                 </Button>
               </>
             )}
+            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

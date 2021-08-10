@@ -35,6 +35,9 @@ export class User {
   @Column({ default: '' })
   avartar: string;
 
+  @Column({ default: '', length: 500 })
+  accessToken: string;
+
   @Column({ default: false })
   isAdmin: boolean;
 

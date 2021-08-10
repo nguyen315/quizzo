@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import {
   Request,
   UseGuards,
@@ -15,7 +14,8 @@ import {
   Res,
   Put,
   UseInterceptors,
-  UploadedFile
+  UploadedFile,
+  Response
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../Auth/jwt-auth.guard';
 import { User } from './user.entity';
@@ -45,9 +45,15 @@ const storage = {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getAll(): Promise<User[]> {
-    return this.userService.findAll();
+  getAll(@Request() req, @Response() res) {
+    const user = req.user;
+    if (user.isAdmin)
+      return res.json({ success: true, users: this.userService.findAll() });
+    return res
+      .status(400)
+      .json({ success: false, message: 'Just admin can access' });
   }
 
   @Get(':id')
@@ -70,7 +76,7 @@ export class UserController {
     @Body('firstName') firstname: string,
     @Body('lastName') lastname: string,
     @Body('avartar') avartar: string,
-    @Res() res: Response
+    @Response() res
   ) {
     try {
       const updatedUser = await this.userService.updateProfile(
@@ -114,5 +120,18 @@ export class UserController {
   ) {
     await this.userService.changePassword(id, password, oldPassword);
     return 'changed password successfully';
+  }
+
+  @Get('logout')
+  async logout(@Request() req, @Response() res) {
+    try {
+      // await this.userService.logout(req.user);
+      req.logout();
+      res.json({ success: true, message: 'logout successfully' });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 }

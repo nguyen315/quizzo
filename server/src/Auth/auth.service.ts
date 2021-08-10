@@ -60,7 +60,18 @@ export class AuthService {
       // extract password before return
       const { password, ...result } = newUser;
 
-      const payload = { result };
+      const payload = {
+        username: result.username,
+        sub: result.id,
+        email: result.email,
+        firstName: result.firstName,
+        lastName: result.lastName,
+        avatar: result.avartar,
+        isAdmin: result.isAdmin,
+        created_at: result.createdAt,
+        updated_at: result.updatedAt
+      };
+
       const accessToken = this.jwtService.sign(payload);
 
       await this.userRepository.save({

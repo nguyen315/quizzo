@@ -43,7 +43,7 @@ export class QuestionService {
     let newAnswer = null;
 
     for (const idx in answers) {
-      newAnswer = { ...answers[idx], question_id: responseQuestion.id };
+      newAnswer = { ...answers[idx], questionId: responseQuestion.id };
       createdAnswer = await this.answerRepository.create(newAnswer);
       createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
     }
@@ -87,12 +87,12 @@ export class QuestionService {
       userId: userId.toString()
     });
     const responseData = [];
-    let question_id = null;
+    let questionId = null;
     let answers = null;
     for (const idx in questions) {
-      question_id = questions[idx].id;
+      questionId = questions[idx].id;
       answers = await this.answerRepository.find({
-        question_id: question_id
+        questionId: questionId
       });
       responseData[idx] = { ...questions[idx], answers: answers };
     }
@@ -128,7 +128,7 @@ export class QuestionService {
   }
 
   async findOne(id: number) {
-    const answers = await this.answerRepository.find({ question_id: id });
+    const answers = await this.answerRepository.find({ questionId: id });
     const question = await this.questionRepository.findOne(id);
     return { ...question, answers };
   }
@@ -143,7 +143,7 @@ export class QuestionService {
 
     for (const idx in answers) {
       idAnswer = foundQuestion.answers[idx].id;
-      newUpdateAnswer = { ...answers[idx], question_id: id };
+      newUpdateAnswer = { ...answers[idx], questionId: id };
       updatedAnswer = await this.answerRepository.update(
         idAnswer,
         newUpdateAnswer
@@ -168,7 +168,7 @@ export class QuestionService {
   }
 
   async remove(id: number) {
-    await this.answerRepository.delete({ question_id: id });
+    await this.answerRepository.delete({ questionId: id });
     return await this.questionRepository.delete(id);
   }
 }

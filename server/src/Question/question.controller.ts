@@ -132,9 +132,9 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Get(':questionId')
   async findOne(@Request() req, @Response() res) {
-    const question_id = req.params.questionId;
+    const questionId = req.params.questionId;
     try {
-      const question = await this.questionService.findOne(+question_id);
+      const question = await this.questionService.findOne(+questionId);
       res.json({ success: true, question: question });
     } catch (error) {
       res.status(500).json({
@@ -151,10 +151,10 @@ export class QuestionController {
     @Response() res,
     @Body() updateQuestionDto: UpdateQuestionDto
   ) {
-    const question_id = req.params.questionId;
+    const questionId = req.params.questionId;
     try {
       const updatedQuestion = await this.questionService.update(
-        +question_id,
+        +questionId,
         updateQuestionDto
       );
       res.json({ success: true, updatedQuestion: updatedQuestion });
@@ -170,9 +170,9 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Delete(':questionId')
   async remove(@Request() req, @Response() res) {
-    const question_id = parseInt(req.params.questionId);
+    const questionId = parseInt(req.params.questionId);
     try {
-      await this.questionService.remove(question_id);
+      await this.questionService.remove(questionId);
       res.json({ success: true, message: 'Delete question successfully' });
     } catch (error) {
       console.log(error);

@@ -15,7 +15,7 @@ export class Answer {
   id: number;
 
   @Column()
-  question_id: number;
+  questionId: number;
 
   @Column()
   content: string;
@@ -33,6 +33,6 @@ export class Answer {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'questionId', referencedColumnName: 'id' })
   question: Question;
 }

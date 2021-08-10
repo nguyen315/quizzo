@@ -5,7 +5,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -17,20 +16,17 @@ export class AnonymousUser {
 
   @Column()
   name: string;
-  // @ManyToOne(type => User, user=>user.users)
-  // @JoinColumn({name: 'user_id'})
-  // name: User;
 
   @ManyToOne((type) => User, (user) => user.users)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: User;
 
   @Column()
   roomId: number;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 }

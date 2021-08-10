@@ -12,8 +12,8 @@ export class AnswerService {
     private answerRepository: Repository<Answer>
   ) {}
 
-  async create(createAnswerDto: CreateAnswerDto, question_id: number) {
-    const newAnswer = { ...createAnswerDto, question_id };
+  async create(createAnswerDto: CreateAnswerDto, questionId: number) {
+    const newAnswer = { ...createAnswerDto, questionId };
 
     const createdAnswer = this.answerRepository.create(newAnswer);
     return await this.answerRepository.save(createdAnswer);
@@ -23,8 +23,8 @@ export class AnswerService {
     return await this.answerRepository.find();
   }
 
-  async findByQuestion(question_id: number) {
-    return await this.answerRepository.find({ question_id: question_id });
+  async findByQuestion(questionId: number) {
+    return await this.answerRepository.find({ questionId: questionId });
   }
 
   async findOne(id: number) {
@@ -34,9 +34,9 @@ export class AnswerService {
   async update(
     id: number,
     updateAnswerDto: UpdateAnswerDto,
-    question_id: number
+    questionId: number
   ) {
-    const updateAnswer = { ...updateAnswerDto, question_id };
+    const updateAnswer = { ...updateAnswerDto, questionId };
     await this.answerRepository.update(id, updateAnswer);
     return await this.findOne(id);
   }

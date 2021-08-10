@@ -42,10 +42,14 @@ export class QuestionService {
     let createdAnswer = null;
     let newAnswer = null;
 
-    for (const idx in answers) {
-      newAnswer = { ...answers[idx], questionId: responseQuestion.id };
-      createdAnswer = await this.answerRepository.create(newAnswer);
-      createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
+    try {
+      for (const idx in answers) {
+        newAnswer = { ...answers[idx], questionId: responseQuestion.id };
+        createdAnswer = await this.answerRepository.create(newAnswer);
+        createdAnswers[idx] = await this.answerRepository.save(createdAnswer);
+      }
+    } catch (error) {
+      await this.questionRepository.delete(responseQuestion.id);
     }
 
     let tagIds = [];
@@ -167,8 +171,14 @@ export class QuestionService {
     return await this.findOne(id);
   }
 
-  async remove(id: number) {
-    await this.answerRepository.delete({ questionId: id });
-    return await this.questionRepository.delete(id);
+  async remove(id: number, userId: number) {
+    const foundQuestion = await this.questionRepository.find({ id: id });
+    if (userId.toString() === foundQuestion[0].userId) {
+      await this.answerRepository.delete({ questionId: id });
+      await this.questionRepository.delete(id);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

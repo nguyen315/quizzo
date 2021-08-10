@@ -41,11 +41,11 @@ const storage = {
   })
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   getAll(@Request() req, @Response() res) {
     const user = req.user;
@@ -54,6 +54,20 @@ export class UserController {
     return res
       .status(400)
       .json({ success: false, message: 'Just admin can access' });
+  }
+
+  @Get('logout')
+  async logout(@Request() req, @Response() res) {
+    try {
+      console.log(req.user);
+      await this.userService.logout(req.user);
+      res.json({ success: true, message: 'logout successfully' });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
   }
 
   @Get(':id')
@@ -120,18 +134,5 @@ export class UserController {
   ) {
     await this.userService.changePassword(id, password, oldPassword);
     return 'changed password successfully';
-  }
-
-  @Get('logout')
-  async logout(@Request() req, @Response() res) {
-    try {
-      // await this.userService.logout(req.user);
-      req.logout();
-      res.json({ success: true, message: 'logout successfully' });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: 'Internal server error' });
-    }
   }
 }

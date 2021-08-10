@@ -56,8 +56,9 @@ export class AppController {
     try {
       const user = await this.userService.findOne(req.user.id);
       // extract password before return
-      const cookie = request.rawHeaders[1].split(' ')[1];
-      console.log(cookie);
+      const cookie =
+        request.rawHeaders[1].split(' ')[1] ||
+        request.headers['authorization'].split(' ')[1];
       const { password, ...result } = user;
       if (cookie === result.accessToken) {
         res.json(result);

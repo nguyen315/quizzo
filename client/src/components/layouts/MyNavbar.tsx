@@ -92,7 +92,7 @@ const MyNavbar: React.FC = () => {
       <LoginForm />
       <RegisterForm />
       <UpdateForm />
-      <Navbar collapseOnSelect expand="md" id="header">
+      <Navbar collapseOnSelect expand="md" id="header" style={{ zIndex: 10 }}>
         <Container>
           <Navbar.Brand></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav">

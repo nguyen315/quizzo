@@ -71,6 +71,7 @@ export class RoomController {
         },
         req.user.id
       );
+
       res.json({ success: true, ...content });
     } catch (error) {
       res.status(500).json({

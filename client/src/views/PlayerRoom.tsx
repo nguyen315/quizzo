@@ -138,8 +138,8 @@ const PlayerRoom = () => {
               <div className="text">You are in {player + 1} place</div>
             </div>
             <div className="footer-player-result">
-              <div className="username">{players[player].username}</div>
-              <div className="point">{players[player].point}</div>
+              <div className="username">{ranking[player].username}</div>
+              <div className="point">{ranking[player].point}</div>
             </div>
           </div>
 

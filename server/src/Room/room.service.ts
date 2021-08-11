@@ -39,6 +39,13 @@ export class RoomService {
       .relation(Room, 'questions')
       .of(responseRoom)
       .add(questions);
+
+    // append questions to response when create room
+    const room = await this.roomRepository.findOne(responseRoom.id, {
+      relations: ['questions']
+    });
+
+    responseRoom.questions = room.questions;
     return responseRoom;
   }
 
@@ -51,15 +58,23 @@ export class RoomService {
     return rooms;
   }
 
-  async findAllWithPagination(
-    options: IPaginationOptions,
-    userId: number
-  ): Promise<Pagination<Room>> {
+  async findAllWithPagination(options: IPaginationOptions, userId: number) {
     const queryBuilder = await this.roomRepository
       .createQueryBuilder('rooms')
       .where('rooms.userId = :userId', { userId });
 
-    return paginate<Room>(queryBuilder, options);
+    const rooms = await paginate<Room>(queryBuilder, options);
+
+    // get questions to each room
+    // rooms.items are array of found rooms
+    for (let index in rooms.items) {
+      const room = await this.roomRepository.findOne(rooms.items[index].id, {
+        relations: ['questions']
+      });
+      rooms.items[index].questions = room.questions;
+    }
+
+    return rooms;
   }
 
   async findAll2() {
@@ -89,7 +104,13 @@ export class RoomService {
     return this.findOne(id);
   }
 
-  async deleteOne(id: number) {
-    return this.roomRepository.delete(id);
+  async deleteOne(id: number, userId: number) {
+    const foundRoom = await this.roomRepository.find({ id: id });
+    if (foundRoom[0].userId === userId) {
+      await this.roomRepository.delete(id);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -14,6 +14,7 @@ const FilterBar = () => {
         placeholder="Enter tag filter"
         aria-label="Search"
         className="search-bar"
+        disabled
       />
     </Form>
   );

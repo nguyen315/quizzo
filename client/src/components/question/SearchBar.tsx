@@ -15,6 +15,7 @@ const SearchBar = () => {
         placeholder="Search for question title"
         aria-label="Search"
         className="search-bar"
+        disabled
       />
     </Form>
   );

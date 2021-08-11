@@ -106,12 +106,6 @@ const Question = (props: { question: any; currentPage: any }) => {
         {/* icon & date section */}
         <div className="right-section">
           <div className="icon-section">
-            <span className="clickable ">
-              <AiOutlineEye className="icon" />
-            </span>
-            <span className="clickable ">
-              <AiOutlineEdit className="icon" />
-            </span>
             <span className="clickable">
               <BiTrashAlt
                 onClick={() => onClickdeleteQuestion(props.question.id)}

@@ -5,6 +5,7 @@ import { Tag } from './entities/tag.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getConnection } from 'typeorm';
 import { Question } from 'src/Question/entities/question.entity';
+import { User } from 'src/User/user.entity';
 
 @Injectable()
 export class TagService {
@@ -12,7 +13,9 @@ export class TagService {
     @InjectRepository(Tag)
     private tagRepository: Repository<Tag>,
     @InjectRepository(Question)
-    private questionRepository: Repository<Question>
+    private questionRepository: Repository<Question>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>
   ) {}
 
   async create(createTagDto: CreateTagDto) {

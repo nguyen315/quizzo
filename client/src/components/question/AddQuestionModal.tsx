@@ -326,7 +326,6 @@ const AddQuestionModal = (props: { currentPage: number }) => {
                 </Button>
               </>
             )}
-            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

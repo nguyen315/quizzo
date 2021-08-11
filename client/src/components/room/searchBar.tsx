@@ -19,6 +19,7 @@ const SearchBar = () => {
           size="lg"
           type="text"
           placeholder="Search for room title"
+          readOnly
         />
       </Form.Group>
     </div>

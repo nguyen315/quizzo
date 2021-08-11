@@ -56,6 +56,13 @@ Container {
   margin-bottom: 2rem;
 }
 
+.score div {
+  font-size: 35px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
 @keyframes confetti {
   0% {
     top: 100%;

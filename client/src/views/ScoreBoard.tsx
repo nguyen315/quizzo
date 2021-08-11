@@ -56,7 +56,14 @@ const ScoreBoard = (props: any) => {
             {props.isLastQuestion ? 'End Game' : 'Next'}
           </Button>
         </Row>
-        <Container className="score-container">{content}</Container>
+        <Container className="score-container">
+          <Row className="score">
+            <Col lg={2}>Rank</Col>
+            <Col lg={6}>Username</Col>
+            <Col lg={4}>Score</Col>
+          </Row>
+          {content}
+        </Container>
       </Container>
     </>
   );

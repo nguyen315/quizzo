@@ -58,7 +58,12 @@ const HostRoom = () => {
             {question.image === '' ? (
               ''
             ) : (
-              <img src={url + question.image} width="200" height="200" />
+              <img
+                className="question-img"
+                src={url + question.image}
+                width="300"
+                height="300"
+              />
             )}
           </Col>
           <Col>
@@ -109,7 +114,12 @@ const HostRoom = () => {
             {question.image === '' ? (
               ''
             ) : (
-              <img src={url + question.image} width="200" height="200" />
+              <img
+                className="question-img"
+                src={url + question.image}
+                width="300"
+                height="300"
+              />
             )}
           </Col>
           <Col>

@@ -161,7 +161,7 @@ const ListRooms: React.FC = () => {
       <Container fluid>
         <SearchBar />
 
-        <Row xs={1} md={2} lg={4} className="list-room">
+        <Row sm={12} className="list-room">
           {Array.from({ length: 1 }).map((_, idx) => (
             <Col>
               <Link to="/create-room">

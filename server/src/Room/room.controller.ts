@@ -71,6 +71,7 @@ export class RoomController {
         },
         req.user.id
       );
+
       res.json({ success: true, ...content });
     } catch (error) {
       res.status(500).json({
@@ -114,8 +115,12 @@ export class RoomController {
   async deleteOne(@Param('id') id: number, @Request() req, @Response() res) {
     const user = req.user;
     try {
-      const deletedRoom = await this.roomService.deleteOne(+id);
-      res.json({ success: true, room: deletedRoom });
+      const response = await this.roomService.deleteOne(+id, user.id);
+      if (response)
+        res.json({ success: true, message: 'Delete room successfully' });
+      else {
+        res.json({ success: false, message: 'Delete room unsuccessfully' });
+      }
     } catch (error) {
       res
         .status(500)

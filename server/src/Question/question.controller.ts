@@ -172,8 +172,12 @@ export class QuestionController {
   async remove(@Request() req, @Response() res) {
     const questionId = parseInt(req.params.questionId);
     try {
-      await this.questionService.remove(questionId);
-      res.json({ success: true, message: 'Delete question successfully' });
+      const user = req.user;
+      const response = await this.questionService.remove(questionId, user.id);
+      if (response)
+        res.json({ success: true, message: 'Delete question successfully' });
+      else
+        res.json({ success: false, message: 'Delete question unsuccessfully' });
     } catch (error) {
       console.log(error);
       res.status(500).json({

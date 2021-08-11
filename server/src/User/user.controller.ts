@@ -90,21 +90,31 @@ export class UserController {
     @Body('firstName') firstname: string,
     @Body('lastName') lastname: string,
     @Body('avartar') avartar: string,
-    @Response() res
+    @Response() res,
+    @Request() req
   ) {
     try {
-      console.log(avartar);
-      if (avartar !== '') avartar = imageID + avartar;
-      const updatedUser = await this.userService.updateProfile(
-        id,
-        firstname,
-        lastname,
-        avartar
-      );
-      res.json({
-        success: true,
-        user: updatedUser
-      });
+      const user = await this.userService.findOne(req.user.id);
+      const cookie =
+        req.rawHeaders[1].split(' ')[1] ||
+        req.headers['authorization'].split(' ')[1];
+      if (cookie === user.accessToken) {
+        if (avartar !== '') avartar = imageID + avartar;
+        const updatedUser = await this.userService.updateProfile(
+          id,
+          firstname,
+          lastname,
+          avartar
+        );
+        res.json({
+          success: true,
+          user: updatedUser
+        });
+      } else {
+        res
+          .status(401)
+          .json({ success: false, message: 'Access token is illegal' });
+      }
     } catch (error) {
       console.log(error);
       res

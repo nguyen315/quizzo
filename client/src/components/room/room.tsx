@@ -70,6 +70,12 @@ const Room = (props: any) => {
             </span>
           </div>
           <div>
+            <label className="room-info">Number of questions</label>
+            <span className="room-info-answer" id="room-pin">
+              {props.room.questions.length}
+            </span>
+          </div>
+          <div>
             <label className="room-info">Level:</label>
             <span className="room-info-answer" id="level">
               {props.room.level <= 30
